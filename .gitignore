@@ -1,0 +1,13 @@
+**/bin
+**/out
+
+# editor
+/.idea
+/.vscode
+
+# CMake
+**/CMakeFiles
+CMakeCache.txt
+cmake_install.cmake
+CPackConfig.cmake
+CPackSourceConfig.cmake

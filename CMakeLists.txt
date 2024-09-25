@@ -1,0 +1,44 @@
+cmake_minimum_required(VERSION 3.25)
+
+SET(PROJECT_NAME eregion)
+
+SET(BIN_DIR bin)
+
+SET(OUT_DIR ./out)
+
+PROJECT(${PROJECT_NAME})
+
+# ## File Retrieival
+FILE(GLOB_RECURSE sources ./lib/*.cpp ./include/*.h)
+
+# ## Target Definitions
+# add_executable(${PROJECT_NAME} ${sources})
+
+# TARGET_COMPILE_OPTIONS(${PROJECT_NAME} PUBLIC -std=c++14 -Wall -g -lX11 -lGLEW -lglfw -framework OpenGL)
+# TARGET_INCLUDE_DIRECTORIES(${PROJECT_NAME} PUBLIC include/ /usr/local/include)
+
+# ## Dependencies
+
+# X11
+
+# OpenGL
+FIND_PACKAGE(OpenGL REQUIRED)
+
+if(NOT OPENGL_FOUND)
+    message(ERROR "OpenGL not found!")
+endif(NOT OPENGL_FOUND)
+
+SET(LIBRARIES ${LIBRARIES} ${OPENGL_LIBRARIES})
+
+INCLUDE_DIRECTORIES(${OPENGL_INCLUDE_DIR})
+
+# ## Packaging
+SET(CPACK_PACKAGE_DIRECTORY ${OUT_DIR})
+
+# INSTALL(TARGETS ${PROJECT_NAME} DESTINATION ${BIN_DIR})
+SET(CPACK_PACKAGE_NAME ${PROJECT_NAME})
+SET(CPACK_PACKAGE_VERSION "0.0.1")
+
+SET(CPACK_MONOLITHIC_INSTALL 1)
+
+INCLUDE(CPack)
