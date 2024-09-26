@@ -1,22 +1,18 @@
 #ifndef WINDOW_H
 #define WINDOW_H
 
-#include <GL/gl.h>
-#include <GL/glx.h>
+#include <GLFW/glfw3.h>
+#include <glm/glm.hpp>
+#include <glm/gtc/matrix_transform.hpp>
 #include <iostream>
 #include <stdio.h>
 #include <stdlib.h>
 
 namespace eregion {
 class Window {
-  private:
-    unsigned long window;
-    Display* display;
-    int screen;
 
   public:
     Window();
-    void start();
 };
 } // namespace eregion
 
