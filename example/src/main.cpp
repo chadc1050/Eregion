@@ -1,9 +1,7 @@
-#include "eregion/Window/Window.h"
+#include "eregion/Core/Game.h"
 
 int main() {
     printf("Starting...\n");
-
-    eregion::Window* window = new eregion::Window();
-    delete window;
+    auto game = eregion::Game::create();
     return 0;
 }
