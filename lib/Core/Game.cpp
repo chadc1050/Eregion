@@ -13,6 +13,8 @@ Result<Game> Game::create() {
         return Result<Game>(Error{"Could not intialize low level graphics library"});
     }
 
+    printf("Initialized OpenGL\n");
+
     if (auto windowRes = Window::create(); windowRes.isSuccess()) {
         std::cout << "Created window";
         eregion::Window window = windowRes.getValue();

@@ -4,6 +4,20 @@
 
 
 ## Styles 
+
+### GLSL
+[GLSL File Extension Docs](https://www.khronos.org/opengles/sdk/tools/Reference-Compiler/)
+
+| File Type               | Extension |
+| ----------------------- | --------- |
+| Vertex                  | .vert     |
+| Tessellation Control    | .tesc     |
+| Tessellation Evaluation | .tese     |
+| Geometry                | .geom     |
+| Fragment                | .frag     |
+| Compute                 | .comp     |
+
+### C++
 TIGER_STYLE.md style guide added to styles dir, "Wu Tang Clan aint nothing to f with". Originates from the TigerBeetle financial database development team, focusing on reliability and security first, perf second, and dev experience third. This style seems very appealing and is inspired by development practices from NASA and MIT proof based development practices.
 
 [Google C++ Style Guide](https://google.github.io/styleguide/cppguide.html)
