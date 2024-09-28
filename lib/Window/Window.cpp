@@ -3,36 +3,46 @@
 using namespace eregion;
 
 namespace eregion {
-Window::Window() {
-    GLFWwindow* window;
+Result<Window> Window::create() {
 
-    /* Initialize the library */
-    if (!glfwInit())
-        exit(-1);
+    Window window = Window();
+
+    // Error callback to recieve error information
+    glfwSetErrorCallback(errorCallback);
 
     /* Create a windowed mode window and its OpenGL context */
-    window = glfwCreateWindow(640, 480, "Hello World", NULL, NULL);
-    if (!window) {
-        glfwTerminate();
-        exit(-1);
+    GLFWwindow* glWindow = glfwCreateWindow(640, 480, "Celebrimbor", NULL, NULL);
+    if (!glWindow) {
+        return Result<Window>(Error{"Error creating window"});
     }
 
     /* Make the window's context current */
-    glfwMakeContextCurrent(window);
+    glfwMakeContextCurrent(glWindow);
+
+    // vsync
+    glfwSwapInterval(1);
+
+    window.setGlWindow(glWindow);
 
     /* Loop until the user closes the window */
-    while (!glfwWindowShouldClose(window)) {
+    while (!glfwWindowShouldClose(glWindow)) {
         /* Render here */
         glClear(GL_COLOR_BUFFER_BIT);
 
         /* Swap front and back buffers */
-        glfwSwapBuffers(window);
-
+        glfwSwapBuffers(glWindow);
         /* Poll for and process events */
         glfwPollEvents();
     }
 
-    glfwTerminate();
-    exit(0);
+    return Result<Window>(Success<Window>{window});
 }
+
+Window::Window() {}
+
+void Window::errorCallback(int error, const char* description) { fprintf(stderr, "Error: %s\n", description); }
+
+void Window::setGlWindow(GLFWwindow* glWindow) { this->glWindow = glWindow; }
+
+GLFWwindow* Window::getGlWindow() { return glWindow; }
 } // namespace eregion
