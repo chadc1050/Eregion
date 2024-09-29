@@ -10,7 +10,7 @@
 
 namespace eregion {
 
-Result<Shader> loadShader(std::string absolutePath);
+Result<Shader> loadShader(std::string path);
 } // namespace eregion
 
 #endif

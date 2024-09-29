@@ -3,15 +3,15 @@
 using namespace eregion;
 
 namespace eregion {
-Result<Shader> loadShader(std::string absolutePath) {
-    std::ifstream file(absolutePath);
+Result<Shader> loadShader(std::string path) {
+    std::ifstream file(path);
     if (!file.is_open()) {
         return Result<Shader>(Error{"Could not open shader file!"});
     }
 
-    std::filesystem::path pathObj(absolutePath);
+    std::filesystem::path pathObj(path);
 
-    std::string name = pathObj.stem().string();
+    std::string id = pathObj.stem().string();
     std::string extension = pathObj.extension().string();
 
     // Get Shader Type
@@ -28,6 +28,6 @@ Result<Shader> loadShader(std::string absolutePath) {
     std::string fileContents(size, '\0');
     file.read(&fileContents[0], size);
 
-    return Result<Shader>(Success<Shader>(Shader{name, fileContents, typeRes.getValue()}));
+    return Result<Shader>(Success<Shader>(Shader{id, fileContents, typeRes.getValue()}));
 }
 } // namespace eregion

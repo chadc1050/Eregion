@@ -4,28 +4,36 @@ using namespace eregion;
 
 namespace eregion {
 
-Result<Game> Game::create() {
+Result<Game*> Game::create() {
 
-    Game game = Game();
+    Game* game = new Game();
 
     // Initialize graphical library
     if (!glfwInit()) {
-        return Result<Game>(Error{"Could not intialize low level graphics library"});
+        return Result<Game*>(Error{"Could not intialize low level graphics library"});
     }
-
     printf("Initialized OpenGL\n");
 
-    if (auto windowRes = Window::create(); windowRes.isSuccess()) {
-        std::cout << "Created window";
-        eregion::Window window = windowRes.getValue();
-    } else {
-        std::cerr << "Could not create window";
-        glfwTerminate();
-        return Result<Game>(Error{"Could not create window"});
-    }
+    // Initialize asset pool
+    game->assets = AssetPool();
+    printf("Initialized Asset Pool\n");
 
-    return Result<Game>(Success<Game>{game});
+    // Create window instance
+    game->window = Window::create(WindowConfig{640, 480, "Celebrimbor"});
+
+    return Result<Game*>(Success<Game*>{game});
 }
 
-// void Game::end() { glfwTerminate(); }
+void Game::run() {
+    printf("Starting game...\n");
+    window->run();
+}
+
+Game::Game() {}
+
+Game::~Game() {
+    delete window;
+    glfwTerminate();
+    printf("Terminated graphics library.\n");
+}
 } // namespace eregion

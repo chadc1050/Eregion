@@ -3,17 +3,24 @@
 using namespace eregion;
 
 namespace eregion {
-Result<Window> Window::create() {
+Window* Window::create(WindowConfig config) {
 
-    Window window = Window();
+    Window* window = new Window();
+
+    window->config = config;
+
+    return window;
+}
+
+Result<void> Window::run() {
 
     // Error callback to recieve error information
     glfwSetErrorCallback(errorCallback);
 
     /* Create a windowed mode window and its OpenGL context */
-    GLFWwindow* glWindow = glfwCreateWindow(640, 480, "Celebrimbor", NULL, NULL);
+    GLFWwindow* glWindow = glfwCreateWindow(config.width, config.height, config.title.c_str(), NULL, NULL);
     if (!glWindow) {
-        return Result<Window>(Error{"Error creating window"});
+        return Result<void>(Error{"Error creating window"});
     }
 
     /* Make the window's context current */
@@ -22,7 +29,7 @@ Result<Window> Window::create() {
     // vsync
     glfwSwapInterval(1);
 
-    window.setGlWindow(glWindow);
+    this->glWindow = glWindow;
 
     /* Loop until the user closes the window */
     while (!glfwWindowShouldClose(glWindow)) {
@@ -35,10 +42,17 @@ Result<Window> Window::create() {
         glfwPollEvents();
     }
 
-    return Result<Window>(Success<Window>{window});
+    return Result<void>();
 }
 
 Window::Window() {}
+
+Window::~Window() {
+    if (glWindow) {
+        glfwDestroyWindow(glWindow);
+        printf("Destroyed instance of window.\n");
+    }
+}
 
 void Window::errorCallback(int error, const char* description) { fprintf(stderr, "Error: %s\n", description); }
 

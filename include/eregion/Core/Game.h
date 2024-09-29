@@ -11,10 +11,15 @@
 namespace eregion {
 class Game {
   public:
-    static Result<Game> create();
+    static Result<Game*> create();
+    void run();
+    ~Game();
 
   private:
     AssetPool assets;
+    Window* window;
+
+    Game();
 };
 } // namespace eregion
 

@@ -11,12 +11,22 @@
 #include <variant>
 
 namespace eregion {
+
+struct WindowConfig {
+    int width;
+    int height;
+    std::string title;
+};
+
 class Window {
   public:
-    static Result<Window> create();
+    static Window* create(WindowConfig config);
+    Result<void> run();
+    ~Window();
 
   private:
     GLFWwindow* glWindow;
+    WindowConfig config;
 
     Window();
     static void errorCallback(int error, const char* description);
