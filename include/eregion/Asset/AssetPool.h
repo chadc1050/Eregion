@@ -12,10 +12,17 @@ namespace eregion {
 
 class AssetPool {
   public:
-    AssetPool();
+    static AssetPool& getInstance();
     Result<Shader> getShader(std::string path);
 
+    // Delete copy constructor and assignment operator to prevent copying
+    AssetPool(const AssetPool&) = delete;
+    AssetPool& operator=(const AssetPool&) = delete;
+
   private:
+    AssetPool();
+    ~AssetPool() = default;
+
     std::unordered_map<std::string, Shader> shaderPool;
 };
 } // namespace eregion

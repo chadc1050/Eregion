@@ -11,7 +11,7 @@ Result<Shader> loadShader(std::string path) {
 
     std::filesystem::path pathObj(path);
 
-    std::string id = pathObj.stem().string();
+    std::string name = pathObj.stem().string();
     std::string extension = pathObj.extension().string();
 
     // Get Shader Type
@@ -27,6 +27,8 @@ Result<Shader> loadShader(std::string path) {
 
     std::string fileContents(size, '\0');
     file.read(&fileContents[0], size);
+
+    std::string id = name + extension;
 
     return Result<Shader>(Success<Shader>(Shader{id, fileContents, typeRes.getValue()}));
 }

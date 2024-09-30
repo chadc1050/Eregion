@@ -15,7 +15,7 @@ Result<Game*> Game::create() {
     printf("Initialized OpenGL\n");
 
     // Initialize asset pool
-    game->assets = AssetPool();
+    AssetPool::getInstance();
     printf("Initialized Asset Pool\n");
 
     // Create window instance

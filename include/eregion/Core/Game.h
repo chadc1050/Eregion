@@ -16,7 +16,6 @@ class Game {
     ~Game();
 
   private:
-    AssetPool assets;
     Window* window;
 
     Game();
