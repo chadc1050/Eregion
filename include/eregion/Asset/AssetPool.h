@@ -4,6 +4,7 @@
 #include "eregion/Asset/Loader.h"
 #include "eregion/Asset/Shader.h"
 #include "eregion/Core/Result.h"
+#include "eregion/Logger/Logger.h"
 #include <filesystem>
 #include <string>
 #include <unordered_map>

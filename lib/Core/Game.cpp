@@ -12,11 +12,11 @@ Result<Game*> Game::create() {
     if (!glfwInit()) {
         return Result<Game*>(Error{"Could not intialize low level graphics library"});
     }
-    printf("Initialized OpenGL\n");
+    info("Initialized OpenGL.");
 
     // Initialize asset pool
     AssetPool::getInstance();
-    printf("Initialized Asset Pool\n");
+    info("Initialized Asset Pool.");
 
     // Create window instance
     game->window = Window::create(WindowConfig{640, 480, "Celebrimbor"});
@@ -25,7 +25,7 @@ Result<Game*> Game::create() {
 }
 
 Result<void> Game::run() {
-    printf("Starting game...\n");
+    info("Starting game...");
     return window->run();
 }
 

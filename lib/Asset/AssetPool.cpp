@@ -20,7 +20,7 @@ Result<Shader> AssetPool::getShader(std::string path) {
     std::string id = name + extension;
 
     if (shaderPool.contains(id)) {
-        printf("Cache hit for shader: %s\n", id.c_str());
+        info("Cache hit for shader: " + id);
         return Result<Shader>(Success<Shader>(shaderPool[id]));
     }
 
@@ -35,7 +35,7 @@ Result<Shader> AssetPool::getShader(std::string path) {
     // Put into cache
     shaderPool[id] = shader;
 
-    printf("Successfully loaded shader: %s\n", id.c_str());
+    info("Successfully loaded shader: " + id);
     return Result<Shader>(Success<Shader>(shader));
 }
 

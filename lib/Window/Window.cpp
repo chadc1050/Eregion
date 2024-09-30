@@ -30,7 +30,7 @@ Result<void> Window::run() {
 
     setGlWindow(glWindow);
 
-    printf("Setting window context to current.\n");
+    info("Setting window context to current.");
 
     glfwSetKeyCallback(this->glWindow, keyCallback);
 
@@ -42,13 +42,20 @@ Result<void> Window::run() {
         return Result<void>(Error{"Failed to instantiate GLAD context."});
     }
 
-    printf("OpenGL Version: %s\nGLAD Version: %d\n", glGetString(GL_VERSION), version);
+    std::string versionStr(reinterpret_cast<const char*>(glGetString(GL_VERSION)));
+
+    info("OpenGL Version: " + versionStr);
+    info("GLAD Version: " + std::to_string(version));
 
     // V-Sync
     glfwSwapInterval(1);
 
+    // Config blending
+    glEnable(GL_BLEND);
+    glBlendFunc(GL_ONE, GL_ONE_MINUS_SRC_ALPHA);
+
     // Create vertex buffer
-    printf("Creating vertex buffer.\n");
+    info("Creating vertex buffer.");
     GLuint vertex_buffer;
     glGenBuffers(1, &vertex_buffer);
     glBindBuffer(GL_ARRAY_BUFFER, vertex_buffer);
@@ -82,7 +89,7 @@ Result<void> Window::run() {
     const GLint vpos_location = glGetAttribLocation(program, "vPos");
     const GLint vcol_location = glGetAttribLocation(program, "vCol");
 
-    printf("Creating vertex array.\n");
+    info("Creating vertex array.");
     GLuint vertex_array;
     glGenVertexArrays(1, &vertex_array);
     glBindVertexArray(vertex_array);
@@ -93,7 +100,6 @@ Result<void> Window::run() {
 
     // Loop until the user closes the window
     while (!glfwWindowShouldClose(this->glWindow)) {
-
         // Render
         int width, height;
         glfwGetFramebufferSize(this->glWindow, &width, &height);

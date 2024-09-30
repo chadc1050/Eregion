@@ -3,6 +3,7 @@
 
 #include "eregion/Asset/AssetPool.h"
 #include "eregion/Core/Result.h"
+#include "eregion/Logger/Logger.h"
 
 #include <gl.h>
 #define GLFW_INCLUDE_NONE
