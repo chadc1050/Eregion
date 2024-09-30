@@ -34,6 +34,6 @@ Game::Game() {}
 Game::~Game() {
     delete window;
     glfwTerminate();
-    printf("Terminated graphics library.\n");
+    warn("Terminated graphics library.");
 }
 } // namespace eregion

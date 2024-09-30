@@ -15,11 +15,20 @@ void warn(std::string msg) { log(msg, WARN); }
 void error(std::string msg) { log(msg, ERROR); }
 
 void log(std::string msg, LogLevel level) {
+
+    std::string levelStr = getLevelStr(level);
+
     std::time_t now = std::time(0);
     std::tm* localTime = std::localtime(&now);
 
-    std::string levelStr = getLevelStr(level);
-    std::cout << "[" << levelStr << "][" << std::put_time(localTime, "%Y-%m-%d %H:%M:%S") << "] " << msg << std::endl;
+#if defined(_WIN32)
+    DWORD processId = GetCurrentProcessId();
+#else
+    pid_t processId = getpid();
+#endif
+
+    std::cout << "[" << levelStr << "][" << std::put_time(localTime, "%Y-%m-%dT%H:%M:%S") << "][" << processId << "] "
+              << msg << std::endl;
 }
 
 std::string getLevelStr(LogLevel level) {

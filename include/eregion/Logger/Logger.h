@@ -1,6 +1,12 @@
 #ifndef EREGION_LOGGER_H
 #define EREGION_LOGGER_H
 
+#if defined(_WIN32)
+#include <windows.h>
+#else
+#include <unistd.h>
+#endif
+
 #include <ctime>
 #include <iomanip>
 #include <iostream>

@@ -132,7 +132,7 @@ Window::Window() {}
 Window::~Window() {
     if (glWindow) {
         glfwDestroyWindow(glWindow);
-        printf("Destroyed instance of window.\n");
+        warn("Destroyed instance of window.");
     }
 }
 
