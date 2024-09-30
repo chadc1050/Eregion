@@ -2,6 +2,7 @@
 #define EREGION_WINDOW_H
 
 #include "eregion/Asset/AssetPool.h"
+#include "eregion/Core/KeyListener.h"
 #include "eregion/Core/Result.h"
 #include "eregion/Logger/Logger.h"
 
@@ -14,6 +15,7 @@
 #include <iostream>
 #include <stdio.h>
 #include <stdlib.h>
+#include <string>
 #include <variant>
 
 namespace eregion {
@@ -46,8 +48,7 @@ class Window {
     Result<GLuint> createProgram(Shader vertex, Shader fragment);
     Result<GLuint> createShader(Shader shader);
     Result<GLuint> getShaderRef(ShaderType type);
-    static void keyCallback(GLFWwindow* glWindow, int key, int scancode, int action, int mods);
-    static void errorCallback(int error, const char* description);
+    static void errorCallback(int errCode, const char* desc);
     void setGlWindow(GLFWwindow* window);
     GLFWwindow* getGlWindow();
 };

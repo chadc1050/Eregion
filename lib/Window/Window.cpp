@@ -32,7 +32,7 @@ Result<void> Window::run() {
 
     info("Setting window context to current.");
 
-    glfwSetKeyCallback(this->glWindow, keyCallback);
+    glfwSetKeyCallback(this->glWindow, KeyListener::keyCallback);
 
     // Make the window's context current
     glfwMakeContextCurrent(this->glWindow);
@@ -230,16 +230,8 @@ Result<GLuint> Window::getShaderRef(ShaderType type) {
     return Result<GLuint>(Error{"Error determining reference for shader!"});
 }
 
-void Window::errorCallback(int error, const char* description) { fprintf(stderr, "Error: %s\n", description); }
-
-void Window::keyCallback(GLFWwindow* glWindow, int key, int scancode, int action, int mods) {
-    if (action == GLFW_PRESS) {
-        printf("Pressed key: %d\n", key);
-    }
-
-    if (key == GLFW_KEY_ESCAPE && action == GLFW_PRESS) {
-        glfwSetWindowShouldClose(glWindow, GLFW_TRUE);
-    }
+void Window::errorCallback(int errCode, const char* desc) {
+    error("GL ERROR [" + std::to_string(errCode) + "] - " + desc);
 }
 
 void Window::setGlWindow(GLFWwindow* glWindow) { this->glWindow = glWindow; }
