@@ -18,6 +18,7 @@ class KeyListener {
 
     static bool isKeyPressed(int keyCode);
 
+    // Callback
     // TODO: This should potentially be set up as a friend to Window to make access stricter
     static void keyCallback(GLFWwindow* glWindow, int keyCode, int scanCode, int action, int mods);
 

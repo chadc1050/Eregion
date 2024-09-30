@@ -3,6 +3,7 @@
 
 #include "eregion/Asset/AssetPool.h"
 #include "eregion/Core/KeyListener.h"
+#include "eregion/Core/MouseListener.h"
 #include "eregion/Core/Result.h"
 #include "eregion/Logger/Logger.h"
 

@@ -32,7 +32,11 @@ Result<void> Window::run() {
 
     info("Setting window context to current.");
 
+    // Set callbacks
     glfwSetKeyCallback(this->glWindow, KeyListener::keyCallback);
+    glfwSetCursorPosCallback(this->glWindow, MouseListener::mousePosCallback);
+    glfwSetMouseButtonCallback(this->glWindow, MouseListener::mouseButtonCallback);
+    info("Linked peripheral callbacks.");
 
     // Make the window's context current
     glfwMakeContextCurrent(this->glWindow);
