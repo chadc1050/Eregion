@@ -5,7 +5,10 @@ int main() {
     auto res = eregion::Game::create();
     if (res.isSuccess()) {
         eregion::Game* game = res.getValue();
-        game->run();
+        auto runRes = game->run();
+        if (runRes.isError()) {
+            printf("Error!");
+        }
         delete game;
     } else {
         return 1;

@@ -24,9 +24,9 @@ Result<Game*> Game::create() {
     return Result<Game*>(Success<Game*>{game});
 }
 
-void Game::run() {
+Result<void> Game::run() {
     printf("Starting game...\n");
-    window->run();
+    return window->run();
 }
 
 Game::Game() {}

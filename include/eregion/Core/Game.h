@@ -12,7 +12,7 @@ namespace eregion {
 class Game {
   public:
     static Result<Game*> create();
-    void run();
+    Result<void> run();
     ~Game();
 
   private:

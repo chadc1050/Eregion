@@ -42,6 +42,9 @@ class Window {
     WindowConfig config;
 
     Window();
+    Result<GLuint> createProgram(Shader vertex, Shader fragment);
+    Result<GLuint> createShader(Shader shader);
+    Result<GLuint> getShaderRef(ShaderType type);
     static void keyCallback(GLFWwindow* glWindow, int key, int scancode, int action, int mods);
     static void errorCallback(int error, const char* description);
     void setGlWindow(GLFWwindow* window);
