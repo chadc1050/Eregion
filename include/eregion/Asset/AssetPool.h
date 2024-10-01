@@ -14,7 +14,7 @@ namespace eregion {
 class AssetPool {
   public:
     static AssetPool& getInstance();
-    Result<Shader> getShader(std::string path);
+    static Result<Shader> getShader(std::string path);
 
     // Delete copy constructor and assignment operator to prevent copying
     AssetPool(const AssetPool&) = delete;

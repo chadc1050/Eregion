@@ -34,8 +34,9 @@ Result<void> Window::run() {
 
     // Set callbacks
     glfwSetKeyCallback(this->glWindow, KeyListener::keyCallback);
-    glfwSetCursorPosCallback(this->glWindow, MouseListener::mousePosCallback);
-    glfwSetMouseButtonCallback(this->glWindow, MouseListener::mouseButtonCallback);
+    glfwSetCursorPosCallback(this->glWindow, MouseListener::posCallback);
+    glfwSetMouseButtonCallback(this->glWindow, MouseListener::buttonCallback);
+    glfwSetScrollCallback(this->glWindow, MouseListener::scrollCallback);
     info("Linked peripheral callbacks.");
 
     // Make the window's context current
@@ -66,15 +67,13 @@ Result<void> Window::run() {
     glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_STATIC_DRAW);
 
     // Load assets
-    AssetPool& pool = AssetPool::getInstance();
-
-    auto vertRes = pool.getShader("../assets/shaders/example.vert");
+    auto vertRes = AssetPool::getShader("../assets/shaders/example.vert");
 
     if (vertRes.isError()) {
         return Result<void>(Error{"Error loading vertex shader!"});
     }
 
-    auto fragRes = pool.getShader("../assets/shaders/example.frag");
+    auto fragRes = AssetPool::getShader("../assets/shaders/example.frag");
 
     if (fragRes.isError()) {
         return Result<void>(Error{"Error loading fragment shader!"});
@@ -177,9 +176,9 @@ Result<GLuint> Window::createProgram(Shader vertex, Shader fragment) {
         GLsizei log_length;
         char info_log[8192];
 
-        fprintf(stderr, "ERROR: Failed to link shader program\n");
+        error("Failed to link shader program");
         glGetProgramInfoLog(program, 8192, &log_length, info_log);
-        fprintf(stderr, "ERROR: %s", info_log);
+        error(info_log);
 
         // Cleanup
         glDeleteProgram(program);
@@ -210,7 +209,7 @@ Result<GLuint> Window::createShader(Shader shader) {
         GLsizei log_length;
         char info_log[8192];
         glGetShaderInfoLog(glShader, 8192, &log_length, info_log);
-        fprintf(stderr, "ERROR: %s", info_log);
+        error(info_log);
 
         return Result<GLuint>(Error{"Error compiling shader!"});
     }

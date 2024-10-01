@@ -12,6 +12,8 @@ AssetPool& AssetPool::getInstance() {
 
 Result<Shader> AssetPool::getShader(std::string path) {
 
+    AssetPool& inst = AssetPool::getInstance();
+
     std::filesystem::path pathObj(path);
 
     std::string name = pathObj.stem().string();
@@ -19,9 +21,9 @@ Result<Shader> AssetPool::getShader(std::string path) {
 
     std::string id = name + extension;
 
-    if (shaderPool.contains(id)) {
+    if (inst.shaderPool.contains(id)) {
         info("Cache hit for shader: " + id);
-        return Result<Shader>(Success<Shader>(shaderPool[id]));
+        return Result<Shader>(Success<Shader>(inst.shaderPool[id]));
     }
 
     auto res = loadShader(path);
@@ -33,7 +35,7 @@ Result<Shader> AssetPool::getShader(std::string path) {
     Shader shader = res.getValue();
 
     // Put into cache
-    shaderPool[id] = shader;
+    inst.shaderPool[id] = shader;
 
     info("Successfully loaded shader: " + id);
     return Result<Shader>(Success<Shader>(shader));

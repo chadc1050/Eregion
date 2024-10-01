@@ -10,7 +10,22 @@ MouseListener& MouseListener::getInstance() {
     return instance;
 }
 
-void MouseListener::mouseButtonCallback(GLFWwindow* glWindow, int keyCode, int action, int mods) {
+bool MouseListener::isButtonPressed(int button) {
+    MouseListener& inst = MouseListener::getInstance();
+    return button < 5 && inst.keysPressed[button];
+}
+
+std::array<float, 2> MouseListener::getCurrPos() {
+    MouseListener& inst = MouseListener::getInstance();
+    return {inst.currPos[0], inst.currPos[1]};
+}
+
+std::array<float, 2> MouseListener::getPosChange() {
+    MouseListener& inst = MouseListener::getInstance();
+    return {inst.currPos[0] - inst.prevPos[0], inst.currPos[1] - inst.prevPos[1]};
+}
+
+void MouseListener::buttonCallback(GLFWwindow* glWindow, int keyCode, int action, int mods) {
     MouseListener& inst = MouseListener::getInstance();
 
     if (action == GLFW_PRESS) {
@@ -22,7 +37,7 @@ void MouseListener::mouseButtonCallback(GLFWwindow* glWindow, int keyCode, int a
         inst.keysPressed[keyCode] = false;
     }
 }
-void MouseListener::mousePosCallback(GLFWwindow* glWindow, double xPos, double yPos) {
+void MouseListener::posCallback(GLFWwindow* glWindow, double xPos, double yPos) {
     MouseListener& inst = MouseListener::getInstance();
 
     trace("Mouse position change: (" + std::to_string(xPos) + ", " + std::to_string(yPos) + ")");
@@ -30,6 +45,15 @@ void MouseListener::mousePosCallback(GLFWwindow* glWindow, double xPos, double y
     inst.prevPos[1] = inst.currPos[1];
     inst.currPos[0] = xPos;
     inst.currPos[1] = yPos;
+}
+
+void MouseListener::scrollCallback(GLFWwindow* glWindow, double xOffset, double yOffset) {
+
+    MouseListener& inst = MouseListener::getInstance();
+    debug("Mouse scroll offset change: (" + std::to_string(xOffset) + ", " + std::to_string(yOffset) + ")");
+
+    inst.scroll[0] = xOffset;
+    inst.scroll[1] = yOffset;
 }
 
 MouseListener::MouseListener() {

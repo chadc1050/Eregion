@@ -18,14 +18,19 @@ class MouseListener {
   public:
     static MouseListener& getInstance();
 
+    static bool isButtonPressed(int button);
+    static std::array<float, 2> getCurrPos();
+    static std::array<float, 2> getPosChange();
+
     // Delete copy constructor and assignment operator to prevent copying
     MouseListener(const MouseListener&) = delete;
     MouseListener& operator=(const MouseListener&) = delete;
 
     // Callbacks
     // TODO: This should potentially be set up as a friend to Window to make access stricter
-    static void mouseButtonCallback(GLFWwindow* glWindow, int keyCode, int action, int mods);
-    static void mousePosCallback(GLFWwindow* glWindow, double xpos, double ypos);
+    static void buttonCallback(GLFWwindow* glWindow, int keyCode, int action, int mods);
+    static void posCallback(GLFWwindow* glWindow, double xpos, double ypos);
+    static void scrollCallback(GLFWwindow* glWindow, double xOffset, double yOffset);
 
   private:
     MouseListener();
