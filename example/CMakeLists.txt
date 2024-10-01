@@ -46,6 +46,7 @@ INCLUDE_DIRECTORIES(
     ${CMAKE_SOURCE_DIR}/${ROOT_DIR}/third-party/include/glad/
     ${CMAKE_SOURCE_DIR}/${ROOT_DIR}/third-party/include/khr/
     ${CMAKE_SOURCE_DIR}/${ROOT_DIR}/third-party/include/lin-math/
+    ${CMAKE_SOURCE_DIR}/${ROOT_DIR}/third-party/include/stb_image/
     /usr/include/GLFW
     /usr/include/glm
 )
