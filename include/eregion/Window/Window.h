@@ -6,6 +6,7 @@
 #include "eregion/Core/MouseListener.h"
 #include "eregion/Core/Result.h"
 #include "eregion/Logger/Logger.h"
+#include "eregion/Render/ShaderProgram.h"
 
 #include <gl.h>
 #define GLFW_INCLUDE_NONE
@@ -20,14 +21,6 @@
 #include <variant>
 
 namespace eregion {
-
-typedef struct Vertex {
-    vec2 pos;
-    vec3 col;
-} Vertex;
-
-static const Vertex vertices[3] = {
-    {{-0.6f, -0.4f}, {1.f, 0.f, 0.f}}, {{0.6f, -0.4f}, {0.f, 1.f, 0.f}}, {{0.f, 0.6f}, {0.f, 0.f, 1.f}}};
 
 struct WindowConfig {
     int width;
@@ -46,9 +39,6 @@ class Window {
     WindowConfig config;
 
     Window();
-    Result<GLuint> createProgram(Shader vertex, Shader fragment);
-    Result<GLuint> createShader(Shader shader);
-    Result<GLuint> getShaderRef(ShaderType type);
     static void errorCallback(int errCode, const char* desc);
     void setGlWindow(GLFWwindow* window);
     GLFWwindow* getGlWindow();

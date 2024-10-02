@@ -4,6 +4,15 @@ using namespace eregion;
 
 namespace eregion {
 
+// TODO: Temporary setup, this needs to be abstracted
+typedef struct Vertex {
+    vec2 pos;
+    vec3 col;
+} Vertex;
+
+static const Vertex vertices[3] = {
+    {{-0.6f, -0.4f}, {1.f, 0.f, 0.f}}, {{0.6f, -0.4f}, {0.f, 1.f, 0.f}}, {{0.f, 0.6f}, {0.f, 0.f, 1.f}}};
+
 Window* Window::create(WindowConfig config) {
 
     Window* window = new Window();
@@ -80,17 +89,21 @@ Result<void> Window::run() {
     }
 
     // Create Program
-    auto progRes = createProgram(vertRes.getValue(), fragRes.getValue());
+    auto progRes = ShaderProgram::compile(vertRes.getValue(), fragRes.getValue());
 
     if (progRes.isError()) {
         return Result<void>(Error{"Error creating GL Program!"});
     }
 
-    GLuint program = progRes.getValue();
+    ShaderProgram* shaderProgram = progRes.getValue();
 
-    const GLint mvp_location = glGetUniformLocation(program, "MVP");
-    const GLint vpos_location = glGetAttribLocation(program, "vPos");
-    const GLint vcol_location = glGetAttribLocation(program, "vCol");
+    shaderProgram->use();
+
+    GLuint programId = shaderProgram->getProgramId();
+
+    const GLint mvp_location = glGetUniformLocation(programId, "MVP");
+    const GLint vpos_location = glGetAttribLocation(programId, "vPos");
+    const GLint vcol_location = glGetAttribLocation(programId, "vCol");
 
     info("Creating vertex array.");
     GLuint vertex_array;
@@ -117,7 +130,6 @@ Result<void> Window::run() {
         mat4x4_ortho(p, -ratio, ratio, -1.f, 1.f, 1.f, -1.f);
         mat4x4_mul(mvp, p, m);
 
-        glUseProgram(program);
         glUniformMatrix4fv(mvp_location, 1, GL_FALSE, (const GLfloat*)&mvp);
         glBindVertexArray(vertex_array);
         glDrawArrays(GL_TRIANGLES, 0, 3);
@@ -126,6 +138,8 @@ Result<void> Window::run() {
         glfwSwapBuffers(this->glWindow);
         glfwPollEvents();
     }
+
+    delete shaderProgram;
 
     return Result<void>();
 }
@@ -137,100 +151,6 @@ Window::~Window() {
         glfwDestroyWindow(glWindow);
         warn("Destroyed instance of window.");
     }
-}
-
-Result<GLuint> Window::createProgram(Shader vertex, Shader fragment) {
-
-    // Compile vertex shader
-    auto vertCompRes = createShader(vertex);
-
-    if (vertCompRes.isError()) {
-        return Result<GLuint>(Error{"Error compiling vertex shader!"});
-    }
-
-    GLuint vertex_shader = vertCompRes.getValue();
-
-    // Compile fragment shader
-    auto fragCompRes = createShader(fragment);
-
-    if (fragCompRes.isError()) {
-        glDeleteShader(vertex_shader);
-        return Result<GLuint>(Error{"Error compiling fragment shader!"});
-    }
-
-    GLuint fragment_shader = fragCompRes.getValue();
-
-    // Create program
-    GLuint program = glCreateProgram();
-
-    // Link shaders to program
-    glAttachShader(program, vertex_shader);
-    glAttachShader(program, fragment_shader);
-    glLinkProgram(program);
-
-    // Check for errors
-    GLint program_ok;
-    glGetProgramiv(program, GL_LINK_STATUS, &program_ok);
-
-    if (program_ok != GL_TRUE) {
-        GLsizei log_length;
-        char info_log[8192];
-
-        error("Failed to link shader program");
-        glGetProgramInfoLog(program, 8192, &log_length, info_log);
-        error(info_log);
-
-        // Cleanup
-        glDeleteProgram(program);
-        glDeleteShader(fragment_shader);
-        glDeleteShader(vertex_shader);
-
-        return Result<GLuint>(Error{"Error compiling fragment shader!"});
-    }
-
-    return Result<GLuint>(Success<GLuint>{program});
-}
-
-Result<GLuint> Window::createShader(Shader shader) {
-
-    auto res = getShaderRef(shader.type);
-
-    if (res.isError()) {
-        return Result<GLuint>(Error{"Error determining shader type ref!"});
-    }
-
-    const GLuint glShader = glCreateShader(res.getValue());
-    glShaderSource(glShader, 1, (const GLchar**)&shader.src, NULL);
-    glCompileShader(glShader);
-
-    GLint shaderOk;
-    glGetShaderiv(glShader, GL_COMPILE_STATUS, &shaderOk);
-    if (shaderOk != GL_TRUE) {
-        GLsizei log_length;
-        char info_log[8192];
-        glGetShaderInfoLog(glShader, 8192, &log_length, info_log);
-        error(info_log);
-
-        return Result<GLuint>(Error{"Error compiling shader!"});
-    }
-
-    return Result<GLuint>(Success<GLuint>{glShader});
-}
-
-Result<GLuint> Window::getShaderRef(ShaderType type) {
-    if (type == VERTEX) {
-        return Result<GLuint>(Success<GLuint>{GL_VERTEX_SHADER});
-    }
-
-    if (type == FRAGMENT) {
-        return Result<GLuint>(Success<GLuint>{GL_FRAGMENT_SHADER});
-    }
-
-    if (type == GEOMETRY) {
-        return Result<GLuint>(Success<GLuint>{GL_GEOMETRY_SHADER});
-    }
-
-    return Result<GLuint>(Error{"Error determining reference for shader!"});
 }
 
 void Window::errorCallback(int errCode, const char* desc) {
