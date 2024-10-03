@@ -1,5 +1,4 @@
-#ifndef EREGION_ENTITY_H
-#define EREGION_ENTITY_H
+#pragma once
 
 #include "eregion/Entity/Component.h"
 
@@ -18,5 +17,3 @@ class Entity {
     std::vector<Component> comps;
 };
 } // namespace eregion
-
-#endif

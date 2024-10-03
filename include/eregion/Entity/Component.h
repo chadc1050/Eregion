@@ -1,5 +1,4 @@
-#ifndef EREGION_COMPONENT_H
-#define EREGION_COMPONENT_H
+#pragma once
 
 namespace eregion {
 class Component {
@@ -7,5 +6,3 @@ class Component {
     void update(float dt);
 };
 } // namespace eregion
-
-#endif

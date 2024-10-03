@@ -1,5 +1,4 @@
-#ifndef EREGION_LOADER_H
-#define EREGION_LOADER_H
+#pragma once
 
 #include "eregion/Asset/Shader.h"
 #include "eregion/Core/Result.h"
@@ -12,5 +11,3 @@ namespace eregion {
 
 Result<Shader> loadShader(std::string path);
 } // namespace eregion
-
-#endif

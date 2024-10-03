@@ -1,5 +1,4 @@
-#ifndef EREGION_LOGGER_H
-#define EREGION_LOGGER_H
+#pragma once
 
 #if defined(_WIN32)
 #include <windows.h>
@@ -24,5 +23,3 @@ void log(std::string msg, LogLevel level);
 std::string getLevelStr(LogLevel level);
 
 } // namespace eregion
-
-#endif

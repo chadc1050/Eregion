@@ -1,5 +1,4 @@
-#ifndef EREGION_GAME_H
-#define EREGION_GAME_H
+#pragma once
 
 #include "eregion/Asset/AssetPool.h"
 #include "eregion/Core/Result.h"
@@ -22,5 +21,3 @@ class Game {
     Game();
 };
 } // namespace eregion
-
-#endif

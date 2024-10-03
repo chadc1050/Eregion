@@ -1,5 +1,4 @@
-#ifndef EREGION_SHADER_H
-#define EREGION_SHADER_H
+#pragma once
 
 #include "eregion/Core/Result.h"
 #include <string>
@@ -16,5 +15,3 @@ struct Shader {
 
 Result<ShaderType> getShaderType(std::string ext);
 } // namespace eregion
-
-#endif

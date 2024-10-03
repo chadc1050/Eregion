@@ -1,5 +1,4 @@
-#ifndef EREGION_ASSETPOOL_H
-#define EREGION_ASSETPOOL_H
+#pragma once
 
 #include "eregion/Asset/Loader.h"
 #include "eregion/Asset/Shader.h"
@@ -27,5 +26,3 @@ class AssetPool {
     std::unordered_map<std::string, Shader> shaderPool;
 };
 } // namespace eregion
-
-#endif

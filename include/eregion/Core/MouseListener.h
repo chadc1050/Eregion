@@ -1,5 +1,4 @@
-#ifndef EREGION_MOUSELISTENER_H
-#define EREGION_MOUSELISTENER_H
+#pragma once
 
 #include "eregion/Logger/Logger.h"
 
@@ -44,5 +43,3 @@ class MouseListener {
     std::array<bool, MAX_KEY> keysPressed;
 };
 } // namespace eregion
-
-#endif

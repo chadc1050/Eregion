@@ -1,5 +1,4 @@
-#ifndef EREGION_WINDOW_H
-#define EREGION_WINDOW_H
+#pragma once
 
 #include "eregion/Asset/AssetPool.h"
 #include "eregion/Core/KeyListener.h"
@@ -47,5 +46,3 @@ class Window {
     GLFWwindow* getGlWindow();
 };
 } // namespace eregion
-
-#endif

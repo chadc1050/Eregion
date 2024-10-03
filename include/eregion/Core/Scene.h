@@ -1,5 +1,4 @@
-#ifndef EREGION_SCENE_H
-#define EREGION_SCENE_H
+#pragma once
 
 #include "eregion/Core/Camera.h"
 #include "eregion/Entity/Entity.h"
@@ -27,5 +26,3 @@ class Scene {
     std::vector<Entity> entities;
 };
 } // namespace eregion
-
-#endif

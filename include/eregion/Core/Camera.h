@@ -1,5 +1,4 @@
-#ifndef EREGION_CAMERA_H
-#define EREGION_CAMERA_H
+#pragma once
 
 #include "linmath.h"
 
@@ -19,5 +18,3 @@ class Camera {
     mat4x4 inverseView;
 };
 } // namespace eregion
-
-#endif

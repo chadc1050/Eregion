@@ -1,5 +1,4 @@
-#ifndef EREGION_KEYLISTENER_H
-#define EREGION_KEYLISTENER_H
+#pragma once
 
 #include "eregion/Logger/Logger.h"
 
@@ -34,5 +33,3 @@ class KeyListener {
     std::array<bool, MAX_KEY> keysPressed;
 };
 } // namespace eregion
-
-#endif

@@ -1,5 +1,4 @@
-#ifndef EREGION_RESULT_H
-#define EREGION_RESULT_H
+#pragma once
 
 #include <stdexcept>
 #include <string>
@@ -69,5 +68,3 @@ inline bool Result<void>::isSuccess() const { return std::holds_alternative<Succ
 inline bool Result<void>::isError() const { return std::holds_alternative<Error>(result); }
 
 } // namespace eregion
-
-#endif
