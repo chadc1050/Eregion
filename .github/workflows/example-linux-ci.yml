@@ -19,28 +19,8 @@ jobs:
               run: |
                 sudo apt update
                 sudo apt install libglfw3-dev libglm-dev
-            - name: Create Makefile
+            - name: Build binary
               run: |
                 cd ./example
                 cmake .
-            - name: Build binary
-              run: make
-    build-mac:
-        name: Build MacOs
-        runs-on: "macos-latest"
-        env:
-            CFLAGS: -Werror
-            MACOSX_DEPLOYMENT_TARGET: 10.11
-            CMAKE_OSX_ARCHITECTURES: x86_64;arm64
-        steps:
-            - uses: actions/checkout@v4
-            - name: Pull OpenGL Dependencies
-              run: |
-                sudo apt update
-                sudo apt install libglfw3-dev libglm-dev
-            - name: Create Makefile
-              run: |
-                cd ./example
-                cmake .
-            - name: Build binary
-              run: make
+                make
