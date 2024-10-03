@@ -22,7 +22,7 @@ jobs:
             - name: Create Makefile
               run: |
                 cd ./example
-                cmake . --build --parallel
+                cmake .
             - name: Build binary
               run: make
     build-mac:
@@ -41,6 +41,6 @@ jobs:
             - name: Create Makefile
               run: |
                 cd ./example
-                cmake . --build --parallel
+                cmake .
             - name: Build binary
               run: make
