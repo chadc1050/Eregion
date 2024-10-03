@@ -5,6 +5,7 @@
 #include "eregion/Core/KeyListener.h"
 #include "eregion/Core/MouseListener.h"
 #include "eregion/Core/Result.h"
+#include "eregion/Core/Scene.h"
 #include "eregion/Logger/Logger.h"
 #include "eregion/Render/ShaderProgram.h"
 
@@ -36,9 +37,11 @@ class Window {
 
   private:
     GLFWwindow* glWindow;
+    Scene currentScene;
     WindowConfig config;
 
     Window();
+    Result<void> loop();
     static void errorCallback(int errCode, const char* desc);
     void setGlWindow(GLFWwindow* window);
     GLFWwindow* getGlWindow();

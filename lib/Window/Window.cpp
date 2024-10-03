@@ -68,6 +68,22 @@ Result<void> Window::run() {
     glEnable(GL_BLEND);
     glBlendFunc(GL_ONE, GL_ONE_MINUS_SRC_ALPHA);
 
+    loop();
+
+    return Result<void>();
+}
+
+Window::Window() {}
+
+Window::~Window() {
+    if (glWindow) {
+        glfwDestroyWindow(glWindow);
+        warn("Destroyed instance of window.");
+    }
+}
+
+Result<void> Window::loop() {
+
     // Create vertex buffer
     info("Creating vertex buffer.");
     GLuint vertex_buffer;
@@ -142,15 +158,6 @@ Result<void> Window::run() {
     delete shaderProgram;
 
     return Result<void>();
-}
-
-Window::Window() {}
-
-Window::~Window() {
-    if (glWindow) {
-        glfwDestroyWindow(glWindow);
-        warn("Destroyed instance of window.");
-    }
 }
 
 void Window::errorCallback(int errCode, const char* desc) {
