@@ -8,6 +8,8 @@
 #define GLFW_INCLUDE_NONE
 #include <GLFW/glfw3.h>
 
+#include "linmath.h"
+
 namespace eregion {
 class ShaderProgram {
   public:
@@ -17,6 +19,8 @@ class ShaderProgram {
     void unbind();
     bool isActive();
     unsigned int getProgramId();
+
+    void uploadMat4(const char* var, mat4x4* mat);
 
     ~ShaderProgram();
 

@@ -77,6 +77,13 @@ bool ShaderProgram::isActive() { return active; }
 
 unsigned int ShaderProgram::getProgramId() { return programId; }
 
+void ShaderProgram::uploadMat4(const char* var, mat4x4* mat) {
+
+    const int loc = glGetUniformLocation(programId, var);
+
+    glUniformMatrix4fv(loc, 1, GL_FALSE, (const GLfloat*)mat);
+}
+
 ShaderProgram::~ShaderProgram() {
     glDeleteShader(vertId);
     glDeleteShader(fragId);

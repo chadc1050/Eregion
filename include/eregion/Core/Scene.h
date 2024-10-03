@@ -1,7 +1,10 @@
 #pragma once
 
+#include "eregion/Asset/AssetPool.h"
 #include "eregion/Core/Camera.h"
+#include "eregion/Core/Result.h"
 #include "eregion/Entity/Entity.h"
+#include "eregion/Render/ShaderProgram.h"
 
 #include <gl.h>
 #define GLFW_INCLUDE_NONE
@@ -18,11 +21,12 @@ class Scene {
     Scene(Camera* camera);
     ~Scene();
 
-    void init();
+    Result<void> init();
     void update(float dt);
 
   protected:
     Camera* camera;
+    ShaderProgram* shader;
     std::vector<Entity> entities;
 };
 } // namespace eregion
