@@ -20,7 +20,17 @@ class ShaderProgram {
     bool isActive();
     unsigned int getProgramId();
 
+    // Matrix uploads
     void uploadMat4(const char* var, mat4x4* mat);
+
+    // Vector uploads
+    void uploadVec4(const char* var, vec4* vec);
+    void uploadVec3(const char* var, vec3* vec);
+    void uploadVec2(const char* var, vec2* vec);
+
+    // Primitive uploads
+    void uploadInt(const char* var, int val);
+    void uploadFloat(const char* var, float val);
 
     ~ShaderProgram();
 

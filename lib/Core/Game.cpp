@@ -4,7 +4,9 @@ using namespace eregion;
 
 namespace eregion {
 
-Result<Game*> Game::create() {
+Result<Game*> Game::create() { return create(WindowConfig{640, 480, "Eregion Game"}); }
+
+Result<Game*> Game::create(WindowConfig windowConfig) {
 
     Game* game = new Game();
 
@@ -19,7 +21,7 @@ Result<Game*> Game::create() {
     info("Initialized Asset Pool.");
 
     // Create window instance
-    game->window = Window::create(WindowConfig{640, 480, "Celebrimbor"});
+    game->window = Window::create(windowConfig);
 
     return Result<Game*>(Success<Game*>{game});
 }

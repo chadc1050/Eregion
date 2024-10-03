@@ -84,6 +84,41 @@ void ShaderProgram::uploadMat4(const char* var, mat4x4* mat) {
     glUniformMatrix4fv(loc, 1, GL_FALSE, (const GLfloat*)mat);
 }
 
+void ShaderProgram::uploadVec4(const char* var, vec4* vec) {
+
+    const int loc = glGetUniformLocation(programId, var);
+
+    glUniform4f(loc, *vec[0], *vec[1], *vec[2], *vec[3]);
+}
+
+void ShaderProgram::uploadVec3(const char* var, vec3* vec) {
+
+    const int loc = glGetUniformLocation(programId, var);
+
+    glUniform3f(loc, *vec[0], *vec[1], *vec[2]);
+}
+
+void ShaderProgram::uploadVec2(const char* var, vec2* vec) {
+
+    const int loc = glGetUniformLocation(programId, var);
+
+    glUniform2f(loc, *vec[0], *vec[1]);
+}
+
+void ShaderProgram::uploadFloat(const char* var, float val) {
+
+    const int loc = glGetUniformLocation(programId, var);
+
+    glUniform1f(loc, val);
+}
+
+void ShaderProgram::uploadInt(const char* var, int val) {
+
+    const int loc = glGetUniformLocation(programId, var);
+
+    glUniform1i(loc, val);
+}
+
 ShaderProgram::~ShaderProgram() {
     glDeleteShader(vertId);
     glDeleteShader(fragId);

@@ -1,9 +1,11 @@
 #include "eregion/Core/Game.h"
+#include "eregion/Window/Window.h"
 
 int main() {
-    auto res = eregion::Game::create();
+    using namespace eregion;
+    auto res = Game::create(WindowConfig{640, 480, "Celebrimbor"});
     if (res.isSuccess()) {
-        eregion::Game* game = res.getValue();
+        Game* game = res.getValue();
         auto runRes = game->run();
         if (runRes.isError()) {
             printf("Error!");

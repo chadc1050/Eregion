@@ -12,6 +12,7 @@ namespace eregion {
 class Game {
   public:
     static Result<Game*> create();
+    static Result<Game*> create(WindowConfig windowConfig);
     Result<void> run();
     ~Game();
 
