@@ -18,11 +18,11 @@ jobs:
             - name: Pull OpenGL Dependencies
               run: |
                 sudo apt update
-                sudo apt install cmake libglfw3-dev libglm-dev
+                sudo apt install libglfw3-dev libglm-dev
             - name: Create Makefile
               run: |
                 cd ./example
-                camke . --build --parallel
+                cmake . --build --parallel
             - name: Build binary
               run: make
     build-mac:
@@ -41,6 +41,6 @@ jobs:
             - name: Create Makefile
               run: |
                 cd ./example
-                camke . --build --parallel
+                cmake . --build --parallel
             - name: Build binary
               run: make
