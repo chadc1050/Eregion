@@ -14,7 +14,7 @@ namespace eregion {
 class ShaderProgram {
   public:
     static Result<ShaderProgram*> compile(Shader vert, Shader fragment);
-    void use();
+    void bind();
     void detach();
     void unbind();
     bool isActive();

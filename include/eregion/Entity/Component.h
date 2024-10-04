@@ -3,6 +3,11 @@
 namespace eregion {
 class Component {
   public:
-    void update(float dt);
+    virtual void update(float dt) = 0;
+
+    virtual ~Component() = default;
+
+  protected:
+    Component() = default;
 };
 } // namespace eregion

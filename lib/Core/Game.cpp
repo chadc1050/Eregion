@@ -1,10 +1,14 @@
 #include "eregion/Core/Game.h"
 
+// This has to be here, or included in a seperate impl file that does not use any of the functionality.
+#define STB_IMAGE_IMPLEMENTATION
+#include "stb_image.h"
+
 using namespace eregion;
 
 namespace eregion {
 
-Result<Game*> Game::create() { return create(WindowConfig{640, 480, "Eregion Game"}); }
+Result<Game*> Game::create() { return create(WindowConfig{640, 480, "Eregion"}); }
 
 Result<Game*> Game::create(WindowConfig windowConfig) {
 

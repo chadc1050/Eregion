@@ -15,6 +15,9 @@
     - Renderer: Integration point between engine and render pipeline
       - Batch Render: Render pipeline
 
+> A note on the BatchRenderer, it would be preferable for there to be an adapter in the form of BatchRenderer<R> where
+> R contains all the implementation for the render pipeline. An example being BatchRenderer<SpriteRenderer>.
+
 ## Styles 
 
 ### GLSL

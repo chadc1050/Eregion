@@ -2,8 +2,4 @@
 
 using namespace eregion;
 
-namespace eregion {
-void Component::update(float dt) {
-    // TODO:
-}
-} // namespace eregion
+namespace eregion {} // namespace eregion

@@ -23,6 +23,8 @@ class Scene {
 
     Result<void> init();
     void update(float dt);
+    void insertEntity(Entity entity);
+    void save();
 
   protected:
     Camera* camera;

@@ -56,7 +56,7 @@ Result<ShaderProgram*> ShaderProgram::compile(Shader vert, Shader frag) {
     return Result<ShaderProgram*>(Success<ShaderProgram*>{shaderProgram});
 }
 
-void ShaderProgram::use() {
+void ShaderProgram::bind() {
     glUseProgram(programId);
     active = true;
 }

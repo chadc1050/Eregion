@@ -5,7 +5,6 @@
 #include "eregion/Logger/Logger.h"
 #include "eregion/Window/Window.h"
 #include <GLFW/glfw3.h>
-#include <iostream>
 #include <variant>
 
 namespace eregion {

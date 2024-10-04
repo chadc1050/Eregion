@@ -52,7 +52,7 @@ Result<void> Scene::init() {
 
     shader = progRes.getValue();
 
-    shader->use();
+    shader->bind();
 
     return Result<void>();
 }
@@ -94,6 +94,12 @@ void Scene::update(float dt) {
 
     glBindVertexArray(vertex_array);
     glDrawArrays(GL_TRIANGLES, 0, 3);
+}
+
+void Scene::insertEntity(Entity entity) { entities.push_back(entity); }
+
+void Scene::save() {
+    // TODO: Save Scene current state
 }
 
 } // namespace eregion

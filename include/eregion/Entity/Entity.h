@@ -9,11 +9,12 @@ namespace eregion {
 class Entity {
   public:
     Entity(std::string name);
-    void addComponent(Component comp);
+    void addComponent(Component* comp);
     void update(float dt);
+    std::vector<Component*> getComponents();
 
   private:
     std::string name;
-    std::vector<Component> comps;
+    std::vector<Component*> comps;
 };
 } // namespace eregion
