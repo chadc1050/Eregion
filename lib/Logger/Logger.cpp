@@ -4,6 +4,8 @@ using namespace eregion;
 
 namespace eregion {
 
+LogLevel minLevel = INFO;
+
 void trace(std::string msg) { log(msg, TRACE); }
 
 void debug(std::string msg) { log(msg, DEBUG); }
@@ -15,6 +17,10 @@ void warn(std::string msg) { log(msg, WARN); }
 void error(std::string msg) { log(msg, ERROR); }
 
 void log(std::string msg, LogLevel level) {
+
+    if (level < minLevel) {
+        return;
+    }
 
     std::string levelStr = getLevelStr(level);
 
@@ -30,6 +36,8 @@ void log(std::string msg, LogLevel level) {
     std::cout << "[" << levelStr << "][" << std::put_time(localTime, "%Y-%m-%dT%H:%M:%S") << "][" << processId << "] "
               << msg << std::endl;
 }
+
+void setLogLevel(LogLevel level) { minLevel = level; }
 
 std::string getLevelStr(LogLevel level) {
     switch (level) {
