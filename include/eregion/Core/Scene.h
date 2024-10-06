@@ -4,6 +4,7 @@
 #include "eregion/Core/Camera.h"
 #include "eregion/Core/Result.h"
 #include "eregion/Entity/Entity.h"
+#include "eregion/Render/Renderer.h"
 #include "eregion/Render/ShaderProgram.h"
 
 #include <gl.h>
@@ -28,7 +29,7 @@ class Scene {
 
   protected:
     Camera* camera;
-    ShaderProgram* shader;
+    Renderer* renderer;
     std::vector<Entity> entities;
 };
 } // namespace eregion

@@ -57,18 +57,19 @@ Result<ShaderProgram*> ShaderProgram::compile(Shader vert, Shader frag) {
 }
 
 void ShaderProgram::bind() {
+    trace("Binding shader program: " + std::to_string(programId));
     glUseProgram(programId);
     active = true;
 }
 
 void ShaderProgram::detach() {
-    debug("Detaching shader from program: " + std::to_string(programId));
+    trace("Detaching shader from program: " + std::to_string(programId));
     glDetachShader(programId, vertId);
     glDetachShader(programId, fragId);
 }
 
 void ShaderProgram::unbind() {
-    debug("Unbinding shader program: " + std::to_string(programId));
+    trace("Unbinding shader program: " + std::to_string(programId));
     glUseProgram(0);
     active = false;
 }
@@ -76,6 +77,11 @@ void ShaderProgram::unbind() {
 bool ShaderProgram::isActive() { return active; }
 
 unsigned int ShaderProgram::getProgramId() { return programId; }
+
+void ShaderProgram::uploadIntArray(const char* var, int* arr, size_t size) {
+    const int loc = glGetUniformLocation(programId, var);
+    glUniform1iv(loc, size, arr);
+}
 
 void ShaderProgram::uploadMat4(const char* var, mat4x4* mat) {
 

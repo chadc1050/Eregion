@@ -20,6 +20,9 @@ class ShaderProgram {
     bool isActive();
     unsigned int getProgramId();
 
+    // Array uploads
+    void uploadIntArray(const char* var, int* arr, size_t size);
+
     // Matrix uploads
     void uploadMat4(const char* var, mat4x4* mat);
 

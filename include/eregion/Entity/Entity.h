@@ -2,7 +2,10 @@
 
 #include "eregion/Entity/Component.h"
 
+#include <optional>
 #include <string>
+#include <type_traits>
+#include <typeinfo>
 #include <vector>
 
 namespace eregion {
@@ -11,6 +14,18 @@ class Entity {
     Entity(std::string name);
     void addComponent(Component* comp);
     void update(float dt);
+
+    template <typename T> std::optional<T*> getComponent() {
+        for (Component* comp : comps) {
+            T* derived = dynamic_cast<T*>(comp);
+            if (derived) {
+                return derived;
+            }
+        }
+
+        return std::nullopt;
+    };
+
     std::vector<Component*> getComponents();
 
   private:

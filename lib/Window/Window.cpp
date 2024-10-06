@@ -107,7 +107,7 @@ Result<void> Window::loop() {
             fps = 1.0 / dt * 1000;
         }
 
-        debug("FPS: " + std::to_string(fps));
+        trace("FPS: " + std::to_string(fps));
 
         beginTime = endTime;
 

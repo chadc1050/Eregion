@@ -3,6 +3,9 @@
 using namespace eregion;
 
 namespace eregion {
+
+Renderer::Renderer() { this->batchRenderers = {}; }
+
 void Renderer::render() {
     for (BatchRenderer batch : batchRenderers) {
         batch.render();
@@ -10,26 +13,28 @@ void Renderer::render() {
 }
 
 void Renderer::insertEntity(Entity entity) {
-    for (Component* comp : entity.getComponents()) {
-        if (SpriteRenderer* spriteRenderer = dynamic_cast<SpriteRenderer*>(comp)) {
-            insertSpriteRenderer(spriteRenderer);
-        }
-    }
+    debug("Adding entity to renderer.");
+
+    // TODO: Handle bad entity case.
+    std::optional<SpriteRenderer*> spriteRenderer = entity.getComponent<SpriteRenderer>();
+    std::optional<Transform*> transform = entity.getComponent<Transform>();
+
+    insertSpriteRenderer(spriteRenderer.value(), transform.value());
 }
 
-void Renderer::insertSpriteRenderer(SpriteRenderer* spriteRenderer) {
+void Renderer::insertSpriteRenderer(SpriteRenderer* spriteRenderer, Transform* transform) {
     bool added = false;
     for (BatchRenderer batch : batchRenderers) {
         if (batch.hasRoom()) {
-            batch.add(spriteRenderer);
+            batch.add(spriteRenderer, transform);
         }
     }
 
     if (!added) {
         debug("Creating a new batch renderer.");
         BatchRenderer batchRenderer = BatchRenderer();
-        batchRenderer.init();
-        batchRenderer.add(spriteRenderer);
+        batchRenderer.start();
+        batchRenderer.add(spriteRenderer, transform);
         batchRenderers.push_back(batchRenderer);
     }
 }
