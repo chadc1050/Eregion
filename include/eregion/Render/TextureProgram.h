@@ -29,5 +29,4 @@ class TextureProgram {
 
     TextureProgram(unsigned int textureId, int width, int height);
 };
-void checkOpenTextureGLError(const char* function, const char* file, int line);
 } // namespace eregion

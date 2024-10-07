@@ -4,6 +4,7 @@ using namespace eregion;
 
 namespace eregion {
 
+std::mutex logMutex;
 LogLevel minLevel = INFO;
 
 void trace(std::string msg) { log(msg, TRACE); }
@@ -32,6 +33,8 @@ void log(std::string msg, LogLevel level) {
 #else
     pid_t processId = getpid();
 #endif
+
+    std::lock_guard<std::mutex> guard(logMutex);
 
     std::cout << "[" << levelStr << "][" << std::put_time(localTime, "%Y-%m-%dT%H:%M:%S") << "][" << processId << "] "
               << msg << std::endl;

@@ -66,6 +66,4 @@ class BatchRenderer {
     int* genIndices();
     void loadElementIndices(int* elements, int index);
 };
-
-void checkOpenGLError(const char* function, const char* file, int line);
 } // namespace eregion

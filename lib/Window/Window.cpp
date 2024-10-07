@@ -54,6 +54,9 @@ Result<void> Window::run() {
     info("OpenGL Version: " + versionStr);
     info("GLAD Version: " + std::to_string(version));
 
+    glEnable(GL_DEBUG_OUTPUT);
+    glDebugMessageCallback(debugCallback, 0);
+
     // V-Sync
     glfwSwapInterval(GL_TRUE);
 
@@ -120,6 +123,20 @@ Result<void> Window::loop() {
 
 void Window::errorCallback(int errCode, const char* desc) {
     error("GL ERROR [" + std::to_string(errCode) + "] - " + desc);
+}
+
+void GLAPIENTRY debugCallback(GLenum source, GLenum type, GLuint id, GLenum severity, GLsizei length,
+                              const GLchar* message, const void* userParam) {
+
+    bool isError = type == GL_DEBUG_TYPE_ERROR;
+
+    if (isError) {
+        error("GL Error: type = 0x" + std::to_string(type) + ", severity = 0x" + std::to_string(severity) +
+              ", message = " + message);
+    } else {
+        debug("GL Info: type = 0x" + std::to_string(type) + ", severity = 0x" + std::to_string(severity) +
+              ", message = " + message);
+    }
 }
 
 void Window::setGlWindow(GLFWwindow* glWindow) { this->glWindow = glWindow; }

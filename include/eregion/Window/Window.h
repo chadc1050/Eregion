@@ -36,4 +36,7 @@ class Window {
     void setGlWindow(GLFWwindow* window);
     GLFWwindow* getGlWindow();
 };
+
+void GLAPIENTRY debugCallback(GLenum source, GLenum type, GLuint id, GLenum severity, GLsizei length,
+                              const GLchar* message, const void* userParam);
 } // namespace eregion

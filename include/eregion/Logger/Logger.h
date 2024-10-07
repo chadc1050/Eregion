@@ -9,6 +9,7 @@
 #include <ctime>
 #include <iomanip>
 #include <iostream>
+#include <mutex>
 
 namespace eregion {
 
