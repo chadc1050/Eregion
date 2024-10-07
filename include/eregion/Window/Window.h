@@ -5,7 +5,7 @@
 #include "eregion/Core/Result.h"
 #include "eregion/Core/Scene.h"
 #include "eregion/Logger/Logger.h"
-#include "eregion/Util/OpenGlUtils.h"
+#include "eregion/Util/OpenGLUtils.h"
 
 #include <gl.h>
 #define GLFW_INCLUDE_NONE

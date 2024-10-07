@@ -1,4 +1,4 @@
-#include "eregion/Util/OpenGlUtils.h"
+#include "eregion/Util/OpenGLUtils.h"
 
 using namespace eregion;
 
