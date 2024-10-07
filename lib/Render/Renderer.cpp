@@ -4,7 +4,7 @@ using namespace eregion;
 
 namespace eregion {
 
-Renderer::Renderer() { this->batchRenderers = {}; }
+Renderer::Renderer() {}
 
 void Renderer::render() {
     for (BatchRenderer batch : batchRenderers) {
@@ -34,7 +34,12 @@ void Renderer::insertSpriteRenderer(SpriteRenderer* spriteRenderer, Transform* t
         debug("Creating a new batch renderer.");
         BatchRenderer batchRenderer = BatchRenderer();
         batchRenderer.start();
-        batchRenderer.add(spriteRenderer, transform);
+        auto res = batchRenderer.add(spriteRenderer, transform);
+
+        if (res.isError()) {
+            error("Error");
+        }
+
         batchRenderers.push_back(batchRenderer);
     }
 }

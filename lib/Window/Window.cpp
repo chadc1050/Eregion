@@ -55,7 +55,7 @@ Result<void> Window::run() {
     info("GLAD Version: " + std::to_string(version));
 
     // V-Sync
-    glfwSwapInterval(1);
+    glfwSwapInterval(GL_TRUE);
 
     // Config blending
     glEnable(GL_BLEND);
@@ -104,7 +104,7 @@ Result<void> Window::loop() {
         dt = endTime - beginTime;
 
         if (dt > 0.0) {
-            fps = 1.0 / dt * 1000;
+            fps = 1.0 / dt;
         }
 
         trace("FPS: " + std::to_string(fps));
@@ -116,12 +116,6 @@ Result<void> Window::loop() {
     }
 
     return Result<void>();
-}
-
-double Window::getTime() {
-    using namespace std::chrono;
-    auto now = high_resolution_clock::now();
-    return duration_cast<milliseconds>(now.time_since_epoch()).count();
 }
 
 void Window::errorCallback(int errCode, const char* desc) {

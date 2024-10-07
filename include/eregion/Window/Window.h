@@ -5,6 +5,7 @@
 #include "eregion/Core/Result.h"
 #include "eregion/Core/Scene.h"
 #include "eregion/Logger/Logger.h"
+#include "eregion/Util/OpenGlUtils.h"
 
 #include <gl.h>
 #define GLFW_INCLUDE_NONE
@@ -34,6 +35,5 @@ class Window {
     static void errorCallback(int errCode, const char* desc);
     void setGlWindow(GLFWwindow* window);
     GLFWwindow* getGlWindow();
-    static double getTime();
 };
 } // namespace eregion

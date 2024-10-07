@@ -4,36 +4,21 @@ using namespace eregion;
 
 namespace eregion {
 
-unsigned int VERTEX_SIZE = 9;
-unsigned int VERTEX_SIZE_BYTES = VERTEX_SIZE * sizeof(float);
-
-unsigned int POS_SIZE = 2;
-unsigned int COLOR_SIZE = 4;
-unsigned int TEXTURE_COORDINATES_SIZE = 2;
-unsigned int TEXTURE_ID_SIZE = 1;
-
-unsigned int POS_OFFSET = 0;
-unsigned int COLOR_OFFSET = POS_OFFSET + POS_SIZE * sizeof(float);
-unsigned int TEXTURE_COORDINATES_OFFSET = COLOR_OFFSET + COLOR_SIZE * sizeof(float);
-unsigned int TEXTURE_ID_OFFSET = TEXTURE_COORDINATES_OFFSET + TEXTURE_ID_SIZE * sizeof(float);
-
 BatchRenderer::BatchRenderer() {
+
     Shader vert = AssetPool::getShader("../assets/shaders/texture.vert").getValue();
 
     Shader frag = AssetPool::getShader("../assets/shaders/texture.frag").getValue();
 
     shader = ShaderProgram::compile(vert, frag).getValue();
     checkOpenGLError(__FUNCTION__, __FILE__, __LINE__);
-
-    vertices.resize(MAX_BATCH_SIZE * VERTEX_SIZE);
 }
-void BatchRenderer::render() {
-    trace("Render pass.");
 
-    warn(std::to_string(vboId));
+void BatchRenderer::render() {
+
     glBindBuffer(GL_ARRAY_BUFFER, vboId);
     checkOpenGLError(__FUNCTION__, __FILE__, __LINE__);
-    glBufferSubData(GL_ARRAY_BUFFER, 0, vertices.size() * sizeof(float), vertices.data());
+    glBufferSubData(GL_ARRAY_BUFFER, 0, MAX_BATCH_SIZE * VERTEX_SIZE * sizeof(float), vertices);
     checkOpenGLError(__FUNCTION__, __FILE__, __LINE__);
 
     shader->bind();
@@ -41,6 +26,7 @@ void BatchRenderer::render() {
 
     //////// This is all temportary until the Camera values can be properly passed.
     mat4x4 proj;
+    mat4x4_identity(proj);
 
     // Create an identity matrix
     mat4x4_identity(proj);
@@ -50,9 +36,8 @@ void BatchRenderer::render() {
     mat4x4_ortho(proj, 0.0f, 32.0f * 40.0f, 0.0f, 32.0f * 21.0f, 0.0f, 100.0f);
 
     mat4x4 view;
-    vec3 camUp = {0.0f, 1.0f, 0.0f};
-
     mat4x4_identity(view);
+    vec3 camUp = {0.0f, 1.0f, 0.0f};
 
     vec3 eye = {0.0f, 0.0f, 20.0f};
 
@@ -61,6 +46,7 @@ void BatchRenderer::render() {
     mat4x4_look_at(view, eye, center, camUp);
 
     mat4x4 inverseView;
+    mat4x4_identity(inverseView);
 
     mat4x4_invert(view, inverseView);
     ////////////
@@ -122,7 +108,7 @@ void BatchRenderer::start() {
     checkOpenGLError(__FUNCTION__, __FILE__, __LINE__);
     glBindBuffer(GL_ARRAY_BUFFER, vboId);
     checkOpenGLError(__FUNCTION__, __FILE__, __LINE__);
-    glBufferData(GL_ARRAY_BUFFER, vertices.size() * sizeof(float), vertices.data(), GL_DYNAMIC_DRAW);
+    glBufferData(GL_ARRAY_BUFFER, MAX_BATCH_SIZE * VERTEX_SIZE * sizeof(float), vertices, GL_DYNAMIC_DRAW);
     checkOpenGLError(__FUNCTION__, __FILE__, __LINE__);
 
     // EBO
@@ -132,8 +118,7 @@ void BatchRenderer::start() {
     checkOpenGLError(__FUNCTION__, __FILE__, __LINE__);
 
     // Create and upload indices buffer
-    std::vector<int> indices = genIndices();
-    glBufferData(GL_ELEMENT_ARRAY_BUFFER, indices.size() * sizeof(int), indices.data(), GL_STATIC_DRAW);
+    glBufferData(GL_ELEMENT_ARRAY_BUFFER, 6 * MAX_BATCH_SIZE * sizeof(int), genIndices(), GL_STATIC_DRAW);
     checkOpenGLError(__FUNCTION__, __FILE__, __LINE__);
 
     // Enable Attributes
@@ -173,13 +158,15 @@ void BatchRenderer::start() {
 
 Result<void> BatchRenderer::add(SpriteRenderer* sprite, Transform* transform) {
 
-    Texture* texture = sprite->getSprite().texture;
-
-    sprites.push_back(sprite);
+    int index = nSprites;
+    sprites[nSprites] = sprite;
+    nSprites++;
 
     // Compile texture if needed
+    Texture* texture = sprite->getSprite().texture;
     if (!textures.contains(texture->name)) {
         auto res = TextureProgram::compile(texture);
+        checkOpenGLError(__FUNCTION__, __FILE__, __LINE__);
 
         if (res.isError()) {
             return Result<void>(Error{"Error compiling texture."});
@@ -188,24 +175,23 @@ Result<void> BatchRenderer::add(SpriteRenderer* sprite, Transform* transform) {
         textures[texture->name] = res.getValue();
     }
 
-    loadVertexProps(sprite, transform);
+    loadVertexProps(index, sprite, transform);
 
     return Result<void>();
 }
 
-void BatchRenderer::loadVertexProps(SpriteRenderer* sprite, Transform* transform) {
+void BatchRenderer::loadVertexProps(int index, SpriteRenderer* sprite, Transform* transform) {
 
     // TODO: Offset will increase based on index of sprite if more are added.
-    int offset = 0;
+    int offset = index * 4 * VERTEX_SIZE;
 
     // TODO: May want this to be configurable
     vec4 color = {1.0f, 1.0f, 1.0f, 1.0f};
 
-    // TODO: This will need to be stored when spritesheets are added.
-    vec2 texCoords = {0.0f, 0.0f};
+    vec2* texCoords = sprite->getSprite().getTextureCoords();
 
     // TODO: As more than one textures are added this will need to be incremented and stored.
-    int texId = 0;
+    int texId = 1;
 
     // Add vertices with the appropriate properties
     float xAdd = 0.5f;
@@ -238,8 +224,8 @@ void BatchRenderer::loadVertexProps(SpriteRenderer* sprite, Transform* transform
 
         // Load Texture Coordinates
         // TODO: Lookup texture coords from list
-        vertices[offset + 6] = texCoords[0];
-        vertices[offset + 7] = texCoords[1];
+        vertices[offset + 6] = texCoords[i][0];
+        vertices[offset + 7] = texCoords[i][1];
 
         // Load Texture ID
         vertices[offset + 8] = texId;
@@ -248,9 +234,9 @@ void BatchRenderer::loadVertexProps(SpriteRenderer* sprite, Transform* transform
     }
 }
 
-std::vector<int> BatchRenderer::genIndices() {
+int* BatchRenderer::genIndices() {
     // Six indices per quad, three per triangle
-    std::vector<int> elements(6 * MAX_BATCH_SIZE);
+    int elements[6 * MAX_BATCH_SIZE];
     for (int i = 0; i < MAX_BATCH_SIZE; i++) {
         loadElementIndices(elements, i);
     }
@@ -258,7 +244,7 @@ std::vector<int> BatchRenderer::genIndices() {
     return elements;
 }
 
-void BatchRenderer::loadElementIndices(std::vector<int>& elements, int index) {
+void BatchRenderer::loadElementIndices(int* elements, int index) {
     int offsetArrayIndex = 6 * index;
     int offset = 4 * index;
 
@@ -273,7 +259,7 @@ void BatchRenderer::loadElementIndices(std::vector<int>& elements, int index) {
     elements[offsetArrayIndex + 5] = offset + 1;
 }
 
-bool BatchRenderer::hasRoom() { return sprites.size() < MAX_BATCH_SIZE; }
+bool BatchRenderer::hasRoom() { return nSprites <= MAX_BATCH_SIZE; }
 
 void checkOpenGLError(const char* function, const char* file, int line) {
     GLenum glError;

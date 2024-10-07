@@ -16,8 +16,6 @@
 
 namespace eregion {
 
-static const int MAX_BATCH_SIZE = 100;
-
 class BatchRenderer {
   public:
     BatchRenderer();
@@ -27,18 +25,46 @@ class BatchRenderer {
     bool hasRoom();
 
   private:
-    std::vector<float> vertices;
-    std::vector<SpriteRenderer*> sprites;
+    // Maxiumum number of sprites in the pipeline
+    static const int MAX_BATCH_SIZE = 3;
+
+    // Attrib Size Consts
+    static const unsigned int POS_SIZE = 2;
+    static const unsigned int COLOR_SIZE = 4;
+    static const unsigned int TEXTURE_COORDINATES_SIZE = 2;
+    static const unsigned int TEXTURE_ID_SIZE = 1;
+
+    // Vertex Size Consts
+    static const unsigned int VERTEX_SIZE = POS_SIZE + COLOR_SIZE + TEXTURE_COORDINATES_SIZE + TEXTURE_ID_SIZE;
+    static const unsigned int VERTEX_SIZE_BYTES = VERTEX_SIZE * sizeof(float);
+
+    // Offset Consts
+    static const unsigned int POS_OFFSET = 0;
+    static const unsigned int COLOR_OFFSET = POS_OFFSET + POS_SIZE * sizeof(float);
+    static const unsigned int TEXTURE_COORDINATES_OFFSET = COLOR_OFFSET + COLOR_SIZE * sizeof(float);
+    static const unsigned int TEXTURE_ID_OFFSET = TEXTURE_COORDINATES_OFFSET + TEXTURE_ID_SIZE * sizeof(float);
+
+    // Vertices
+    float vertices[VERTEX_SIZE * MAX_BATCH_SIZE] = {};
+
+    // Sprites
+    SpriteRenderer* sprites[MAX_BATCH_SIZE] = {};
+    int nSprites = 0;
+
+    // Textures
     std::unordered_map<std::string, TextureProgram*> textures;
 
+    // IDs
     unsigned int vboId;
     unsigned int vaoId;
     unsigned int eboId;
+
+    // Shader
     ShaderProgram* shader;
 
-    void loadVertexProps(SpriteRenderer* sprite, Transform* transform);
-    std::vector<int> genIndices();
-    void loadElementIndices(std::vector<int>& elements, int index);
+    void loadVertexProps(int index, SpriteRenderer* sprite, Transform* transform);
+    int* genIndices();
+    void loadElementIndices(int* elements, int index);
 };
 
 void checkOpenGLError(const char* function, const char* file, int line);

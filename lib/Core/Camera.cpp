@@ -7,10 +7,11 @@ namespace eregion {
 Camera::Camera(std::array<float, 2> pos) {
     this->pos = pos;
 
-    // Adjust projection
-
-    // Create an identity matrix
+    // Create identity matrices
     mat4x4_identity(proj);
+    mat4x4_identity(inverseProj);
+    mat4x4_identity(view);
+    mat4x4_identity(inverseView);
 
     // Normalize projection matrix
     // TODO: Should be configurable
