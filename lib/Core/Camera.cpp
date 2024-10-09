@@ -4,19 +4,17 @@ using namespace eregion;
 
 namespace eregion {
 
-Camera::Camera(std::array<float, 2> pos) {
+Camera::Camera(glm::vec2 pos) {
     this->pos = pos;
 
     // Create identity matrices
-    mat4x4_identity(proj);
-    mat4x4_identity(inverseProj);
-    mat4x4_identity(view);
-    mat4x4_identity(inverseView);
+    inverseProj = glm::mat4(1.0f);
+    view = glm::mat4(1.0f);
+    inverseView = glm::mat4(1.0f);
 
     // Normalize projection matrix
     // TODO: Should be configurable
-    mat4x4_ortho(proj, 0.0f, 32.0f * 40.0f, 0.0f, 32.0f * 21.0f, 0.0f, 100.0f);
-
-    mat4x4_invert(inverseProj, proj);
+    proj = glm::ortho(0.0f, 32.0f * 40.0f, 0.0f, 32.0f * 21.0f, 0.0f, 100.0f);
+    inverseProj = glm::inverse(proj);
 }
 } // namespace eregion

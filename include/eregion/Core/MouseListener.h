@@ -6,7 +6,7 @@
 #define GLFW_INCLUDE_NONE
 #include <GLFW/glfw3.h>
 
-#include "linmath.h"
+#include <glm/glm.hpp>
 
 #include <array>
 #include <string>
@@ -18,8 +18,8 @@ class MouseListener {
     static MouseListener& getInstance();
 
     static bool isButtonPressed(int button);
-    static std::array<float, 2> getCurrPos();
-    static std::array<float, 2> getPosChange();
+    static glm::vec2 getCurrPos();
+    static glm::vec2 getPosChange();
 
     // Delete copy constructor and assignment operator to prevent copying
     MouseListener(const MouseListener&) = delete;
@@ -36,9 +36,9 @@ class MouseListener {
     ~MouseListener() = default;
     static const int MAX_KEY = 5;
 
-    vec2 prevPos;
-    vec2 currPos;
-    vec2 scroll;
+    glm::vec2 prevPos;
+    glm::vec2 currPos;
+    glm::vec2 scroll;
 
     std::array<bool, MAX_KEY> keysPressed;
 };

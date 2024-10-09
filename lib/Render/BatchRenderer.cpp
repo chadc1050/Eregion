@@ -16,42 +16,48 @@ BatchRenderer::BatchRenderer() {
 void BatchRenderer::render() {
 
     glBindBuffer(GL_ARRAY_BUFFER, vboId);
-    glBufferSubData(GL_ARRAY_BUFFER, 0, MAX_BATCH_SIZE * VERTEX_SIZE * sizeof(float), vertices);
+    glBufferSubData(GL_ARRAY_BUFFER, 0, 4 * MAX_BATCH_SIZE * VERTEX_SIZE * sizeof(float), vertices);
 
     shader->bind();
 
     //////// This is all temportary until the Camera values can be properly passed.
-    mat4x4 proj;
-    mat4x4_identity(proj);
+    glm::vec3 cameraPos = glm::vec3(0.0f, 10.0f, 0.0f);
+    glm::vec3 cameraTarget = glm::vec3(0.0f, 0.0f, 0.0f);
 
-    // Create an identity matrix
-    mat4x4_identity(proj);
+    glm::vec3 cameraDirection = glm::normalize(cameraPos - cameraTarget);
 
-    // Normalize projection matrix
-    // TODO: Should be configurable
-    mat4x4_ortho(proj, 0.0f, 32.0f * 40.0f, 0.0f, 32.0f * 21.0f, 0.0f, 100.0f);
+    glm::vec3 up = glm::vec3(0.0f, 1.0f, 0.0f);
+    glm::vec3 cameraRight = glm::normalize(glm::cross(up, cameraDirection));
 
-    mat4x4 view;
-    mat4x4_identity(view);
-    vec3 camUp = {0.0f, 1.0f, 0.0f};
+    glm::vec3 cameraUp = glm::cross(cameraDirection, cameraRight);
 
-    vec3 eye = {0.0f, 0.0f, 20.0f};
+    float radius = 10.0f;
 
-    vec3 center = {0.0f, 0.0f, -1.0f};
+    float camX = sin(glfwGetTime()) * radius;
+    float camY = sin(glfwGetTime()) * radius;
+    float camZ = sin(glfwGetTime()) * radius;
 
-    mat4x4_look_at(view, eye, center, camUp);
+    glm::mat4 view = glm::lookAt(glm::vec3(camX, 0.0f, camZ), glm::vec3(0.0f, 1.0f, 0.0f), cameraDirection);
 
-    mat4x4 inverseView;
-    mat4x4_identity(inverseView);
+    // glm::mat4 proj = glm::perspective(0.0f, 32.0f * 40.0f, 0.0f, 100.0f);
 
-    mat4x4_invert(view, inverseView);
+    // vec3 eye = {camX, camY, camZ};
+
+    // vec3 center = {0.0f, -1.0f, 0.0f};
+
+    // mat4x4_look_at(view, eye, center, camUp);
+
+    // mat4x4 inverseView;
+    // mat4x4_identity(inverseView);
+
+    // mat4x4_invert(view, inverseView);
     ////////////
 
-    shader->uploadMat4("uProjection", &proj);
-    shader->uploadMat4("uView", &view);
+    // shader->uploadMat4("uProjection", &proj);
+    shader->uploadMat4("uView", view);
 
     glActiveTexture(GL_TEXTURE0);
-    textures["crafting.png"]->bind();
+    textures["gruvbox.png"]->bind();
 
     int textureSlots[8] = {0, 1, 2, 3, 4, 5, 6, 7};
     size_t size = sizeof(textureSlots) / sizeof(textureSlots[0]);
@@ -63,14 +69,13 @@ void BatchRenderer::render() {
     glEnableVertexAttribArray(0);
     glEnableVertexAttribArray(1);
 
-    glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
-    // std::this_thread::sleep_for(std::chrono::seconds(30));
+    glDrawElements(GL_TRIANGLES, nSprites * 6, GL_UNSIGNED_INT, 0);
 
     glDisableVertexAttribArray(0);
     glDisableVertexAttribArray(1);
     glBindVertexArray(0);
 
-    textures["crafting.png"]->unbind();
+    textures["gruvbox.png"]->unbind();
 
     shader->unbind();
 }
@@ -86,7 +91,7 @@ void BatchRenderer::start() {
     // VBO
     glGenBuffers(1, &vboId);
     glBindBuffer(GL_ARRAY_BUFFER, vboId);
-    glBufferData(GL_ARRAY_BUFFER, MAX_BATCH_SIZE * VERTEX_SIZE * sizeof(float), vertices, GL_DYNAMIC_DRAW);
+    glBufferData(GL_ARRAY_BUFFER, 4 * MAX_BATCH_SIZE * VERTEX_SIZE * sizeof(float), vertices, GL_DYNAMIC_DRAW);
 
     // EBO
     glGenBuffers(1, &eboId);
@@ -147,22 +152,19 @@ void BatchRenderer::loadVertexProps(int index, SpriteRenderer* sprite, Transform
     int offset = index * 4 * VERTEX_SIZE;
 
     // TODO: May want this to be configurable
-    vec4 color = {1.0f, 1.0f, 1.0f, 1.0f};
+    glm::vec4 color = {1.0f, 1.0f, 1.0f, 1.0f};
 
-    vec2* texCoords = sprite->getSprite().getTextureCoords();
+    glm::vec2* texCoords = sprite->getSprite().getTextureCoords();
 
     // TODO: As more than one textures are added this will need to be incremented and stored.
-    int texId = 1;
+    int texId = textures["gruvbox.png"]->getTextureId();
 
     // Add vertices with the appropriate properties
     float xAdd = 0.5f;
     float yAdd = 0.5f;
 
-    vec2 pos;
-    vec2 scale;
-
-    memcpy(pos, transform->getPos(), sizeof(vec2));
-    memcpy(scale, transform->getScale(), sizeof(vec2));
+    glm::vec2 pos = *transform->getPos();
+    glm::vec2 scale = *transform->getScale();
 
     for (int i = 0; i < 4; i++) {
         if (i == 1) {
@@ -174,8 +176,8 @@ void BatchRenderer::loadVertexProps(int index, SpriteRenderer* sprite, Transform
         }
 
         // Load position
-        vertices[offset] = pos[0] + (xAdd * scale[0]);
-        vertices[offset + 1] = pos[1] + (yAdd * scale[1]);
+        vertices[offset] = pos.x + (xAdd * scale.y);
+        vertices[offset + 1] = pos.y + (yAdd * scale.y);
 
         // Load Color
         vertices[offset + 2] = color[0];
@@ -184,7 +186,6 @@ void BatchRenderer::loadVertexProps(int index, SpriteRenderer* sprite, Transform
         vertices[offset + 5] = color[3];
 
         // Load Texture Coordinates
-        // TODO: Lookup texture coords from list
         vertices[offset + 6] = texCoords[i][0];
         vertices[offset + 7] = texCoords[i][1];
 

@@ -8,7 +8,8 @@
 #define GLFW_INCLUDE_NONE
 #include <GLFW/glfw3.h>
 
-#include "linmath.h"
+#include <glm/glm.hpp>
+#include <glm/gtc/type_ptr.hpp>
 
 namespace eregion {
 class ShaderProgram {
@@ -24,12 +25,12 @@ class ShaderProgram {
     void uploadIntArray(const char* var, int* arr, size_t size);
 
     // Matrix uploads
-    void uploadMat4(const char* var, mat4x4* mat);
+    void uploadMat4(const char* var, glm::mat4 mat);
 
     // Vector uploads
-    void uploadVec4(const char* var, vec4* vec);
-    void uploadVec3(const char* var, vec3* vec);
-    void uploadVec2(const char* var, vec2* vec);
+    void uploadVec4(const char* var, glm::vec4 vec);
+    void uploadVec3(const char* var, glm::vec3 vec);
+    void uploadVec2(const char* var, glm::vec2 vec);
 
     // Primitive uploads
     void uploadInt(const char* var, int val);

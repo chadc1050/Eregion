@@ -59,7 +59,7 @@ void TextureProgram::bind() {
 }
 
 void TextureProgram::unbind() {
-    glBindTexture(GL_TEXTURE_2D, textureId);
+    glBindTexture(GL_TEXTURE_2D, 0);
     active = false;
 }
 

@@ -57,9 +57,11 @@ Result<ShaderProgram*> ShaderProgram::compile(Shader vert, Shader frag) {
 }
 
 void ShaderProgram::bind() {
-    trace("Binding shader program: " + std::to_string(programId));
-    glUseProgram(programId);
-    active = true;
+    if (!active) {
+        trace("Binding shader program: " + std::to_string(programId));
+        glUseProgram(programId);
+        active = true;
+    }
 }
 
 void ShaderProgram::detach() {
@@ -69,9 +71,11 @@ void ShaderProgram::detach() {
 }
 
 void ShaderProgram::unbind() {
-    trace("Unbinding shader program: " + std::to_string(programId));
-    glUseProgram(0);
-    active = false;
+    if (active) {
+        trace("Unbinding shader program: " + std::to_string(programId));
+        glUseProgram(0);
+        active = false;
+    }
 }
 
 bool ShaderProgram::isActive() { return active; }
@@ -83,32 +87,32 @@ void ShaderProgram::uploadIntArray(const char* var, int* arr, size_t size) {
     glUniform1iv(loc, size, arr);
 }
 
-void ShaderProgram::uploadMat4(const char* var, mat4x4* mat) {
+void ShaderProgram::uploadMat4(const char* var, glm::mat4 mat) {
 
     const int loc = glGetUniformLocation(programId, var);
 
-    glUniformMatrix4fv(loc, 1, GL_FALSE, (const GLfloat*)mat);
+    glUniformMatrix4fv(loc, 1, GL_FALSE, glm::value_ptr(mat));
 }
 
-void ShaderProgram::uploadVec4(const char* var, vec4* vec) {
+void ShaderProgram::uploadVec4(const char* var, glm::vec4 vec) {
 
     const int loc = glGetUniformLocation(programId, var);
 
-    glUniform4f(loc, *vec[0], *vec[1], *vec[2], *vec[3]);
+    glUniform4f(loc, vec.x, vec.y, vec.z, vec.w);
 }
 
-void ShaderProgram::uploadVec3(const char* var, vec3* vec) {
+void ShaderProgram::uploadVec3(const char* var, glm::vec3 vec) {
 
     const int loc = glGetUniformLocation(programId, var);
 
-    glUniform3f(loc, *vec[0], *vec[1], *vec[2]);
+    glUniform3f(loc, vec.x, vec.y, vec.z);
 }
 
-void ShaderProgram::uploadVec2(const char* var, vec2* vec) {
+void ShaderProgram::uploadVec2(const char* var, glm::vec2 vec) {
 
     const int loc = glGetUniformLocation(programId, var);
 
-    glUniform2f(loc, *vec[0], *vec[1]);
+    glUniform2f(loc, vec.x, vec.y);
 }
 
 void ShaderProgram::uploadFloat(const char* var, float val) {

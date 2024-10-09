@@ -15,14 +15,14 @@ bool MouseListener::isButtonPressed(int button) {
     return button < 5 && inst.keysPressed[button];
 }
 
-std::array<float, 2> MouseListener::getCurrPos() {
+glm::vec2 MouseListener::getCurrPos() {
     MouseListener& inst = MouseListener::getInstance();
-    return {inst.currPos[0], inst.currPos[1]};
+    return {inst.currPos.x, inst.currPos.y};
 }
 
-std::array<float, 2> MouseListener::getPosChange() {
+glm::vec2 MouseListener::getPosChange() {
     MouseListener& inst = MouseListener::getInstance();
-    return {inst.currPos[0] - inst.prevPos[0], inst.currPos[1] - inst.prevPos[1]};
+    return {inst.currPos.x - inst.prevPos.x, inst.currPos.y - inst.prevPos.y};
 }
 
 void MouseListener::buttonCallback(GLFWwindow* glWindow, int keyCode, int action, int mods) {
@@ -41,10 +41,10 @@ void MouseListener::posCallback(GLFWwindow* glWindow, double xPos, double yPos) 
     MouseListener& inst = MouseListener::getInstance();
 
     trace("Mouse position change: (" + std::to_string(xPos) + ", " + std::to_string(yPos) + ")");
-    inst.prevPos[0] = inst.currPos[0];
-    inst.prevPos[1] = inst.currPos[1];
-    inst.currPos[0] = xPos;
-    inst.currPos[1] = yPos;
+    inst.prevPos.x = inst.currPos.x;
+    inst.prevPos.y = inst.currPos.y;
+    inst.currPos.x = xPos;
+    inst.currPos.y = yPos;
 }
 
 void MouseListener::scrollCallback(GLFWwindow* glWindow, double xOffset, double yOffset) {
@@ -52,18 +52,18 @@ void MouseListener::scrollCallback(GLFWwindow* glWindow, double xOffset, double 
     MouseListener& inst = MouseListener::getInstance();
     debug("Mouse scroll offset change: (" + std::to_string(xOffset) + ", " + std::to_string(yOffset) + ")");
 
-    inst.scroll[0] = xOffset;
-    inst.scroll[1] = yOffset;
+    inst.scroll.x = xOffset;
+    inst.scroll.y = yOffset;
 }
 
 MouseListener::MouseListener() {
     keysPressed = {};
-    currPos[0] = 0.0;
-    currPos[1] = 0.0;
-    prevPos[0] = 0.0;
-    prevPos[1] = 0.0;
-    scroll[0] = 0.0;
-    scroll[1] = 0.0;
+    currPos.x = 0.0;
+    currPos.y = 0.0;
+    prevPos.x = 0.0;
+    prevPos.y = 0.0;
+    scroll.x = 0.0;
+    scroll.y = 0.0;
 }
 
 } // namespace eregion

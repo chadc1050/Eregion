@@ -9,10 +9,11 @@
 #include "eregion/Render/TextureProgram.h"
 
 #include <array>
-#include <chrono>
-#include <thread>
 #include <unordered_map>
 #include <vector>
+
+#include <glm/glm.hpp>
+#include <glm/gtc/matrix_transform.hpp>
 
 namespace eregion {
 
@@ -26,7 +27,7 @@ class BatchRenderer {
 
   private:
     // Maxiumum number of sprites in the pipeline
-    static const int MAX_BATCH_SIZE = 3;
+    static const int MAX_BATCH_SIZE = 1;
 
     // Attrib Size Consts
     static const unsigned int POS_SIZE = 2;
@@ -45,7 +46,7 @@ class BatchRenderer {
     static const unsigned int TEXTURE_ID_OFFSET = TEXTURE_COORDINATES_OFFSET + TEXTURE_ID_SIZE * sizeof(float);
 
     // Vertices
-    float vertices[VERTEX_SIZE * MAX_BATCH_SIZE] = {};
+    float vertices[4 * VERTEX_SIZE * MAX_BATCH_SIZE] = {};
 
     // Sprites
     SpriteRenderer* sprites[MAX_BATCH_SIZE] = {};
