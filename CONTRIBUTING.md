@@ -1,8 +1,5 @@
----
-sidebar_position: 6
----
 
-# Tiger Style
+# C++ Style
 
 ## The Essence Of Style
 
@@ -465,3 +462,15 @@ only because it's fast, but because it's small!
 > but you are only quite a little fellow in a wide world after all!”
 >
 > “Thank goodness!” said Bilbo laughing, and handed him the tobacco-jar.
+
+# GLSL Style
+[GLSL File Extension Docs](https://www.khronos.org/opengles/sdk/tools/Reference-Compiler/)
+
+| File Type               | Extension |
+| ----------------------- | --------- |
+| Vertex                  | .vert     |
+| Tessellation Control    | .tesc     |
+| Tessellation Evaluation | .tese     |
+| Geometry                | .geom     |
+| Fragment                | .frag     |
+| Compute                 | .comp     |
