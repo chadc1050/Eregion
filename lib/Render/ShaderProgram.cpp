@@ -130,6 +130,7 @@ void ShaderProgram::uploadInt(const char* var, int val) {
 }
 
 ShaderProgram::~ShaderProgram() {
+    warn("Deleting shader program");
     glDeleteShader(vertId);
     glDeleteShader(fragId);
     glDeleteProgram(programId);

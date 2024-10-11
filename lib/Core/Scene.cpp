@@ -19,12 +19,12 @@ Scene::~Scene() {
 Result<void> Scene::init() {
     // This would be the override for setting up the scene (add resources, entities etc..)
     // This is just test code and needs to be set up in the example.
-    auto res = AssetPool::getTexture("../assets/textures/gruvbox.png");
+    auto res = AssetPool::getTexture("../assets/textures/wall.jpg");
     if (res.isError()) {
         return Result<void>(Error{"Error loading texture."});
     }
     Texture texture = res.getValue();
-    Entity ui = Entity("gruvbox");
+    Entity ui = Entity("wall");
     Sprite sprite = {&texture, texture.width, texture.height};
     SpriteRenderer* spriteRenderer = new SpriteRenderer(sprite);
     ui.addComponent(spriteRenderer);

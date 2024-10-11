@@ -18,7 +18,7 @@ class Renderer {
     void insertEntity(Entity entity);
 
   private:
-    std::vector<BatchRenderer> batchRenderers = {};
+    std::vector<BatchRenderer*> batchRenderers = {};
 
     void insertSpriteRenderer(SpriteRenderer* spriteRenderer, Transform* transform);
 };

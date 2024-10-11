@@ -10,33 +10,7 @@ Result<TextureProgram*> TextureProgram::compile(Texture* texture) {
 
     unsigned int textureId;
     glGenTextures(1, &textureId);
-
-    // TODO: May or may not be needed ideally we may want to pregenerate all the buffering and bind with a single step.
     glBindTexture(GL_TEXTURE_2D, textureId);
-
-    // Check color channel compatibility
-    switch (texture->channels) {
-    case 3:
-        debug("Texture is using 3 color channel.");
-
-        glTexStorage2D(GL_TEXTURE_2D, 2, GL_RGBA8, texture->width, texture->height);
-
-        glTexSubImage2D(GL_TEXTURE_2D, 0, 0, 0, texture->width, texture->height, GL_RGB, GL_UNSIGNED_BYTE,
-                        texture->src);
-
-        break;
-    case 4:
-        debug("Texture is using 4 color channel.");
-
-        glTexStorage2D(GL_TEXTURE_2D, 2, GL_RGBA8, texture->width, texture->height);
-        glTexSubImage2D(GL_TEXTURE_2D, 0, 0, 0, texture->width, texture->height, GL_RGBA, GL_UNSIGNED_BYTE,
-                        texture->src);
-
-        break;
-    default:
-        return Result<TextureProgram*>(
-            Error{"Texture channels: " + std::to_string(texture->channels) + " is not supported!"});
-    }
 
     // Set Texture Params
     // Repeat image in both directions
@@ -44,8 +18,31 @@ Result<TextureProgram*> TextureProgram::compile(Texture* texture) {
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
 
     // Pixelation
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_LINEAR);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+
+    // Check color channel compatibility
+    switch (texture->channels) {
+    case 3:
+        debug("Texture is using 3 color channel.");
+
+        glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, texture->width, texture->height, 0, GL_RGB, GL_UNSIGNED_BYTE,
+                     texture->src);
+
+        break;
+    case 4:
+        debug("Texture is using 4 color channel.");
+
+        glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, texture->width, texture->height, 0, GL_RGBA, GL_UNSIGNED_BYTE,
+                     texture->src);
+
+        break;
+    default:
+        return Result<TextureProgram*>(
+            Error{"Texture channels: " + std::to_string(texture->channels) + " is not supported!"});
+    }
+
+    glGenerateMipmap(GL_TEXTURE_2D);
 
     stbi_image_free(texture->src);
 
@@ -73,6 +70,9 @@ TextureProgram::TextureProgram(unsigned int textureId, int width, int height) {
     this->height = height;
 }
 
-TextureProgram::~TextureProgram() { glDeleteTextures(1, &textureId); }
+TextureProgram::~TextureProgram() {
+    warn("Deleting texture program");
+    glDeleteTextures(1, &textureId);
+}
 
 } // namespace eregion

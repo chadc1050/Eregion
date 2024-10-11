@@ -7,8 +7,8 @@ namespace eregion {
 Renderer::Renderer() {}
 
 void Renderer::render() {
-    for (BatchRenderer batch : batchRenderers) {
-        batch.render();
+    for (BatchRenderer* batch : batchRenderers) {
+        batch->render();
     }
 }
 
@@ -24,17 +24,17 @@ void Renderer::insertEntity(Entity entity) {
 
 void Renderer::insertSpriteRenderer(SpriteRenderer* spriteRenderer, Transform* transform) {
     bool added = false;
-    for (BatchRenderer batch : batchRenderers) {
-        if (batch.hasRoom()) {
-            batch.add(spriteRenderer, transform);
+    for (BatchRenderer* batch : batchRenderers) {
+        if (batch->hasRoom()) {
+            batch->add(spriteRenderer, transform);
         }
     }
 
     if (!added) {
         debug("Creating a new batch renderer.");
-        BatchRenderer batchRenderer = BatchRenderer();
-        batchRenderer.start();
-        auto res = batchRenderer.add(spriteRenderer, transform);
+        BatchRenderer* batchRenderer = new BatchRenderer();
+        batchRenderer->start();
+        auto res = batchRenderer->add(spriteRenderer, transform);
 
         if (res.isError()) {
             error("Error");
