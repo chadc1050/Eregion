@@ -10,6 +10,7 @@
 
 #include <array>
 #include <unordered_map>
+#include <utility>
 #include <vector>
 
 #include <glm/glm.hpp>
@@ -52,10 +53,8 @@ class BatchRenderer {
 
     std::array<int, 6 * MAX_BATCH_SIZE> indices = {};
 
-    // Sprites
-    // TODO: This should be an arrays of std::Pair<SpriteRenderer*, Transform*, MAX_BATCH_SIZE> that uses shared memory
-    // and all the comes with that.
-    std::array<SpriteRenderer*, MAX_BATCH_SIZE> sprites = {};
+    // Sprites + Transform
+    std::array<std::pair<SpriteRenderer*, Transform*>, MAX_BATCH_SIZE> sprites = {};
     int nSprites = 0;
 
     // Textures

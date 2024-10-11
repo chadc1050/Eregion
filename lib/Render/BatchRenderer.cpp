@@ -77,7 +77,7 @@ void BatchRenderer::start() {
 Result<void> BatchRenderer::add(SpriteRenderer* sprite, Transform* transform) {
 
     int index = nSprites;
-    sprites[nSprites] = sprite;
+    sprites[nSprites] = std::make_pair(sprite, transform);
     nSprites++;
 
     // Compile texture if needed
@@ -112,9 +112,11 @@ void BatchRenderer::loadVertexProps(int index) {
     // TODO: May want this to be configurable
     glm::vec4 color = {1.0f, 1.0f, 1.0f, 1.0f};
 
-    Sprite sprite = sprites.at(index)->getSprite();
+    auto entity = sprites.at(index);
 
-    glm::vec2* texCoords = sprite.getTextureCoords();
+    SpriteRenderer* sprite = entity.first;
+
+    glm::vec2* texCoords = sprite->getSprite().getTextureCoords();
 
     // TODO: As more than one textures are added this will need to be incremented and stored.
     int texId = textures["wall.jpg"]->getTextureId();
@@ -123,8 +125,9 @@ void BatchRenderer::loadVertexProps(int index) {
     float xAdd = 0.5f;
     float yAdd = 0.5f;
 
-    glm::vec2 pos = glm::vec2(0.0f, 0.0f);
-    glm::vec2 scale = glm::vec2(1.0f, 1.0f);
+    Transform* transform = entity.second;
+    glm::vec2 pos = transform->getPos();
+    glm::vec2 scale = transform->getScale();
 
     for (int i = 0; i < 4; i++) {
         if (i == 1) {

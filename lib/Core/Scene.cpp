@@ -26,11 +26,8 @@ Result<void> Scene::init() {
     Texture texture = res.getValue();
     Entity ui = Entity("wall");
     Sprite sprite = {&texture, texture.width, texture.height};
-    SpriteRenderer* spriteRenderer = new SpriteRenderer(sprite);
-    ui.addComponent(spriteRenderer);
-    glm::vec2 pos = {0.0f, 0.0f};
-    Transform* transform = new Transform(&pos);
-    ui.addComponent(transform);
+    ui.addComponent(new SpriteRenderer(sprite));
+    ui.addComponent(new Transform());
     entities.push_back(ui);
     renderer->insertEntity(ui);
     return Result<void>();
