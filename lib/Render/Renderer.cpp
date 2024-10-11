@@ -27,6 +27,8 @@ void Renderer::insertSpriteRenderer(SpriteRenderer* spriteRenderer, Transform* t
     for (BatchRenderer* batch : batchRenderers) {
         if (batch->hasRoom()) {
             batch->add(spriteRenderer, transform);
+            added = true;
+            break;
         }
     }
 
@@ -49,6 +51,8 @@ Renderer::~Renderer() {
     for (BatchRenderer* batchRenderer : batchRenderers) {
         delete batchRenderer;
     }
+
+    batchRenderers.clear();
 
     warn("Terminated Renderer.");
 }

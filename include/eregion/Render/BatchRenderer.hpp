@@ -29,7 +29,7 @@ class BatchRenderer {
 
   private:
     // Maxiumum number of sprites in the pipeline
-    static const int MAX_BATCH_SIZE = 1;
+    static const int MAX_BATCH_SIZE = 2;
 
     // Attrib Size Consts
     static const unsigned int POS_SIZE = 2;
@@ -39,6 +39,7 @@ class BatchRenderer {
     static const unsigned int TEXTURE_ID_SIZE = 0;
 
     // Vertex Size Consts
+    static const unsigned int N_VERTICES = 4;
     static const unsigned int VERTEX_SIZE = POS_SIZE + COLOR_SIZE + TEXTURE_COORDINATES_SIZE + TEXTURE_ID_SIZE;
     static const unsigned int VERTEX_SIZE_BYTES = VERTEX_SIZE * sizeof(float);
 
@@ -48,17 +49,19 @@ class BatchRenderer {
     static const unsigned int TEXTURE_COORDINATES_OFFSET = COLOR_OFFSET + COLOR_SIZE * sizeof(float);
     // static const unsigned int TEXTURE_ID_OFFSET = TEXTURE_COORDINATES_OFFSET + TEXTURE_ID_SIZE * sizeof(float);
 
-    // Vertices
-    std::array<float, 4 * VERTEX_SIZE * MAX_BATCH_SIZE> vertices = {};
+    static const unsigned int N_INDICES = 6;
 
-    std::array<int, 6 * MAX_BATCH_SIZE> indices = {};
+    // Vertices
+    std::array<float, N_VERTICES * VERTEX_SIZE * MAX_BATCH_SIZE> vertices = {};
+
+    std::array<int, N_INDICES * MAX_BATCH_SIZE> indices = {};
 
     // Sprites + Transform
     std::array<std::pair<SpriteRenderer*, Transform*>, MAX_BATCH_SIZE> sprites = {};
     int nSprites = 0;
 
     // Textures
-    std::unordered_map<std::string, TextureProgram*> textures;
+    std::unordered_map<std::string, TextureProgram*> textures = {};
 
     // IDs
     unsigned int vboId;

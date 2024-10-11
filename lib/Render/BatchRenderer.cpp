@@ -17,11 +17,12 @@ void BatchRenderer::render() {
 
     // TODO: This is where we could check to see if the sprite has been declared dirty, or if transform has changed
     for (int i = 0; i < nSprites; i++) {
-        // Always rebuffering until deltas are available!
         loadVertexProps(i);
-        glBindBuffer(GL_ARRAY_BUFFER, vboId);
-        glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices.data(), GL_STATIC_DRAW);
     }
+
+    // Always rebuffering until deltas are available!
+    glBindBuffer(GL_ARRAY_BUFFER, vboId);
+    glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices.data(), GL_STATIC_DRAW);
 
     TextureProgram* texture = textures["wall.jpg"];
 
@@ -31,7 +32,7 @@ void BatchRenderer::render() {
     glBindVertexArray(vaoId);
 
     // Draw
-    glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
+    glDrawElements(GL_TRIANGLES, nSprites * N_INDICES, GL_UNSIGNED_INT, 0);
 
     // Clean up
     glBindVertexArray(0);
@@ -52,7 +53,7 @@ void BatchRenderer::start() {
     // VBO
     glGenBuffers(1, &vboId);
     glBindBuffer(GL_ARRAY_BUFFER, vboId);
-    glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices.data(), GL_STATIC_DRAW);
+    glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices.data(), GL_DYNAMIC_DRAW);
 
     // EBO
     genIndices();
@@ -82,14 +83,15 @@ Result<void> BatchRenderer::add(SpriteRenderer* sprite, Transform* transform) {
 
     // Compile texture if needed
     Texture* texture = sprite->getSprite().texture;
-    if (!textures.contains(texture->name)) {
+    std::string name = texture->name;
+    if (!textures.contains("wall.jpg")) {
         auto res = TextureProgram::compile(texture);
 
         if (res.isError()) {
             return Result<void>(Error{"Error compiling texture."});
         }
 
-        textures[texture->name] = res.getValue();
+        textures["wall.jpg"] = res.getValue();
     }
 
     loadVertexProps(index);
@@ -108,7 +110,7 @@ BatchRenderer::~BatchRenderer() {
 
 void BatchRenderer::loadVertexProps(int index) {
 
-    int offset = index * VERTEX_SIZE * 4;
+    int offset = index * VERTEX_SIZE * N_VERTICES;
 
     std::pair<SpriteRenderer*, Transform*> entity = sprites.at(index);
 
@@ -129,7 +131,7 @@ void BatchRenderer::loadVertexProps(int index) {
     glm::vec2 pos = transform->getPos();
     glm::vec2 scale = transform->getScale();
 
-    for (int i = 0; i < 4; i++) {
+    for (int i = 0; i < N_VERTICES; i++) {
 
         if (i == 1) {
             yAdd = -0.5f;
@@ -164,8 +166,8 @@ void BatchRenderer::genIndices() {
     // Six indices per quad, three per triangle
     for (int i = 0; i < MAX_BATCH_SIZE; i++) {
 
-        int offsetArrayIndex = 6 * i;
-        int offset = 4 * i;
+        int offsetArrayIndex = N_INDICES * i;
+        int offset = N_VERTICES * i;
 
         // Triangle 1
         indices[offsetArrayIndex] = offset;
@@ -179,5 +181,5 @@ void BatchRenderer::genIndices() {
     }
 }
 
-bool BatchRenderer::hasRoom() { return nSprites <= MAX_BATCH_SIZE; }
+bool BatchRenderer::hasRoom() { return nSprites < MAX_BATCH_SIZE; }
 } // namespace eregion
