@@ -15,40 +15,62 @@ BatchRenderer::BatchRenderer() {
 
 void BatchRenderer::render() {
 
+    // TODO: This is where we could check to see if the sprite has been declared dirty, or if transform has changed
+    for (int i = 0; i < nSprites; i++) {
+        // Always rebuffering until deltas are available!
+        loadVertexProps(i);
+        glBindBuffer(GL_ARRAY_BUFFER, vboId);
+        glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices.data(), GL_STATIC_DRAW);
+    }
+
     TextureProgram* texture = textures["wall.jpg"];
 
-    glBindTexture(GL_TEXTURE_2D, texture->getTextureId());
+    texture->bind();
 
-    // render container
     shader->bind();
     glBindVertexArray(vaoId);
+
+    // Draw
     glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
+
+    // Clean up
+    glBindVertexArray(0);
+
+    texture->unbind();
+
+    shader->unbind();
 }
 
 void BatchRenderer::start() {
 
     debug("Starting batch renderer.");
 
+    // VAO
     glGenVertexArrays(1, &vaoId);
-    glGenBuffers(1, &vboId);
-    glGenBuffers(1, &eboId);
-
     glBindVertexArray(vaoId);
 
+    // VBO
+    glGenBuffers(1, &vboId);
     glBindBuffer(GL_ARRAY_BUFFER, vboId);
-    glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_STATIC_DRAW);
+    glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices.data(), GL_STATIC_DRAW);
 
+    // EBO
+    genIndices();
+    glGenBuffers(1, &eboId);
     glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, eboId);
-    glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(indices), indices, GL_STATIC_DRAW);
+    glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(indices), indices.data(), GL_STATIC_DRAW);
 
-    // position attribute
-    glVertexAttribPointer(0, 2, GL_FLOAT, GL_FALSE, 8 * sizeof(float), (void*)0);
+    // Position
+    glVertexAttribPointer(0, POS_SIZE, GL_FLOAT, GL_FALSE, VERTEX_SIZE_BYTES, (void*)POS_OFFSET);
     glEnableVertexAttribArray(0);
-    // color attribute
-    glVertexAttribPointer(1, 4, GL_FLOAT, GL_FALSE, 8 * sizeof(float), (void*)(2 * sizeof(float)));
+
+    // Color
+    glVertexAttribPointer(1, COLOR_SIZE, GL_FLOAT, GL_FALSE, VERTEX_SIZE_BYTES, (void*)COLOR_OFFSET);
     glEnableVertexAttribArray(1);
-    // texture coord attribute
-    glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, 8 * sizeof(float), (void*)(6 * sizeof(float)));
+
+    // Texture Coord
+    glVertexAttribPointer(2, TEXTURE_COORDINATES_SIZE, GL_FLOAT, GL_FALSE, VERTEX_SIZE_BYTES,
+                          (void*)TEXTURE_COORDINATES_OFFSET);
     glEnableVertexAttribArray(2);
 }
 
@@ -70,7 +92,7 @@ Result<void> BatchRenderer::add(SpriteRenderer* sprite, Transform* transform) {
         textures[texture->name] = res.getValue();
     }
 
-    // loadVertexProps(index, sprite, transform);
+    loadVertexProps(index);
 
     return Result<void>();
 }
@@ -82,7 +104,7 @@ BatchRenderer::~BatchRenderer() {
     glDeleteBuffers(1, &eboId);
 }
 
-void BatchRenderer::loadVertexProps(int index, SpriteRenderer* sprite, Transform* transform) {
+void BatchRenderer::loadVertexProps(int index) {
 
     // TODO: Offset will increase based on index of sprite if more are added.
     int offset = index * VERTEX_SIZE;
@@ -90,7 +112,9 @@ void BatchRenderer::loadVertexProps(int index, SpriteRenderer* sprite, Transform
     // TODO: May want this to be configurable
     glm::vec4 color = {1.0f, 1.0f, 1.0f, 1.0f};
 
-    glm::vec2* texCoords = sprite->getSprite().getTextureCoords();
+    Sprite sprite = sprites.at(index)->getSprite();
+
+    glm::vec2* texCoords = sprite.getTextureCoords();
 
     // TODO: As more than one textures are added this will need to be incremented and stored.
     int texId = textures["wall.jpg"]->getTextureId();
@@ -99,8 +123,8 @@ void BatchRenderer::loadVertexProps(int index, SpriteRenderer* sprite, Transform
     float xAdd = 0.5f;
     float yAdd = 0.5f;
 
-    glm::vec2 pos = *transform->getPos();
-    glm::vec2 scale = *transform->getScale();
+    glm::vec2 pos = glm::vec2(0.0f, 0.0f);
+    glm::vec2 scale = glm::vec2(1.0f, 1.0f);
 
     for (int i = 0; i < 4; i++) {
         if (i == 1) {
@@ -132,29 +156,23 @@ void BatchRenderer::loadVertexProps(int index, SpriteRenderer* sprite, Transform
     }
 }
 
-int* BatchRenderer::genIndices() {
+void BatchRenderer::genIndices() {
     // Six indices per quad, three per triangle
-    int elements[6 * MAX_BATCH_SIZE];
     for (int i = 0; i < MAX_BATCH_SIZE; i++) {
-        loadElementIndices(elements, i);
+
+        int offsetArrayIndex = 6 * i;
+        int offset = 4 * i;
+
+        // Triangle 1
+        indices[offsetArrayIndex] = offset;
+        indices[offsetArrayIndex + 1] = offset + 1;
+        indices[offsetArrayIndex + 2] = offset + 3;
+
+        // Triangle 2
+        indices[offsetArrayIndex + 3] = offset + 1;
+        indices[offsetArrayIndex + 4] = offset + 2;
+        indices[offsetArrayIndex + 5] = offset + 3;
     }
-
-    return new int[]{3, 2, 0, 0, 2, 1};
-}
-
-void BatchRenderer::loadElementIndices(int* elements, int index) {
-    int offsetArrayIndex = 6 * index;
-    int offset = 4 * index;
-
-    // Triangle 1
-    elements[offsetArrayIndex] = offset + 3;
-    elements[offsetArrayIndex + 1] = offset + 2;
-    elements[offsetArrayIndex + 2] = offset;
-
-    // Triangle 2
-    elements[offsetArrayIndex + 3] = offset;
-    elements[offsetArrayIndex + 4] = offset + 2;
-    elements[offsetArrayIndex + 5] = offset + 1;
 }
 
 bool BatchRenderer::hasRoom() { return nSprites <= MAX_BATCH_SIZE; }

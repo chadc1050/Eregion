@@ -48,21 +48,14 @@ class BatchRenderer {
     // static const unsigned int TEXTURE_ID_OFFSET = TEXTURE_COORDINATES_OFFSET + TEXTURE_ID_SIZE * sizeof(float);
 
     // Vertices
-    float vertices[4 * VERTEX_SIZE * MAX_BATCH_SIZE] = {
-        // positions          // colors           // texture coords
-        0.5f,  0.5f,  1.0f, 0.0f, 0.0f, 1.0f, 1.0f, 1.0f, // top right
-        0.5f,  -0.5f, 0.0f, 1.0f, 0.0f, 1.0f, 1.0f, 0.0f, // bottom right
-        -0.5f, -0.5f, 0.0f, 0.0f, 1.0f, 1.0f, 0.0f, 0.0f, // bottom left
-        -0.5f, 0.5f,  1.0f, 1.0f, 0.0f, 1.0f, 0.0f, 1.0f  // top left
-    };
+    std::array<float, 4 * VERTEX_SIZE * MAX_BATCH_SIZE> vertices = {};
 
-    int indices[6 * MAX_BATCH_SIZE] = {
-        0, 1, 3, // first triangle
-        1, 2, 3  // second triangle
-    };
+    std::array<int, 6 * MAX_BATCH_SIZE> indices = {};
 
     // Sprites
-    SpriteRenderer* sprites[MAX_BATCH_SIZE] = {};
+    // TODO: This should be an arrays of std::Pair<SpriteRenderer*, Transform*, MAX_BATCH_SIZE> that uses shared memory
+    // and all the comes with that.
+    std::array<SpriteRenderer*, MAX_BATCH_SIZE> sprites = {};
     int nSprites = 0;
 
     // Textures
@@ -76,8 +69,7 @@ class BatchRenderer {
     // Shader
     ShaderProgram* shader;
 
-    void loadVertexProps(int index, SpriteRenderer* sprite, Transform* transform);
-    int* genIndices();
-    void loadElementIndices(int* elements, int index);
+    void loadVertexProps(int index);
+    void genIndices();
 };
 } // namespace eregion
