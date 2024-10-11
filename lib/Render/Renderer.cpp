@@ -43,4 +43,14 @@ void Renderer::insertSpriteRenderer(SpriteRenderer* spriteRenderer, Transform* t
         batchRenderers.push_back(batchRenderer);
     }
 }
+
+Renderer::~Renderer() {
+
+    for (BatchRenderer* batchRenderer : batchRenderers) {
+        delete batchRenderer;
+    }
+
+    warn("Terminated Renderer.");
+}
+
 } // namespace eregion

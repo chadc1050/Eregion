@@ -13,9 +13,9 @@ namespace eregion {
 class Renderer {
   public:
     Renderer();
-
     void render();
     void insertEntity(Entity entity);
+    ~Renderer();
 
   private:
     std::vector<BatchRenderer*> batchRenderers = {};

@@ -102,21 +102,21 @@ BatchRenderer::~BatchRenderer() {
     glDeleteVertexArrays(1, &vaoId);
     glDeleteBuffers(1, &vboId);
     glDeleteBuffers(1, &eboId);
+
+    delete shader;
 }
 
 void BatchRenderer::loadVertexProps(int index) {
 
-    // TODO: Offset will increase based on index of sprite if more are added.
-    int offset = index * VERTEX_SIZE;
+    int offset = index * VERTEX_SIZE * 4;
 
-    // TODO: May want this to be configurable
-    glm::vec4 color = {1.0f, 1.0f, 1.0f, 1.0f};
-
-    auto entity = sprites.at(index);
+    std::pair<SpriteRenderer*, Transform*> entity = sprites.at(index);
 
     SpriteRenderer* sprite = entity.first;
 
     glm::vec2* texCoords = sprite->getSprite().getTextureCoords();
+
+    glm::vec4 color = sprite->getColor();
 
     // TODO: As more than one textures are added this will need to be incremented and stored.
     int texId = textures["wall.jpg"]->getTextureId();
@@ -130,6 +130,7 @@ void BatchRenderer::loadVertexProps(int index) {
     glm::vec2 scale = transform->getScale();
 
     for (int i = 0; i < 4; i++) {
+
         if (i == 1) {
             yAdd = -0.5f;
         } else if (i == 2) {
