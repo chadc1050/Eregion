@@ -1,6 +1,6 @@
-#include "eregion/Core/Game.h"
-#include "eregion/Logger/Logger.h"
-#include "eregion/Window/Window.h"
+#include "eregion/Core/Game.hpp"
+#include "eregion/Logger/Logger.hpp"
+#include "eregion/Window/Window.hpp"
 
 int main() {
     using namespace eregion;

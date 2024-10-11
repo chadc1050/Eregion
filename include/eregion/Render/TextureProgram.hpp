@@ -1,8 +1,8 @@
 #pragma once
 
-#include "eregion/Asset/Texture.h"
-#include "eregion/Core/Result.h"
-#include "eregion/Logger/Logger.h"
+#include "eregion/Asset/Texture.hpp"
+#include "eregion/Core/Result.hpp"
+#include "eregion/Logger/Logger.hpp"
 
 #include <gl.h>
 #define GLFW_INCLUDE_NONE

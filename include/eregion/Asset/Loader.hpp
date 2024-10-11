@@ -1,8 +1,8 @@
 #pragma once
 
-#include "eregion/Asset/Shader.h"
-#include "eregion/Asset/Texture.h"
-#include "eregion/Core/Result.h"
+#include "eregion/Asset/Shader.hpp"
+#include "eregion/Asset/Texture.hpp"
+#include "eregion/Core/Result.hpp"
 
 #include "stb_image.h"
 

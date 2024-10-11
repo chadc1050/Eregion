@@ -1,6 +1,6 @@
 #pragma once
 
-#include "eregion/Entity/Component.h"
+#include "eregion/Entity/Component.hpp"
 
 #include <glm/glm.hpp>
 

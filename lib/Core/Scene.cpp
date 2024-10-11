@@ -1,4 +1,4 @@
-#include "eregion/Core/Scene.h"
+#include "eregion/Core/Scene.hpp"
 
 using namespace eregion;
 

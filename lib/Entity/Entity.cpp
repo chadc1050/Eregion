@@ -1,4 +1,4 @@
-#include "eregion/Entity/Entity.h"
+#include "eregion/Entity/Entity.hpp"
 
 using namespace eregion;
 

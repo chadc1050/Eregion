@@ -1,4 +1,4 @@
-#include "eregion/Render/BatchRenderer.h"
+#include "eregion/Render/BatchRenderer.hpp"
 
 using namespace eregion;
 

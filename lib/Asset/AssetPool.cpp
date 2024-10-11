@@ -1,4 +1,4 @@
-#include "eregion/Asset/AssetPool.h"
+#include "eregion/Asset/AssetPool.hpp"
 
 using namespace eregion;
 

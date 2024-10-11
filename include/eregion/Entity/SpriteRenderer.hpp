@@ -1,7 +1,7 @@
 #pragma once
 
-#include "eregion/Entity/Component.h"
-#include "eregion/Entity/Sprite.h"
+#include "eregion/Entity/Component.hpp"
+#include "eregion/Entity/Sprite.hpp"
 
 namespace eregion {
 class SpriteRenderer : public Component {

@@ -1,4 +1,4 @@
-#include "eregion/Window/Window.h"
+#include "eregion/Window/Window.hpp"
 
 using namespace eregion;
 

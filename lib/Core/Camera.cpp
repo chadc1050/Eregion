@@ -1,4 +1,4 @@
-#include "eregion/Core/Camera.h"
+#include "eregion/Core/Camera.hpp"
 
 using namespace eregion;
 

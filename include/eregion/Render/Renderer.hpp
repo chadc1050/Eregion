@@ -1,9 +1,9 @@
 #pragma once
 
-#include "eregion/Entity/Entity.h"
-#include "eregion/Entity/SpriteRenderer.h"
-#include "eregion/Entity/Transform.h"
-#include "eregion/Render/BatchRenderer.h"
+#include "eregion/Entity/Entity.hpp"
+#include "eregion/Entity/SpriteRenderer.hpp"
+#include "eregion/Entity/Transform.hpp"
+#include "eregion/Render/BatchRenderer.hpp"
 
 #include <optional>
 #include <vector>

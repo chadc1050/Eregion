@@ -1,4 +1,4 @@
-#include "eregion/Render/Renderer.h"
+#include "eregion/Render/Renderer.hpp"
 
 using namespace eregion;
 

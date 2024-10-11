@@ -1,4 +1,4 @@
-#include "eregion/Entity/Sprite.h"
+#include "eregion/Entity/Sprite.hpp"
 
 using namespace eregion;
 

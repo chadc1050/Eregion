@@ -1,4 +1,4 @@
-#include "eregion/Asset/Loader.h"
+#include "eregion/Asset/Loader.hpp"
 
 using namespace eregion;
 

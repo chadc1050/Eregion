@@ -1,11 +1,11 @@
 #pragma once
 
-#include "eregion/Core/KeyListener.h"
-#include "eregion/Core/MouseListener.h"
-#include "eregion/Core/Result.h"
-#include "eregion/Core/Scene.h"
-#include "eregion/Logger/Logger.h"
-#include "eregion/Util/OpenGLUtils.h"
+#include "eregion/Core/KeyListener.hpp"
+#include "eregion/Core/MouseListener.hpp"
+#include "eregion/Core/Result.hpp"
+#include "eregion/Core/Scene.hpp"
+#include "eregion/Logger/Logger.hpp"
+#include "eregion/Util/OpenGLUtils.hpp"
 
 #include <gl.h>
 #define GLFW_INCLUDE_NONE

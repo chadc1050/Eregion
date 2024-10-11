@@ -1,4 +1,4 @@
-#include "eregion/Core/MouseListener.h"
+#include "eregion/Core/MouseListener.hpp"
 
 using namespace eregion;
 

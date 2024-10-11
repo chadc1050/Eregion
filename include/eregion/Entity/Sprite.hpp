@@ -1,6 +1,6 @@
 #pragma once
 
-#include "eregion/Asset/Texture.h"
+#include "eregion/Asset/Texture.hpp"
 
 #include <glm/glm.hpp>
 

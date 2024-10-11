@@ -1,4 +1,4 @@
-#include "eregion/Core/KeyListener.h"
+#include "eregion/Core/KeyListener.hpp"
 
 using namespace eregion;
 

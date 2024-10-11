@@ -1,12 +1,12 @@
 #pragma once
 
-#include "eregion/Asset/AssetPool.h"
-#include "eregion/Asset/Shader.h"
-#include "eregion/Asset/Texture.h"
-#include "eregion/Entity/SpriteRenderer.h"
-#include "eregion/Entity/Transform.h"
-#include "eregion/Render/ShaderProgram.h"
-#include "eregion/Render/TextureProgram.h"
+#include "eregion/Asset/AssetPool.hpp"
+#include "eregion/Asset/Shader.hpp"
+#include "eregion/Asset/Texture.hpp"
+#include "eregion/Entity/SpriteRenderer.hpp"
+#include "eregion/Entity/Transform.hpp"
+#include "eregion/Render/ShaderProgram.hpp"
+#include "eregion/Render/TextureProgram.hpp"
 
 #include <array>
 #include <unordered_map>

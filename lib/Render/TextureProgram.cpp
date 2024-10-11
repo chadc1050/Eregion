@@ -1,4 +1,4 @@
-#include "eregion/Render/TextureProgram.h"
+#include "eregion/Render/TextureProgram.hpp"
 
 using namespace eregion;
 

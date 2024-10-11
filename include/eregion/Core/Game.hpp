@@ -1,9 +1,10 @@
 #pragma once
 
-#include "eregion/Asset/AssetPool.h"
-#include "eregion/Core/Result.h"
-#include "eregion/Logger/Logger.h"
-#include "eregion/Window/Window.h"
+#include "eregion/Asset/AssetPool.hpp"
+#include "eregion/Core/Result.hpp"
+#include "eregion/Logger/Logger.hpp"
+#include "eregion/Window/Window.hpp"
+
 #include <GLFW/glfw3.h>
 #include <variant>
 

@@ -1,4 +1,4 @@
-#include "eregion/Asset/Shader.h"
+#include "eregion/Asset/Shader.hpp"
 
 using namespace eregion;
 

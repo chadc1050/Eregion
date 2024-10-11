@@ -1,6 +1,6 @@
 #pragma once
 
-#include "eregion/Logger/Logger.h"
+#include "eregion/Logger/Logger.hpp"
 
 #include <gl.h>
 #define GLFW_INCLUDE_NONE

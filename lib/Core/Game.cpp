@@ -1,4 +1,4 @@
-#include "eregion/Core/Game.h"
+#include "eregion/Core/Game.hpp"
 
 // This has to be here, or included in a seperate impl file that does not use any of the functionality.
 #define STB_IMAGE_IMPLEMENTATION

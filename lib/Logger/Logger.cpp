@@ -1,4 +1,4 @@
-#include "eregion/Logger/Logger.h"
+#include "eregion/Logger/Logger.hpp"
 
 using namespace eregion;
 

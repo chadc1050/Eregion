@@ -1,11 +1,11 @@
 #pragma once
 
-#include "eregion/Asset/AssetPool.h"
-#include "eregion/Core/Camera.h"
-#include "eregion/Core/Result.h"
-#include "eregion/Entity/Entity.h"
-#include "eregion/Render/Renderer.h"
-#include "eregion/Render/ShaderProgram.h"
+#include "eregion/Asset/AssetPool.hpp"
+#include "eregion/Core/Camera.hpp"
+#include "eregion/Core/Result.hpp"
+#include "eregion/Entity/Entity.hpp"
+#include "eregion/Render/Renderer.hpp"
+#include "eregion/Render/ShaderProgram.hpp"
 
 #include <gl.h>
 #define GLFW_INCLUDE_NONE

@@ -1,6 +1,7 @@
 #pragma once
 
-#include "eregion/Core/Result.h"
+#include "eregion/Core/Result.hpp"
+
 #include <string>
 
 namespace eregion {

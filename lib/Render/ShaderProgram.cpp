@@ -1,4 +1,4 @@
-#include "eregion/Render/ShaderProgram.h"
+#include "eregion/Render/ShaderProgram.hpp"
 
 using namespace eregion;
 

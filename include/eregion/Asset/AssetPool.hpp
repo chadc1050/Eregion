@@ -1,10 +1,11 @@
 #pragma once
 
-#include "eregion/Asset/Loader.h"
-#include "eregion/Asset/Shader.h"
-#include "eregion/Asset/Texture.h"
-#include "eregion/Core/Result.h"
-#include "eregion/Logger/Logger.h"
+#include "eregion/Asset/Loader.hpp"
+#include "eregion/Asset/Shader.hpp"
+#include "eregion/Asset/Texture.hpp"
+#include "eregion/Core/Result.hpp"
+#include "eregion/Logger/Logger.hpp"
+
 #include <filesystem>
 #include <string>
 #include <unordered_map>
