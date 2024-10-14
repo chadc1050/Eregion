@@ -100,8 +100,8 @@ Result<void> BatchRenderer::add(SpriteRenderer* sprite, Transform* transform) {
     // Compile texture if needed
     Texture* texture = sprite->getSprite()->texture;
     std::string name = texture->getName();
-    if (!textures.contains("wall.jpg")) {
-        textures["wall.jpg"] = texture;
+    if (!textures.contains(name)) {
+        textures[name] = texture;
     }
 
     loadVertexProps(index);
@@ -131,7 +131,7 @@ void BatchRenderer::loadVertexProps(int index) {
     glm::vec4 color = sprite->getColor();
 
     // TODO: As more than one textures are added this will need to be incremented and stored.
-    int texId = textures["wall.jpg"]->getTextureId();
+    int texId = sprite->getSprite()->getTexture()->getTextureId();
 
     // Add vertices with the appropriate properties
     float xAdd = 0.5f;
