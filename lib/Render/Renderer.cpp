@@ -4,7 +4,7 @@ using namespace eregion;
 
 namespace eregion {
 
-Renderer::Renderer() {}
+Renderer::Renderer(std::shared_ptr<Camera> camera) { this->camera = camera; }
 
 void Renderer::render() {
     for (BatchRenderer* batch : batchRenderers) {
@@ -34,7 +34,7 @@ void Renderer::insertSpriteRenderer(SpriteRenderer* spriteRenderer, Transform* t
 
     if (!added) {
         debug("Creating a new batch renderer.");
-        BatchRenderer* batchRenderer = new BatchRenderer();
+        BatchRenderer* batchRenderer = new BatchRenderer(camera);
         batchRenderer->start();
         auto res = batchRenderer->add(spriteRenderer, transform);
 

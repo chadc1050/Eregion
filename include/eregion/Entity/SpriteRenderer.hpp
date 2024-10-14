@@ -8,16 +8,16 @@
 namespace eregion {
 class SpriteRenderer : public Component {
   public:
-    SpriteRenderer(Sprite sprite);
-    SpriteRenderer(Sprite sprite, glm::vec4 color);
+    SpriteRenderer(Sprite* sprite);
+    SpriteRenderer(Sprite* sprite, glm::vec4 color);
 
     void update(float dt) override;
 
-    Sprite getSprite();
+    Sprite* getSprite();
     glm::vec4 getColor();
 
   private:
-    Sprite sprite;
+    Sprite* sprite;
     glm::vec4 color;
 };
 } // namespace eregion

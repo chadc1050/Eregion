@@ -4,16 +4,7 @@ using namespace eregion;
 
 namespace eregion {
 
-Window* Window::create(WindowConfig config) {
-
-    Window* window = new Window();
-
-    window->config = config;
-
-    window->currentScene = new Scene();
-
-    return window;
-}
+Window* Window::create(WindowConfig config) { return new Window(config, new Scene()); }
 
 Result<void> Window::run() {
 
@@ -36,6 +27,8 @@ Result<void> Window::run() {
 
     setGlWindow(glWindow);
 
+    glfwSetWindowUserPointer(glWindow, this);
+
     info("Setting window context to current.");
 
     // Set callbacks
@@ -49,6 +42,7 @@ Result<void> Window::run() {
 
     // Make the window's context current
     glfwMakeContextCurrent(this->glWindow);
+
     int version = gladLoadGL(glfwGetProcAddress);
 
     if (version == 0) {
@@ -70,6 +64,9 @@ Result<void> Window::run() {
     glEnable(GL_BLEND);
     glBlendFunc(GL_ONE, GL_ONE_MINUS_SRC_ALPHA);
 
+    // TODO: This is needed to initialize the camera aspect ratio.
+    frameSizeCallback(this->glWindow, config.width, config.height);
+
     currentScene->init();
 
     loop();
@@ -77,7 +74,10 @@ Result<void> Window::run() {
     return Result<void>();
 }
 
-Window::Window() {}
+Window::Window(WindowConfig config, Scene* currentScene) {
+    this->config = config;
+    this->currentScene = currentScene;
+}
 
 Window::~Window() {
 
@@ -127,7 +127,17 @@ Result<void> Window::loop() {
     return Result<void>();
 }
 
-void Window::frameSizeCallback(GLFWwindow* window, int width, int height) { glViewport(0, 0, width, height); }
+void Window::frameSizeCallback(GLFWwindow* window, int width, int height) {
+    debug("Viewport resized.");
+    glViewport(0, 0, width, height);
+
+    // This is some GLFW magic to aquire the window pointer through prior coupling.
+    Window* inst = static_cast<Window*>(glfwGetWindowUserPointer(window));
+    if (inst && inst->currentScene) {
+        debug("Window instance located.");
+        inst->currentScene->viewportUpdate(width, height);
+    }
+}
 
 void Window::setGlWindow(GLFWwindow* glWindow) { this->glWindow = glWindow; }
 

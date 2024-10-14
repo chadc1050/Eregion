@@ -3,9 +3,12 @@
 using namespace eregion;
 
 namespace eregion {
-glm::vec2* Sprite::getTextureCoords() {
-    static glm::vec2 texCoords[4] = {glm::vec2(1.0f, 1.0f), glm::vec2(1.0f, 0.0f), glm::vec2(0.0f, 0.0f),
-                                     glm::vec2(0.0f, 1.0f)};
+
+Texture* Sprite::getTexture() { return texture; }
+
+std::array<glm::vec2, 4> Sprite::getTextureCoords() {
+    std::array<glm::vec2, 4> texCoords = {glm::vec2(1.0f, 1.0f), glm::vec2(1.0f, 0.0f), glm::vec2(0.0f, 0.0f),
+                                          glm::vec2(0.0f, 1.0f)};
 
     return texCoords;
 }

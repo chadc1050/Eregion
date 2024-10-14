@@ -30,7 +30,7 @@ class Window {
     Scene* currentScene;
     WindowConfig config;
 
-    Window();
+    Window(WindowConfig config, Scene* currentScene);
     Result<void> loop();
     static void frameSizeCallback(GLFWwindow* window, int width, int height);
     void setGlWindow(GLFWwindow* window);

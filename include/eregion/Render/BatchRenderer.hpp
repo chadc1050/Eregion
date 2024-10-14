@@ -3,12 +3,14 @@
 #include "eregion/Asset/AssetPool.hpp"
 #include "eregion/Asset/Shader.hpp"
 #include "eregion/Asset/Texture.hpp"
+#include "eregion/Core/Camera.hpp"
 #include "eregion/Entity/SpriteRenderer.hpp"
 #include "eregion/Entity/Transform.hpp"
 #include "eregion/Render/ShaderProgram.hpp"
 #include "eregion/Render/TextureProgram.hpp"
 
 #include <array>
+#include <memory>
 #include <unordered_map>
 #include <utility>
 #include <vector>
@@ -20,7 +22,7 @@ namespace eregion {
 
 class BatchRenderer {
   public:
-    BatchRenderer();
+    BatchRenderer(std::shared_ptr<Camera> camera);
     void render();
     void start();
     Result<void> add(SpriteRenderer* sprite, Transform* transform);
@@ -50,6 +52,8 @@ class BatchRenderer {
     // static const unsigned int TEXTURE_ID_OFFSET = TEXTURE_COORDINATES_OFFSET + TEXTURE_ID_SIZE * sizeof(float);
 
     static const unsigned int N_INDICES = 6;
+
+    std::shared_ptr<Camera> camera;
 
     // Vertices
     std::array<float, N_VERTICES * VERTEX_SIZE * MAX_BATCH_SIZE> vertices = {};

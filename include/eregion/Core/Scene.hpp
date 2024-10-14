@@ -13,22 +13,25 @@
 
 #include <glm/glm.hpp>
 
+#include <memory>
+
 namespace eregion {
 
 class Scene {
 
   public:
     Scene();
-    Scene(Camera* camera);
+    Scene(Camera camera);
     ~Scene();
 
     Result<void> init();
     void update(float dt);
     void insertEntity(Entity entity);
     void save();
+    void viewportUpdate(unsigned int width, unsigned int height);
 
-  protected:
-    Camera* camera;
+  private:
+    std::shared_ptr<Camera> camera;
     Renderer* renderer;
     std::vector<Entity> entities;
 };

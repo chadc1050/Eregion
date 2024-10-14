@@ -87,46 +87,82 @@ void ShaderProgram::uploadIntArray(const char* var, int* arr, size_t size) {
     glUniform1iv(loc, size, arr);
 }
 
-void ShaderProgram::uploadMat4(const char* var, glm::mat4 mat) {
+Result<void> ShaderProgram::uploadMat4(const char* var, glm::mat4 mat) const {
 
     const int loc = glGetUniformLocation(programId, var);
+
+    if (loc < 0) {
+        return Result<void>(Error{"Could not identify location of uniform."});
+    }
 
     glUniformMatrix4fv(loc, 1, GL_FALSE, glm::value_ptr(mat));
+
+    return Result<void>();
 }
 
-void ShaderProgram::uploadVec4(const char* var, glm::vec4 vec) {
+Result<void> ShaderProgram::uploadVec4(const char* var, glm::vec4 vec) {
 
     const int loc = glGetUniformLocation(programId, var);
+
+    if (loc < 0) {
+        return Result<void>(Error{"Could not identify location of uniform."});
+    }
 
     glUniform4f(loc, vec.x, vec.y, vec.z, vec.w);
+
+    return Result<void>();
 }
 
-void ShaderProgram::uploadVec3(const char* var, glm::vec3 vec) {
+Result<void> ShaderProgram::uploadVec3(const char* var, glm::vec3 vec) {
 
     const int loc = glGetUniformLocation(programId, var);
+
+    if (loc < 0) {
+        return Result<void>(Error{"Could not identify location of uniform."});
+    }
 
     glUniform3f(loc, vec.x, vec.y, vec.z);
+
+    return Result<void>();
 }
 
-void ShaderProgram::uploadVec2(const char* var, glm::vec2 vec) {
+Result<void> ShaderProgram::uploadVec2(const char* var, glm::vec2 vec) {
 
     const int loc = glGetUniformLocation(programId, var);
+
+    if (loc < 0) {
+        return Result<void>(Error{"Could not identify location of uniform."});
+    }
 
     glUniform2f(loc, vec.x, vec.y);
+
+    return Result<void>();
 }
 
-void ShaderProgram::uploadFloat(const char* var, float val) {
+Result<void> ShaderProgram::uploadFloat(const char* var, float val) {
 
     const int loc = glGetUniformLocation(programId, var);
+
+    if (loc < 0) {
+        return Result<void>(Error{"Could not identify location of uniform."});
+    }
 
     glUniform1f(loc, val);
+
+    return Result<void>();
 }
 
-void ShaderProgram::uploadInt(const char* var, int val) {
+Result<void> ShaderProgram::uploadInt(const char* var, int val) {
 
     const int loc = glGetUniformLocation(programId, var);
 
+    if (loc < 0) {
+        return Result<void>(Error{"Could not identify location of uniform."});
+    }
+
     glUniform1i(loc, val);
+
+    return Result<void>();
 }
 
 ShaderProgram::~ShaderProgram() {

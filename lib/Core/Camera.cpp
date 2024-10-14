@@ -4,17 +4,44 @@ using namespace eregion;
 
 namespace eregion {
 
-Camera::Camera(glm::vec2 pos) {
+/// @brief 2D Camera
+/// @param pos Position of camera.
+/// @param fov Field of view (in degrees).
+Camera::Camera(glm::vec3 pos, float fov) {
     this->pos = pos;
+    this->fov = fov;
+    updateView();
+    updateProj();
+}
 
-    // Create identity matrices
-    inverseProj = glm::mat4(1.0f);
-    view = glm::mat4(1.0f);
-    inverseView = glm::mat4(1.0f);
+/// @brief Update camera position.
+/// @param pos Position of camera.
+void Camera::updatePos(glm::vec3 pos) {
+    this->pos = pos;
+    updateView();
+}
 
-    // Normalize projection matrix
-    // TODO: Should be configurable
-    proj = glm::ortho(0.0f, 32.0f * 40.0f, 0.0f, 32.0f * 21.0f, 0.0f, 100.0f);
+void Camera::updateViewport(unsigned int width, unsigned int height) {
+    aspect = (float)width / (float)height;
+    updateProj();
+}
+
+void Camera::updateView() {
+    glm::vec3 camTarget = glm::vec3(pos.x, pos.y, 0.0f);
+
+    glm::vec3 cameraFront = glm::vec3(0.0f, 0.0f, -1.0f);
+
+    view = glm::lookAt(pos, pos + cameraFront, UP);
+
+    inverseView = glm::inverse(view);
+}
+
+void Camera::updateProj() {
+    proj = glm::perspective(glm::radians(fov), aspect, 0.1f, 100.0f);
     inverseProj = glm::inverse(proj);
 }
+
+glm::mat4 Camera::getView() { return view; }
+
+glm::mat4 Camera::getCam() { return proj * view; }
 } // namespace eregion

@@ -4,17 +4,14 @@ using namespace eregion;
 
 namespace eregion {
 
-Scene::Scene() : Scene(new Camera({0.0f, 0.0f})) {};
+Scene::Scene() : Scene(Camera(glm::vec3(0.0f, 0.0f, 5.0f))) {};
 
-Scene::Scene(Camera* camera) {
-    this->camera = camera;
-    this->renderer = new Renderer();
+Scene::Scene(Camera camera) {
+    this->camera = std::make_shared<Camera>(std::move(camera));
+    this->renderer = new Renderer(this->camera);
 };
 
-Scene::~Scene() {
-    delete camera;
-    delete renderer;
-}
+Scene::~Scene() { delete renderer; }
 
 Result<void> Scene::init() {
 
@@ -29,13 +26,13 @@ Result<void> Scene::init() {
     Sprite sprite = {&texture, texture.width, texture.height};
 
     Entity wall1 = Entity("wall");
-    wall1.addComponent(new SpriteRenderer(sprite));
+    wall1.addComponent(new SpriteRenderer(&sprite));
     wall1.addComponent(new Transform());
     entities.push_back(wall1);
     renderer->insertEntity(wall1);
 
     Entity wall2 = Entity("wall2");
-    wall2.addComponent(new SpriteRenderer(sprite));
+    wall2.addComponent(new SpriteRenderer(&sprite));
     wall2.addComponent(new Transform(glm::vec2(-1.0f, 0.0f)));
     entities.push_back(wall2);
     renderer->insertEntity(wall2);
@@ -58,6 +55,11 @@ void Scene::insertEntity(Entity entity) { entities.push_back(entity); }
 
 void Scene::save() {
     // TODO: Save Scene current state
+}
+
+void Scene::viewportUpdate(unsigned int width, unsigned int height) {
+    debug("Sending viewport resize to scene.");
+    camera->updateViewport(width, height);
 }
 
 } // namespace eregion

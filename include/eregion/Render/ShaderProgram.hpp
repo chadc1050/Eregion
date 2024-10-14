@@ -25,16 +25,16 @@ class ShaderProgram {
     void uploadIntArray(const char* var, int* arr, size_t size);
 
     // Matrix uploads
-    void uploadMat4(const char* var, glm::mat4 mat);
+    Result<void> uploadMat4(const char* var, glm::mat4 mat) const;
 
     // Vector uploads
-    void uploadVec4(const char* var, glm::vec4 vec);
-    void uploadVec3(const char* var, glm::vec3 vec);
-    void uploadVec2(const char* var, glm::vec2 vec);
+    Result<void> uploadVec4(const char* var, glm::vec4 vec);
+    Result<void> uploadVec3(const char* var, glm::vec3 vec);
+    Result<void> uploadVec2(const char* var, glm::vec2 vec);
 
     // Primitive uploads
-    void uploadInt(const char* var, int val);
-    void uploadFloat(const char* var, float val);
+    Result<void> uploadInt(const char* var, int val);
+    Result<void> uploadFloat(const char* var, float val);
 
     ~ShaderProgram();
 

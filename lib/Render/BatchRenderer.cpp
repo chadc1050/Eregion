@@ -4,7 +4,9 @@ using namespace eregion;
 
 namespace eregion {
 
-BatchRenderer::BatchRenderer() {
+BatchRenderer::BatchRenderer(std::shared_ptr<Camera> camera) {
+
+    this->camera = camera;
 
     Shader vert = AssetPool::getShader("../assets/shaders/texture.vert").getValue();
 
@@ -24,11 +26,23 @@ void BatchRenderer::render() {
     glBindBuffer(GL_ARRAY_BUFFER, vboId);
     glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices.data(), GL_STATIC_DRAW);
 
-    TextureProgram* texture = textures["wall.jpg"];
-
-    texture->bind();
+    int count = 0;
+    for (const auto& texture : textures) {
+        glActiveTexture(GL_TEXTURE0 + count);
+        texture.second->bind();
+    }
 
     shader->bind();
+
+    // Upload camera matrix
+    glm::mat4 cam = camera->getCam();
+
+    auto res = shader->uploadMat4("uCam", cam);
+
+    if (res.isError()) {
+        error("Error uploading camera to shader.");
+    }
+
     glBindVertexArray(vaoId);
 
     // Draw
@@ -37,7 +51,9 @@ void BatchRenderer::render() {
     // Clean up
     glBindVertexArray(0);
 
-    texture->unbind();
+    for (const auto& texture : textures) {
+        texture.second->unbind();
+    }
 
     shader->unbind();
 }
@@ -82,7 +98,7 @@ Result<void> BatchRenderer::add(SpriteRenderer* sprite, Transform* transform) {
     nSprites++;
 
     // Compile texture if needed
-    Texture* texture = sprite->getSprite().texture;
+    Texture* texture = sprite->getSprite()->texture;
     std::string name = texture->name;
     if (!textures.contains("wall.jpg")) {
         auto res = TextureProgram::compile(texture);
@@ -116,7 +132,7 @@ void BatchRenderer::loadVertexProps(int index) {
 
     SpriteRenderer* sprite = entity.first;
 
-    glm::vec2* texCoords = sprite->getSprite().getTextureCoords();
+    std::array<glm::vec2, 4> texCoords = sprite->getSprite()->getTextureCoords();
 
     glm::vec4 color = sprite->getColor();
 
@@ -131,7 +147,7 @@ void BatchRenderer::loadVertexProps(int index) {
     glm::vec2 pos = transform->getPos();
     glm::vec2 scale = transform->getScale();
 
-    for (int i = 0; i < N_VERTICES; i++) {
+    for (unsigned int i = 0; i < N_VERTICES; i++) {
 
         if (i == 1) {
             yAdd = -0.5f;
