@@ -99,15 +99,9 @@ Result<void> BatchRenderer::add(SpriteRenderer* sprite, Transform* transform) {
 
     // Compile texture if needed
     Texture* texture = sprite->getSprite()->texture;
-    std::string name = texture->name;
+    std::string name = texture->getName();
     if (!textures.contains("wall.jpg")) {
-        auto res = TextureProgram::compile(texture);
-
-        if (res.isError()) {
-            return Result<void>(Error{"Error compiling texture."});
-        }
-
-        textures["wall.jpg"] = res.getValue();
+        textures["wall.jpg"] = texture;
     }
 
     loadVertexProps(index);

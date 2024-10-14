@@ -21,9 +21,9 @@ Result<void> Scene::init() {
     if (res.isError()) {
         return Result<void>(Error{"Error loading texture."});
     }
-    Texture texture = res.getValue();
+    Texture* texture = res.getValue();
 
-    Sprite sprite = {&texture, texture.width, texture.height};
+    Sprite sprite = {texture, texture->getWidth(), texture->getHeight()};
 
     Entity wall1 = Entity("wall");
     wall1.addComponent(new SpriteRenderer(&sprite));

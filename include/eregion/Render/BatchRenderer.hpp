@@ -7,7 +7,6 @@
 #include "eregion/Entity/SpriteRenderer.hpp"
 #include "eregion/Entity/Transform.hpp"
 #include "eregion/Render/ShaderProgram.hpp"
-#include "eregion/Render/TextureProgram.hpp"
 
 #include <array>
 #include <memory>
@@ -65,7 +64,7 @@ class BatchRenderer {
     int nSprites = 0;
 
     // Textures
-    std::unordered_map<std::string, TextureProgram*> textures = {};
+    std::unordered_map<std::string, Texture*> textures = {};
 
     // IDs
     unsigned int vboId;

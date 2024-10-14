@@ -33,7 +33,7 @@ Result<Shader> loadShader(std::string path) {
     return Result<Shader>(Success<Shader>(Shader{id, fileContents, typeRes.getValue()}));
 }
 
-Result<Texture> loadTexture(std::string path) {
+Result<Texture*> loadTexture(std::string path) {
 
     std::filesystem::path pathObj(path);
 
@@ -47,11 +47,19 @@ Result<Texture> loadTexture(std::string path) {
     unsigned char* pixels = stbi_load(path.c_str(), &width, &height, &channels, 0);
 
     if (pixels == nullptr) {
-        return Result<Texture>(Error{"Could not read texture file!"});
+        return Result<Texture*>(Error{"Could not read texture file!"});
     }
 
     std::string id = name + extension;
 
-    return Result<Texture>(Success<Texture>(Texture{id, pixels, width, height, channels}));
+    auto res = Texture::compile(id, pixels, width, height, channels);
+
+    if (res.isError()) {
+        return Result<Texture*>(Error{"Error compiling texture file!"});
+    }
+
+    stbi_image_free(pixels);
+
+    return Result<Texture*>(Success<Texture*>(res.getValue()));
 }
 } // namespace eregion

@@ -15,5 +15,5 @@
 namespace eregion {
 
 Result<Shader> loadShader(std::string path);
-Result<Texture> loadTexture(std::string path);
+Result<Texture*> loadTexture(std::string path);
 } // namespace eregion

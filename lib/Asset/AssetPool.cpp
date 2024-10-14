@@ -41,7 +41,7 @@ Result<Shader> AssetPool::getShader(std::string path) {
     return Result<Shader>(Success<Shader>(shader));
 }
 
-Result<Texture> AssetPool::getTexture(std::string path) {
+Result<Texture*> AssetPool::getTexture(std::string path) {
 
     AssetPool& inst = AssetPool::getInstance();
 
@@ -54,23 +54,23 @@ Result<Texture> AssetPool::getTexture(std::string path) {
 
     if (inst.texturePool.contains(id)) {
         info("Cache hit for texture: " + id);
-        return Result<Texture>(Success<Texture>(inst.texturePool[id]));
+        return Result<Texture*>(Success<Texture*>(inst.texturePool[id]));
     }
 
     auto res = loadTexture(path);
 
     if (res.isError()) {
-        return Result<Texture>(Error{"Could not load texture!"});
+        return Result<Texture*>(Error{"Could not load texture!"});
     }
 
-    Texture texture = res.getValue();
+    Texture* texture = res.getValue();
 
     // Put into cache
     inst.texturePool[id] = texture;
 
     info("Successfully loaded texture: " + id);
-    return Result<Texture>(Success<Texture>(texture));
+    return Result<Texture*>(Success<Texture*>(texture));
 }
 
-AssetPool::AssetPool() { shaderPool = std::unordered_map<std::string, Shader>(); }
+AssetPool::AssetPool() {}
 } // namespace eregion
