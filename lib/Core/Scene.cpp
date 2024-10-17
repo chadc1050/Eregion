@@ -17,25 +17,51 @@ Result<void> Scene::init() {
 
     // This would be the override for setting up the scene (add resources, entities etc..)
     // This is just test code and needs to be set up in the example.
-    auto res = AssetPool::getTexture("../assets/textures/wall.jpg");
-    if (res.isError()) {
+
+    auto marbleRes = AssetPool::getTexture("../assets/textures/marble.jpg");
+    if (marbleRes.isError()) {
         return Result<void>(Error{"Error loading texture."});
     }
-    Texture* texture = res.getValue();
 
-    Sprite sprite = {texture, texture->getWidth(), texture->getHeight()};
+    Texture* marbleTexture = marbleRes.getValue();
 
-    Entity wall1 = Entity("wall");
-    wall1.addComponent(new SpriteRenderer(&sprite));
-    wall1.addComponent(new Transform());
-    entities.push_back(wall1);
-    renderer->insertEntity(wall1);
+    Sprite marbleSprite = {marbleTexture};
 
-    Entity wall2 = Entity("wall2");
-    wall2.addComponent(new SpriteRenderer(&sprite));
-    wall2.addComponent(new Transform(glm::vec2(-1.0f, 0.0f)));
-    entities.push_back(wall2);
-    renderer->insertEntity(wall2);
+    Entity marble = Entity("marble");
+    marble.addComponent(new SpriteRenderer(&marbleSprite));
+    marble.addComponent(new Transform(glm::vec2(-2.0f, 0.0f)));
+    entities.push_back(marble);
+    renderer->insertEntity(marble);
+
+    auto wallRes = AssetPool::getTexture("../assets/textures/wall.jpg");
+    if (wallRes.isError()) {
+        return Result<void>(Error{"Error loading texture."});
+    }
+
+    Texture* bricksTexture = wallRes.getValue();
+
+    Sprite bricksSprite = {bricksTexture};
+
+    Entity bricks = Entity("bricks");
+    bricks.addComponent(new SpriteRenderer(&bricksSprite));
+    bricks.addComponent(new Transform());
+    entities.push_back(bricks);
+    renderer->insertEntity(bricks);
+
+    auto uiRes = AssetPool::getTexture("../assets/textures/crafting.png");
+    if (uiRes.isError()) {
+        return Result<void>(Error{"Error loading texture."});
+    }
+
+    Texture* uiTexture = uiRes.getValue();
+
+    Sprite uiSprite = {uiTexture};
+
+    Entity ui = Entity("ui");
+    ui.addComponent(new SpriteRenderer(&uiSprite));
+    ui.addComponent(new Transform(glm::vec2(1.0f, 1.0f)));
+    entities.push_back(ui);
+    renderer->insertEntity(ui);
 
     return Result<void>();
 }

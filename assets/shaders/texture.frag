@@ -2,12 +2,18 @@
 
 in vec4 fColor;
 in vec2 fTexCoords;
+flat in int iTexId;
 
-uniform sampler2D texture1;
+uniform sampler2D uTextures[8];
 
-out vec4 FragColor;
+out vec4 color;
 
 void main()
 {
-    FragColor = fColor * texture(texture1, fTexCoords);
+    if(iTexId > 0) {
+        color = fColor * texture(uTextures[iTexId], fTexCoords);
+    }
+    else {
+        color = fColor;
+    }
 }

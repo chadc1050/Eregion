@@ -22,7 +22,7 @@ class ShaderProgram {
     unsigned int getProgramId();
 
     // Array uploads
-    void uploadIntArray(const char* var, int* arr, size_t size);
+    Result<void> uploadIntArray(const char* var, int* arr, size_t size);
 
     // Matrix uploads
     Result<void> uploadMat4(const char* var, glm::mat4 mat) const;

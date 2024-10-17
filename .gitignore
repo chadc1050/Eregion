@@ -2,11 +2,12 @@
 **/out
 
 # editor
-/.idea
-/.vscode
+**/.idea
+**/.vscode
 
 # CMake
 **/CMakeFiles
+**/cmake-build-debug
 Makefile
 CMakeCache.txt
 cmake_install.cmake

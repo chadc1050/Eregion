@@ -11,8 +11,6 @@
 namespace eregion {
 struct Sprite {
     Texture* texture;
-    float width;
-    float height;
 
     Texture* getTexture();
     std::array<glm::vec2, 4> getTextureCoords();

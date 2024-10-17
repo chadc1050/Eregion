@@ -17,29 +17,53 @@ BatchRenderer::BatchRenderer(std::shared_ptr<Camera> camera) {
 
 void BatchRenderer::render() {
 
+    // FIXME: This is causing a null pointer issue with the texture, will need to fix that before rebuffering can
+    // happen.
     // TODO: This is where we could check to see if the sprite has been declared dirty, or if transform has changed
-    for (int i = 0; i < nSprites; i++) {
-        loadVertexProps(i);
-    }
+    // for (int i = 0; i < nSprites; i++) {
+    //     loadVertexProps(i);
+    // }
 
-    // Always rebuffering until deltas are available!
+    // // Always rebuffering until deltas are available!
     glBindBuffer(GL_ARRAY_BUFFER, vboId);
-    glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices.data(), GL_STATIC_DRAW);
-
-    int count = 0;
-    for (const auto& texture : textures) {
-        glActiveTexture(GL_TEXTURE0 + count);
-        texture.second->bind();
-    }
+    glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices.data(), GL_DYNAMIC_DRAW);
 
     shader->bind();
+
+    // Upload texture slots
+    int textureSlots[8] = {0, 1, 2, 3, 4, 5, 6, 7};
+
+    size_t size = sizeof(textures.size()) / sizeof(int);
+
+    auto samplerRes = shader->uploadIntArray("uTextures", textureSlots, size);
+
+    if (samplerRes.isError()) {
+        error("Error uploading texture slots to shader.");
+    }
+
+    // Upload textures to texture slots
+    int count = 0;
+    for (const auto& texture : textures) {
+
+        glActiveTexture(GL_TEXTURE0 + count);
+
+        texture.second->bind();
+
+        auto idxRes = shader->uploadInt(("uTextures[" + std::to_string(count) + "]").c_str(), count);
+
+        if (idxRes.isError()) {
+            error("Error uploading index to texture slots.");
+        }
+
+        count = count + 1;
+    }
 
     // Upload camera matrix
     glm::mat4 cam = camera->getCam();
 
-    auto res = shader->uploadMat4("uCam", cam);
+    auto camRes = shader->uploadMat4("uCam", cam);
 
-    if (res.isError()) {
+    if (camRes.isError()) {
         error("Error uploading camera to shader.");
     }
 
@@ -78,17 +102,21 @@ void BatchRenderer::start() {
     glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(indices), indices.data(), GL_STATIC_DRAW);
 
     // Position
-    glVertexAttribPointer(0, POS_SIZE, GL_FLOAT, GL_FALSE, VERTEX_SIZE_BYTES, (void*)POS_OFFSET);
+    glVertexAttribPointer(0, POS_SIZE, GL_FLOAT, false, VERTEX_SIZE_BYTES, (void*)POS_OFFSET);
     glEnableVertexAttribArray(0);
 
     // Color
-    glVertexAttribPointer(1, COLOR_SIZE, GL_FLOAT, GL_FALSE, VERTEX_SIZE_BYTES, (void*)COLOR_OFFSET);
+    glVertexAttribPointer(1, COLOR_SIZE, GL_FLOAT, false, VERTEX_SIZE_BYTES, (void*)COLOR_OFFSET);
     glEnableVertexAttribArray(1);
 
     // Texture Coord
-    glVertexAttribPointer(2, TEXTURE_COORDINATES_SIZE, GL_FLOAT, GL_FALSE, VERTEX_SIZE_BYTES,
+    glVertexAttribPointer(2, TEXTURE_COORDINATES_SIZE, GL_FLOAT, false, VERTEX_SIZE_BYTES,
                           (void*)TEXTURE_COORDINATES_OFFSET);
     glEnableVertexAttribArray(2);
+
+    // Texture ID
+    glVertexAttribPointer(3, TEXTURE_ID_SIZE, GL_FLOAT, false, VERTEX_SIZE_BYTES, (void*)TEXTURE_ID_OFFSET);
+    glEnableVertexAttribArray(3);
 }
 
 Result<void> BatchRenderer::add(SpriteRenderer* sprite, Transform* transform) {
@@ -98,7 +126,7 @@ Result<void> BatchRenderer::add(SpriteRenderer* sprite, Transform* transform) {
     nSprites++;
 
     // Compile texture if needed
-    Texture* texture = sprite->getSprite()->texture;
+    Texture* texture = sprite->getSprite()->getTexture();
     std::string name = texture->getName();
     if (!textures.contains(name)) {
         textures[name] = texture;
@@ -124,14 +152,17 @@ void BatchRenderer::loadVertexProps(int index) {
 
     std::pair<SpriteRenderer*, Transform*> entity = sprites.at(index);
 
-    SpriteRenderer* sprite = entity.first;
+    SpriteRenderer* spriteRenderer = entity.first;
 
-    std::array<glm::vec2, 4> texCoords = sprite->getSprite()->getTextureCoords();
+    Sprite* sprite = spriteRenderer->getSprite();
 
-    glm::vec4 color = sprite->getColor();
+    std::array<glm::vec2, 4> texCoords = sprite->getTextureCoords();
 
-    // TODO: As more than one textures are added this will need to be incremented and stored.
-    int texId = sprite->getSprite()->getTexture()->getTextureId();
+    glm::vec4 color = spriteRenderer->getColor();
+
+    Texture* texture = sprite->getTexture();
+
+    int texId = texture->getTextureId();
 
     // Add vertices with the appropriate properties
     float xAdd = 0.5f;
@@ -166,7 +197,7 @@ void BatchRenderer::loadVertexProps(int index) {
         vertices[offset + 7] = texCoords[i].y;
 
         // Load Texture ID
-        // vertices[offset + 8] = texId;
+        vertices[offset + 8] = texId;
 
         offset += VERTEX_SIZE;
     }

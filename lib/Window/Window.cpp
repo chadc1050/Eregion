@@ -64,7 +64,6 @@ Result<void> Window::run() {
     glEnable(GL_BLEND);
     glBlendFunc(GL_ONE, GL_ONE_MINUS_SRC_ALPHA);
 
-    // TODO: This is needed to initialize the camera aspect ratio.
     frameSizeCallback(this->glWindow, config.width, config.height);
 
     currentScene->init();

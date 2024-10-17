@@ -82,9 +82,17 @@ bool ShaderProgram::isActive() { return active; }
 
 unsigned int ShaderProgram::getProgramId() { return programId; }
 
-void ShaderProgram::uploadIntArray(const char* var, int* arr, size_t size) {
+Result<void> ShaderProgram::uploadIntArray(const char* var, int* arr, size_t size) {
+
     const int loc = glGetUniformLocation(programId, var);
+
+    if (loc < 0) {
+        return Result<void>(Error{"Could not identify location of uniform."});
+    }
+
     glUniform1iv(loc, size, arr);
+
+    return Result<void>();
 }
 
 Result<void> ShaderProgram::uploadMat4(const char* var, glm::mat4 mat) const {
@@ -182,7 +190,7 @@ Result<unsigned int> ShaderProgram::createShader(Shader shader) {
         return Result<GLuint>(Error{"Error determining shader type ref!"});
     }
 
-    const GLuint glShader = glCreateShader(res.getValue());
+    const unsigned int glShader = glCreateShader(res.getValue());
     glShaderSource(glShader, 1, (const GLchar**)&shader.src, NULL);
     glCompileShader(glShader);
 
