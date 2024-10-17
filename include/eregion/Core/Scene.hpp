@@ -1,6 +1,7 @@
 #pragma once
 
 #include "eregion/Asset/AssetPool.hpp"
+#include "eregion/Asset/SpriteSheet.hpp"
 #include "eregion/Core/Camera.hpp"
 #include "eregion/Core/Result.hpp"
 #include "eregion/Entity/Entity.hpp"
