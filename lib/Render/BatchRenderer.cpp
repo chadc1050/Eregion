@@ -19,12 +19,10 @@ BatchRenderer::BatchRenderer(std::shared_ptr<Camera> camera, int zIndex) {
 
 void BatchRenderer::render() {
 
-    // FIXME: This is causing a null pointer issue with the texture, will need to fix that before rebuffering can
-    // happen.
     // TODO: This is where we could check to see if the sprite has been declared dirty, or if transform has changed
-    // for (int i = 0; i < nSprites; i++) {
-    //     loadVertexProps(i);
-    // }
+    for (int i = 0; i < nSprites; i++) {
+        loadVertexProps(i);
+    }
 
     // // Always rebuffering until deltas are available!
     glBindBuffer(GL_ARRAY_BUFFER, vboId);
@@ -128,7 +126,7 @@ Result<void> BatchRenderer::add(SpriteRenderer* sprite, Transform* transform) {
     nSprites++;
 
     // Compile texture if needed
-    Texture* texture = sprite->getSprite()->getTexture();
+    Texture* texture = sprite->getSprite().getTexture();
     std::string name = texture->getName();
     if (!textures.contains(name)) {
         textures[name] = texture;
@@ -156,13 +154,13 @@ void BatchRenderer::loadVertexProps(int index) {
 
     SpriteRenderer* spriteRenderer = entity.first;
 
-    Sprite* sprite = spriteRenderer->getSprite();
+    auto sprite = spriteRenderer->getSprite();
 
-    std::array<glm::vec2, 4> texCoords = sprite->getTextureCoords();
+    std::array<glm::vec2, 4> texCoords = sprite.getTextureCoords();
 
     glm::vec4 color = spriteRenderer->getColor();
 
-    Texture* texture = sprite->getTexture();
+    Texture* texture = sprite.getTexture();
 
     int texId = texture->getTextureId();
 
