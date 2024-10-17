@@ -21,16 +21,24 @@ namespace eregion {
 
 class BatchRenderer {
   public:
-    BatchRenderer(std::shared_ptr<Camera> camera);
+    BatchRenderer(std::shared_ptr<Camera> camera, int zIndex);
     void render();
     void start();
     Result<void> add(SpriteRenderer* sprite, Transform* transform);
     bool hasRoom();
+    int getZIndex();
     ~BatchRenderer();
+
+    // Comparision operators for determining draw order
+    bool operator<(const BatchRenderer& other) const { return zIndex < other.zIndex; }
+    bool operator>(const BatchRenderer& other) const { return zIndex > other.zIndex; }
+    bool operator<=(const BatchRenderer& other) const { return zIndex <= other.zIndex; }
+    bool operator>=(const BatchRenderer& other) const { return zIndex >= other.zIndex; }
+    bool operator==(const BatchRenderer& other) const { return zIndex == other.zIndex; }
 
   private:
     // Maxiumum number of sprites in the pipeline
-    static const int MAX_BATCH_SIZE = 3;
+    static const int MAX_BATCH_SIZE = 2;
 
     // Attrib Size Consts
     static const unsigned int POS_SIZE = 2;
@@ -79,6 +87,9 @@ class BatchRenderer {
 
     // Shader
     ShaderProgram* shader;
+
+    // Z-Index
+    int zIndex;
 
     void loadVertexProps(int index);
     void genIndices();

@@ -4,9 +4,11 @@ using namespace eregion;
 
 namespace eregion {
 
-BatchRenderer::BatchRenderer(std::shared_ptr<Camera> camera) {
+BatchRenderer::BatchRenderer(std::shared_ptr<Camera> camera, int zIndex) {
 
     this->camera = camera;
+
+    this->zIndex = zIndex;
 
     Shader vert = AssetPool::getShader("../assets/shaders/texture.vert").getValue();
 
@@ -223,4 +225,6 @@ void BatchRenderer::genIndices() {
 }
 
 bool BatchRenderer::hasRoom() { return nSprites < MAX_BATCH_SIZE; }
+
+int BatchRenderer::getZIndex() { return zIndex; }
 } // namespace eregion

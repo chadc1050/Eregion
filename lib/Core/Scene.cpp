@@ -58,8 +58,8 @@ Result<void> Scene::init() {
     Sprite uiSprite = {uiTexture};
 
     Entity ui = Entity("ui");
-    ui.addComponent(new SpriteRenderer(&uiSprite));
-    ui.addComponent(new Transform(glm::vec2(1.0f, 1.0f)));
+    ui.addComponent(new SpriteRenderer(&uiSprite, 999));
+    ui.addComponent(new Transform(glm::vec2(0.5f, 0.5f)));
     entities.push_back(ui);
     renderer->insertEntity(ui);
 

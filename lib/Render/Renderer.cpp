@@ -25,7 +25,7 @@ void Renderer::insertEntity(Entity entity) {
 void Renderer::insertSpriteRenderer(SpriteRenderer* spriteRenderer, Transform* transform) {
     bool added = false;
     for (BatchRenderer* batch : batchRenderers) {
-        if (batch->hasRoom()) {
+        if (batch->hasRoom() && batch->getZIndex() == spriteRenderer->getZIndex()) {
             batch->add(spriteRenderer, transform);
             added = true;
             break;
@@ -34,7 +34,7 @@ void Renderer::insertSpriteRenderer(SpriteRenderer* spriteRenderer, Transform* t
 
     if (!added) {
         debug("Creating a new batch renderer.");
-        BatchRenderer* batchRenderer = new BatchRenderer(camera);
+        BatchRenderer* batchRenderer = new BatchRenderer(camera, spriteRenderer->getZIndex());
         batchRenderer->start();
         auto res = batchRenderer->add(spriteRenderer, transform);
 
@@ -42,7 +42,11 @@ void Renderer::insertSpriteRenderer(SpriteRenderer* spriteRenderer, Transform* t
             error("Error");
         }
 
-        batchRenderers.push_back(batchRenderer);
+        // Insert the batch renderer such that it is sorted by it's z-index ascending
+        auto idx = std::lower_bound(batchRenderers.begin(), batchRenderers.end(), batchRenderer,
+                                    [](BatchRenderer* a, BatchRenderer* b) { return *a < *b; });
+
+        batchRenderers.insert(idx, batchRenderer);
     }
 }
 

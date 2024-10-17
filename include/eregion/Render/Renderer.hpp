@@ -6,6 +6,7 @@
 #include "eregion/Entity/Transform.hpp"
 #include "eregion/Render/BatchRenderer.hpp"
 
+#include <algorithm>
 #include <memory>
 #include <optional>
 #include <vector>
