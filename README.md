@@ -1,10 +1,11 @@
 # Eregion
+![Discord](https://img.shields.io/discord/1296476909739442256)
 
 [Install OpenGL](https://medium.com/geekculture/a-beginners-guide-to-setup-opengl-in-linux-debian-2bfe02ccd1e)
+
 [Install GLAD](https://gen.glad.sh/)
 
 ## Engine
-
 ### Hierarchal Structure
 - Game: Top level reference to the game and scene manager
   - Scene: Loadable component of the game
