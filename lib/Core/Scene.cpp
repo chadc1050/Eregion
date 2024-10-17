@@ -25,7 +25,7 @@ Result<void> Scene::init() {
 
     Texture* marbleTexture = marbleRes.getValue();
 
-    Sprite marbleSprite = {marbleTexture};
+    Sprite marbleSprite = Sprite(marbleTexture);
 
     Entity marble = Entity("marble");
     marble.addComponent(new SpriteRenderer(&marbleSprite));
@@ -40,7 +40,7 @@ Result<void> Scene::init() {
 
     Texture* bricksTexture = wallRes.getValue();
 
-    Sprite bricksSprite = {bricksTexture};
+    Sprite bricksSprite = Sprite(bricksTexture);
 
     Entity bricks = Entity("bricks");
     bricks.addComponent(new SpriteRenderer(&bricksSprite));
@@ -55,13 +55,37 @@ Result<void> Scene::init() {
 
     Texture* uiTexture = uiRes.getValue();
 
-    Sprite uiSprite = {uiTexture};
+    Sprite uiSprite = Sprite(uiTexture);
 
     Entity ui = Entity("ui");
     ui.addComponent(new SpriteRenderer(&uiSprite, 999));
     ui.addComponent(new Transform(glm::vec2(0.5f, 0.5f)));
     entities.push_back(ui);
     renderer->insertEntity(ui);
+
+    auto terrainRes = AssetPool::getTexture("../assets/textures/terrain.png");
+    if (terrainRes.isError()) {
+        return Result<void>(Error{"Error loading texture."});
+    }
+
+    Texture* terrainTexture = terrainRes.getValue();
+
+    SpriteSheet terrainSheet = SpriteSheet(terrainTexture);
+    Sprite cornerPathSprite = terrainSheet.getSprite(0, 480, 32, 32);
+
+    Entity cornerPath = Entity("cornerPath");
+    cornerPath.addComponent(new SpriteRenderer(&cornerPathSprite));
+    cornerPath.addComponent(new Transform(glm::vec2(1.5f, -1.5f)));
+    entities.push_back(cornerPath);
+    renderer->insertEntity(cornerPath);
+
+    Sprite topPathSprite = terrainSheet.getSprite(32, 480, 32, 32);
+
+    Entity topPath = Entity("topPath");
+    topPath.addComponent(new SpriteRenderer(&topPathSprite));
+    topPath.addComponent(new Transform(glm::vec2(2.5f, -1.5f)));
+    entities.push_back(topPath);
+    renderer->insertEntity(topPath);
 
     return Result<void>();
 }
