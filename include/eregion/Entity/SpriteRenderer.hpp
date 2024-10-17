@@ -4,23 +4,24 @@
 #include "eregion/Entity/Sprite.hpp"
 
 #include <glm/glm.hpp>
+#include <memory>
 
 namespace eregion {
 class SpriteRenderer : public Component {
   public:
-    SpriteRenderer(Sprite* sprite);
-    SpriteRenderer(Sprite* sprite, glm::vec4 color);
-    SpriteRenderer(Sprite* sprite, int zIndex);
-    SpriteRenderer(Sprite* sprite, glm::vec4 color, int zIndex);
+    SpriteRenderer(std::shared_ptr<Sprite> sprite);
+    SpriteRenderer(std::shared_ptr<Sprite> sprite, glm::vec4 color);
+    SpriteRenderer(std::shared_ptr<Sprite> sprite, int zIndex);
+    SpriteRenderer(std::shared_ptr<Sprite> sprite, glm::vec4 color, int zIndex);
 
     void update(float dt) override;
 
-    Sprite* getSprite();
+    Sprite getSprite();
     glm::vec4 getColor();
     int getZIndex();
 
   private:
-    Sprite* sprite;
+    std::shared_ptr<Sprite> sprite;
     glm::vec4 color;
     int zIndex;
 };
