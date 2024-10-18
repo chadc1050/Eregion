@@ -8,14 +8,14 @@
 
 #include <stdexcept>
 
-class LevelScene : public eregion::Scene {
+using namespace eregion;
+
+class LevelScene : public Scene {
 
   public:
-    LevelScene(eregion::Camera camera) : eregion::Scene(camera) {}
+    LevelScene(Camera camera) : Scene(camera) {}
 
     void init() override {
-
-        using namespace eregion;
 
         // SPRITE 1
         auto marbleRes = AssetPool::getTexture("../assets/textures/marble.jpg");
@@ -23,27 +23,19 @@ class LevelScene : public eregion::Scene {
             throw std::runtime_error(marbleRes.getError());
         }
 
-        Texture* marbleTexture = marbleRes.getValue();
-
-        auto marbleSprite = std::make_shared<Sprite>(marbleTexture);
-
         Entity marble = Entity("marble");
-        marble.addComponent(new SpriteRenderer(marbleSprite));
+        marble.addComponent(new SpriteRenderer(std::make_shared<Sprite>(marbleRes.getValue())));
         marble.addComponent(new Transform(glm::vec2(-2.0f, 0.0f)));
         this->insertEntity(marble);
 
         // SPRITE 2
-        auto wallRes = AssetPool::getTexture("../assets/textures/wall.jpg");
-        if (wallRes.isError()) {
-            throw std::runtime_error(wallRes.getError());
+        auto bricksRes = AssetPool::getTexture("../assets/textures/wall.jpg");
+        if (bricksRes.isError()) {
+            throw std::runtime_error(bricksRes.getError());
         }
 
-        Texture* bricksTexture = wallRes.getValue();
-
-        auto bricksSprite = std::make_shared<Sprite>(bricksTexture);
-
         Entity bricks = Entity("bricks");
-        bricks.addComponent(new SpriteRenderer(bricksSprite));
+        bricks.addComponent(new SpriteRenderer(std::make_shared<Sprite>(bricksRes.getValue())));
         bricks.addComponent(new Transform());
         this->insertEntity(bricks);
 
@@ -53,45 +45,34 @@ class LevelScene : public eregion::Scene {
             throw std::runtime_error(uiRes.getError());
         }
 
-        Texture* uiTexture = uiRes.getValue();
-
-        auto uiSprite = std::make_shared<Sprite>(uiTexture);
-
         Entity ui = Entity("ui");
-        ui.addComponent(new SpriteRenderer(uiSprite, 999));
+        ui.addComponent(new SpriteRenderer(std::make_shared<Sprite>(uiRes.getValue()), 999));
         ui.addComponent(new Transform(glm::vec2(0.5f, 0.5f)));
         this->insertEntity(ui);
 
+        // SPRITESHEET
         auto terrainRes = AssetPool::getTexture("../assets/textures/terrain.png");
         if (terrainRes.isError()) {
             throw std::runtime_error(terrainRes.getError());
         }
 
-        // SPRITESHEET
-        Texture* terrainTexture = terrainRes.getValue();
-
-        SpriteSheet terrainSheet = SpriteSheet(terrainTexture);
+        SpriteSheet terrainSheet = SpriteSheet(terrainRes.getValue());
 
         // SPRITE 4
-        auto cornerPathSprite = std::make_shared<Sprite>(terrainSheet.getSprite(0, 480, 32, 32));
-
         Entity cornerPath = Entity("cornerPath");
-        cornerPath.addComponent(new SpriteRenderer(cornerPathSprite));
+        cornerPath.addComponent(new SpriteRenderer(std::make_shared<Sprite>(terrainSheet.getSprite(0, 480, 32, 32))));
         cornerPath.addComponent(new Transform(glm::vec2(1.5f, -1.5f)));
         this->insertEntity(cornerPath);
 
         // SPRITE 5
-        auto topPathSprite = std::make_shared<Sprite>(terrainSheet.getSprite(32, 480, 32, 32));
-
         Entity topPath = Entity("topPath");
-        topPath.addComponent(new SpriteRenderer(topPathSprite));
+        topPath.addComponent(new SpriteRenderer(std::make_shared<Sprite>(terrainSheet.getSprite(32, 480, 32, 32))));
         topPath.addComponent(new Transform(glm::vec2(2.5f, -1.5f)));
         this->insertEntity(topPath);
     }
 };
 
 int main() {
-    using namespace eregion;
 
     Game::create(WindowConfig{640, 480, "Celebrimbor", true})
         ->scene(new LevelScene(Camera(glm::vec3(0.0f, 0.0f, 5.0f))))
