@@ -17,12 +17,14 @@ struct WindowConfig {
     int width;
     int height;
     std::string title;
+    bool vSync;
 };
 
 class Window {
   public:
-    static Window* create(WindowConfig config);
+    static Result<Window*> create(WindowConfig config);
     Result<void> run();
+    void changeScene(Scene* next);
     ~Window();
 
   private:
@@ -30,10 +32,8 @@ class Window {
     Scene* currentScene;
     WindowConfig config;
 
-    Window(WindowConfig config, Scene* currentScene);
+    Window(GLFWwindow* window, WindowConfig config);
     Result<void> loop();
     static void frameSizeCallback(GLFWwindow* window, int width, int height);
-    void setGlWindow(GLFWwindow* window);
-    GLFWwindow* getGlWindow();
 };
 } // namespace eregion

@@ -26,9 +26,21 @@ Game* Game::create(WindowConfig windowConfig) {
     info("Initialized Asset Pool.");
 
     // Create window instance
-    game->window = Window::create(windowConfig);
+
+    auto res = Window::create(windowConfig);
+
+    if (res.isError()) {
+        throw std::runtime_error(res.getError());
+    }
+
+    game->window = res.getValue();
 
     return game;
+}
+
+Game* Game::scene(Scene* scene) {
+    this->window->changeScene(scene);
+    return this;
 }
 
 void Game::run() {

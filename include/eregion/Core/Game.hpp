@@ -15,6 +15,7 @@ class Game {
   public:
     static Game* create();
     static Game* create(WindowConfig windowConfig);
+    Game* scene(Scene* scene);
     void run();
     ~Game();
 
