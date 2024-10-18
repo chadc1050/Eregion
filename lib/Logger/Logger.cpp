@@ -1,11 +1,14 @@
 #include "eregion/Logger/Logger.hpp"
 
+#ifndef EREGION_LOG_LEVEL
+#define EREGION_LOG_LEVEL INFO
+#endif
+
 using namespace eregion;
 
 namespace eregion {
 
 std::mutex logMutex;
-LogLevel minLevel = INFO;
 
 void trace(std::string msg) { log(msg, TRACE); }
 
@@ -19,7 +22,7 @@ void error(std::string msg) { log(msg, ERROR); }
 
 void log(std::string msg, LogLevel level) {
 
-    if (level < minLevel) {
+    if (level < EREGION_LOG_LEVEL) {
         return;
     }
 
@@ -39,8 +42,6 @@ void log(std::string msg, LogLevel level) {
     std::cout << "[" << levelStr << "][" << std::put_time(localTime, "%Y-%m-%dT%H:%M:%S") << "][" << processId << "] "
               << msg << std::endl;
 }
-
-void setLogLevel(LogLevel level) { minLevel = level; }
 
 std::string getLevelStr(LogLevel level) {
     switch (level) {

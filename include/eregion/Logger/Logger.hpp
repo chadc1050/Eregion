@@ -21,7 +21,6 @@ void info(std::string msg);
 void warn(std::string msg);
 void error(std::string msg);
 void log(std::string msg, LogLevel level);
-void setLogLevel(LogLevel level);
 std::string getLevelStr(LogLevel level);
 
 } // namespace eregion
