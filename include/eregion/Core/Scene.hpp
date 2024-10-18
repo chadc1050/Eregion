@@ -21,15 +21,19 @@ namespace eregion {
 class Scene {
 
   public:
-    Scene();
     Scene(Camera camera);
-    ~Scene();
 
-    Result<void> init();
+    // Virtual methods to customize scene behavior
+    virtual void init() = 0;
+
     void update(float dt);
+    void draw();
+
     void insertEntity(Entity entity);
     void save();
     void viewportUpdate(unsigned int width, unsigned int height);
+
+    virtual ~Scene();
 
   private:
     std::shared_ptr<Camera> camera;

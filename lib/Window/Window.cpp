@@ -110,6 +110,7 @@ Result<void> Window::loop() {
         if (dt > 0.0) {
             if (currentScene) {
                 currentScene->update(dt);
+                currentScene->draw();
             }
         }
 
@@ -153,6 +154,7 @@ void Window::changeScene(Scene* next) {
 
     currentScene = next;
     currentScene->init();
+    // TODO: This should be removed.
     frameSizeCallback(glWindow, config.width, config.height);
 }
 } // namespace eregion
