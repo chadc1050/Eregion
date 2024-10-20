@@ -12,16 +12,14 @@ SpriteSheet::SpriteSheet(Texture* texture) { this->texture = texture; }
 /// @param height Height of sprite
 /// @return The sprite
 Sprite SpriteSheet::getSprite(unsigned int x, unsigned int y, unsigned int width, unsigned int height) {
-    unsigned int texWidth = this->texture->getWidth();
-    unsigned int texHeight = this->texture->getHeight();
 
     // Get the relative strides for x and y
-    float relWidth = static_cast<float>(width) / static_cast<float>(texWidth);
-    float relHeight = static_cast<float>(height) / static_cast<float>(texHeight);
+    float relWidth = static_cast<float>(width) / static_cast<float>(texture->getWidth());
+    float relHeight = static_cast<float>(height) / static_cast<float>(texture->getHeight());
 
     // Get bottom left relative position
-    float relX = static_cast<float>(x) / static_cast<float>(texWidth);
-    float relY = static_cast<float>(y) / static_cast<float>(texHeight);
+    float relX = static_cast<float>(x) / static_cast<float>(texture->getWidth());
+    float relY = static_cast<float>(y) / static_cast<float>(texture->getHeight());
 
     std::array<glm::vec2, 4> coords;
 
