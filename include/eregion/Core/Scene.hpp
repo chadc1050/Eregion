@@ -30,7 +30,7 @@ class Scene {
     static Scene* create(Camera camera);
 
     /// @brief Function pointer to be used by Mechanism extensions
-    using Mechanism = std::function<void(Scene*, std::vector<Entity>&)>;
+    using Mechanism = std::function<void(Scene*, const std::vector<Entity>&, float)>;
 
     Scene* mechanism(LifeCycle lifeCycle, Mechanism mechanism);
 

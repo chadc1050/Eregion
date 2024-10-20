@@ -29,7 +29,7 @@ Scene* Scene::mechanism(LifeCycle lifeCycle, Mechanism mechanism) {
 /// @brief Initialize scene.
 void Scene::init() {
     for (Mechanism mechanism : initMechanisms) {
-        mechanism(this, entities);
+        mechanism(this, entities, -1.0f);
     }
 }
 
@@ -38,7 +38,7 @@ void Scene::init() {
 void Scene::update(float dt) {
 
     for (Mechanism mechanism : updateMechanisms) {
-        mechanism(this, entities);
+        mechanism(this, entities, dt);
     }
 
     // Update entities, and by extension, their components.

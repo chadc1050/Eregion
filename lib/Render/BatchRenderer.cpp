@@ -31,8 +31,6 @@ void BatchRenderer::render() {
     shader->bind();
 
     // Upload texture slots
-    int textureSlots[8] = {0, 1, 2, 3, 4, 5, 6, 7};
-
     size_t size = sizeof(textures.size()) / sizeof(int);
 
     auto samplerRes = shader->uploadIntArray("uTextures", textureSlots, size);
@@ -43,6 +41,8 @@ void BatchRenderer::render() {
 
     // Upload textures to texture slots
     int count = 0;
+    // TODO: This is bugged, we are sending the vertices with the texture program id but it actually needs to be the
+    // slotId
     for (const auto& texture : textures) {
 
         glActiveTexture(GL_TEXTURE0 + count);

@@ -2,8 +2,10 @@
 #include "eregion/Asset/UniformSpriteSheet.hpp"
 #include "eregion/Core/Camera.hpp"
 #include "eregion/Core/Game.hpp"
+#include "eregion/Core/MouseListener.hpp"
 #include "eregion/Core/Result.hpp"
 #include "eregion/Entity/Entity.hpp"
+#include "eregion/Logger/Logger.hpp"
 #include "eregion/Window/Window.hpp"
 
 #include <stdexcept>
@@ -11,7 +13,7 @@
 
 using namespace eregion;
 
-static void createWorld(Scene* commands, std::vector<Entity>& entities) {
+static void createWorld(Scene* commands, const std::vector<Entity>& entities, float dt) {
 
     // SPRITE 1
     auto uiRes = AssetPool::getTexture("../assets/textures/crafting.png");
@@ -63,10 +65,16 @@ static void createWorld(Scene* commands, std::vector<Entity>& entities) {
     commands->insertEntity(water);
 }
 
+static void cameraMove(Scene* commands, const std::vector<Entity>& entities, float dt) {
+    glm::vec2 mouseDelta = MouseListener::getPosChange();
+}
+
 int main() {
 
     Game::create(WindowConfig{640, 480, "Celebrimbor", true})
-        ->scene(Scene::create(Camera(glm::vec3(0.0f, 0.0f, 5.0f)))->mechanism(LifeCycle::INIT, createWorld))
+        ->scene(Scene::create(Camera(glm::vec3(0.0f, 0.0f, 5.0f)))
+                    ->mechanism(LifeCycle::INIT, createWorld)
+                    ->mechanism(LifeCycle::UPDATE, cameraMove))
         ->run();
 
     return 0;

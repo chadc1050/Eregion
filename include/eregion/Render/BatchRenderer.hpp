@@ -43,7 +43,7 @@ class BatchRenderer {
 
   private:
     // Maxiumum number of sprites in the pipeline
-    static const int MAX_BATCH_SIZE = 2;
+    static const int MAX_BATCH_SIZE = 5;
 
     // Attrib Size Consts
     static const unsigned int POS_SIZE = 2;
@@ -83,6 +83,7 @@ class BatchRenderer {
     int nSprites = 0;
 
     // Textures
+    int textureSlots[8] = {0, 1, 2, 3, 4, 5, 6, 7};
     std::unordered_map<std::string, Texture*> textures = {};
 
     // IDs
