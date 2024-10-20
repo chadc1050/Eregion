@@ -22,11 +22,16 @@ namespace eregion {
 class BatchRenderer {
   public:
     BatchRenderer(std::shared_ptr<Camera> camera, int zIndex);
-    void render();
+
     void start();
+
+    void render();
+
     Result<void> add(SpriteRenderer* sprite, Transform* transform);
+
     bool hasRoom();
     int getZIndex();
+
     ~BatchRenderer();
 
     // Comparision operators for determining draw order
@@ -38,7 +43,7 @@ class BatchRenderer {
 
   private:
     // Maxiumum number of sprites in the pipeline
-    static const int MAX_BATCH_SIZE = 2;
+    static const int MAX_BATCH_SIZE = 5;
 
     // Attrib Size Consts
     static const unsigned int POS_SIZE = 2;
@@ -78,6 +83,7 @@ class BatchRenderer {
     int nSprites = 0;
 
     // Textures
+    int textureSlots[8] = {0, 1, 2, 3, 4, 5, 6, 7};
     std::unordered_map<std::string, Texture*> textures = {};
 
     // IDs

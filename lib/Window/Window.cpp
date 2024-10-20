@@ -4,9 +4,7 @@ using namespace eregion;
 
 namespace eregion {
 
-Window* Window::create(WindowConfig config) { return new Window(config, new Scene()); }
-
-Result<void> Window::run() {
+Result<Window*> Window::create(WindowConfig config) {
 
     // Error callback to recieve error information
     glfwSetErrorCallback(errorCallback);
@@ -22,31 +20,31 @@ Result<void> Window::run() {
     // Create a windowed mode window and its OpenGL context
     GLFWwindow* glWindow = glfwCreateWindow(config.width, config.height, config.title.c_str(), NULL, NULL);
     if (!glWindow) {
-        return Result<void>(Error{"Error creating window"});
+        return Result<Window*>(Error{"Error creating window"});
     }
 
-    setGlWindow(glWindow);
+    Window* window = new Window(glWindow, config);
 
-    glfwSetWindowUserPointer(glWindow, this);
+    glfwSetWindowUserPointer(glWindow, window);
 
     info("Setting window context to current.");
 
     // Set callbacks
-    glfwSetKeyCallback(this->glWindow, KeyListener::keyCallback);
-    glfwSetCursorPosCallback(this->glWindow, MouseListener::posCallback);
-    glfwSetMouseButtonCallback(this->glWindow, MouseListener::buttonCallback);
-    glfwSetScrollCallback(this->glWindow, MouseListener::scrollCallback);
-    glfwSetFramebufferSizeCallback(this->glWindow, frameSizeCallback);
+    glfwSetKeyCallback(glWindow, KeyListener::keyCallback);
+    glfwSetCursorPosCallback(glWindow, MouseListener::posCallback);
+    glfwSetMouseButtonCallback(glWindow, MouseListener::buttonCallback);
+    glfwSetScrollCallback(glWindow, MouseListener::scrollCallback);
+    glfwSetFramebufferSizeCallback(glWindow, frameSizeCallback);
 
     info("Linked peripheral callbacks.");
 
     // Make the window's context current
-    glfwMakeContextCurrent(this->glWindow);
+    glfwMakeContextCurrent(glWindow);
 
     int version = gladLoadGL(glfwGetProcAddress);
 
     if (version == 0) {
-        return Result<void>(Error{"Failed to instantiate GLAD context."});
+        return Result<Window*>(Error{"Failed to instantiate GLAD context."});
     }
 
     std::string versionStr(reinterpret_cast<const char*>(glGetString(GL_VERSION)));
@@ -58,29 +56,36 @@ Result<void> Window::run() {
     glDebugMessageCallback(debugCallback, 0);
 
     // V-Sync
-    glfwSwapInterval(GL_TRUE);
+    glfwSwapInterval(config.vSync);
 
     // Config blending
     glEnable(GL_BLEND);
     glBlendFunc(GL_ONE, GL_ONE_MINUS_SRC_ALPHA);
 
-    frameSizeCallback(this->glWindow, config.width, config.height);
+    frameSizeCallback(glWindow, config.width, config.height);
 
-    currentScene->init();
+    return Result<Window*>(Success<Window*>{window});
+}
+
+Result<void> Window::run() {
 
     loop();
 
     return Result<void>();
 }
 
-Window::Window(WindowConfig config, Scene* currentScene) {
+Window::Window(GLFWwindow* glWindow, WindowConfig config) {
+    this->glWindow = glWindow;
     this->config = config;
-    this->currentScene = currentScene;
+    this->currentScene = nullptr;
 }
 
 Window::~Window() {
 
-    delete currentScene;
+    if (currentScene) {
+        delete currentScene;
+        warn("Deleted scene.");
+    }
 
     if (glWindow) {
         glfwDestroyWindow(glWindow);
@@ -98,12 +103,15 @@ Result<void> Window::loop() {
     // Loop until the user closes the window
     while (!glfwWindowShouldClose(this->glWindow)) {
 
-        // Set the clear color for the window
-        glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
+        // Set the black color for the window
+        glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
         glClear(GL_COLOR_BUFFER_BIT);
 
         if (dt > 0.0) {
-            currentScene->update(dt);
+            if (currentScene) {
+                currentScene->update(dt);
+                currentScene->draw();
+            }
         }
 
         endTime = getTime();
@@ -138,7 +146,15 @@ void Window::frameSizeCallback(GLFWwindow* window, int width, int height) {
     }
 }
 
-void Window::setGlWindow(GLFWwindow* glWindow) { this->glWindow = glWindow; }
+void Window::changeScene(Scene* next) {
+    // Potentially may want to consider not deleting the scene
+    if (currentScene) {
+        delete currentScene;
+    }
 
-GLFWwindow* Window::getGlWindow() { return glWindow; }
+    currentScene = next;
+    currentScene->init();
+    // TODO: This should be removed.
+    frameSizeCallback(glWindow, config.width, config.height);
+}
 } // namespace eregion

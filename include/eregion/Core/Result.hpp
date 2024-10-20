@@ -25,6 +25,7 @@ template <typename T> class Result {
     bool isSuccess() const;
     bool isError() const;
     T getValue() const;
+    std::string getError() const;
 
   private:
     std::variant<Success<T>, Error> result;
@@ -46,6 +47,13 @@ template <typename T> T Result<T>::getValue() const {
     return std::get<Success<T>>(result).value;
 }
 
+template <typename T> std::string Result<T>::getError() const {
+    if (this->isSuccess()) {
+        throw std::runtime_error("Invalid access of Result!");
+    }
+    return std::get<Error>(result).message;
+}
+
 // Specialization for Result<void> to handle functions that don't return values
 template <> class Result<void> {
   public:
@@ -54,6 +62,7 @@ template <> class Result<void> {
 
     bool isSuccess() const;
     bool isError() const;
+    std::string getError() const;
 
   private:
     std::variant<Success<void>, Error> result;
@@ -66,5 +75,12 @@ inline Result<void>::Result(const Error& error) : result(error) {}
 inline bool Result<void>::isSuccess() const { return std::holds_alternative<Success<void>>(result); }
 
 inline bool Result<void>::isError() const { return std::holds_alternative<Error>(result); }
+
+inline std::string Result<void>::getError() const {
+    if (this->isSuccess()) {
+        throw std::runtime_error("Invalid access of Result!");
+    }
+    return std::get<Error>(result).message;
+}
 
 } // namespace eregion

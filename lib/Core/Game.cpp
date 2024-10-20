@@ -8,16 +8,17 @@ using namespace eregion;
 
 namespace eregion {
 
-Result<Game*> Game::create() { return create(WindowConfig{640, 480, "Eregion"}); }
+Game* Game::create() { return create(WindowConfig{640, 480, "Eregion"}); }
 
-Result<Game*> Game::create(WindowConfig windowConfig) {
+Game* Game::create(WindowConfig windowConfig) {
 
     Game* game = new Game();
 
     // Initialize graphical library
     if (!glfwInit()) {
-        return Result<Game*>(Error{"Could not intialize low level graphics library"});
+        throw std::runtime_error("Could not intialize low level graphics library!");
     }
+
     info("Initialized OpenGL.");
 
     // Initialize asset pool
@@ -25,14 +26,30 @@ Result<Game*> Game::create(WindowConfig windowConfig) {
     info("Initialized Asset Pool.");
 
     // Create window instance
-    game->window = Window::create(windowConfig);
 
-    return Result<Game*>(Success<Game*>{game});
+    auto res = Window::create(windowConfig);
+
+    if (res.isError()) {
+        throw std::runtime_error(res.getError());
+    }
+
+    game->window = res.getValue();
+
+    return game;
 }
 
-Result<void> Game::run() {
+Game* Game::scene(Scene* scene) {
+    this->window->changeScene(scene);
+    return this;
+}
+
+void Game::run() {
     info("Starting game...");
-    return window->run();
+    auto res = window->run();
+
+    if (res.isError()) {
+        throw std::runtime_error(res.getError());
+    }
 }
 
 Game::Game() {}

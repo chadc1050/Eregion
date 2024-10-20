@@ -6,14 +6,17 @@
 #include "eregion/Window/Window.hpp"
 
 #include <GLFW/glfw3.h>
+
+#include <stdexcept>
 #include <variant>
 
 namespace eregion {
 class Game {
   public:
-    static Result<Game*> create();
-    static Result<Game*> create(WindowConfig windowConfig);
-    Result<void> run();
+    static Game* create();
+    static Game* create(WindowConfig windowConfig);
+    Game* scene(Scene* scene);
+    void run();
     ~Game();
 
   private:

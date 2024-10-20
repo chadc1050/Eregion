@@ -27,8 +27,6 @@ void Camera::updateViewport(unsigned int width, unsigned int height) {
 }
 
 void Camera::updateView() {
-    glm::vec3 camTarget = glm::vec3(pos.x, pos.y, 0.0f);
-
     glm::vec3 cameraFront = glm::vec3(0.0f, 0.0f, -1.0f);
 
     view = glm::lookAt(pos, pos + cameraFront, UP);
