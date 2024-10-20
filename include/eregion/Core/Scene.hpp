@@ -14,30 +14,52 @@
 
 #include <glm/glm.hpp>
 
+#include <functional>
 #include <memory>
 
 namespace eregion {
 
+enum LifeCycle {
+    INIT,
+    UPDATE,
+};
+
 class Scene {
 
   public:
-    Scene(Camera camera);
+    static Scene* create(Camera camera);
 
-    // Virtual methods to customize scene behavior
-    virtual void init() = 0;
+    /// @brief Function pointer to be used by Mechanism extensions
+    using Mechanism = std::function<void(Scene*, std::vector<Entity>&)>;
 
-    void update(float dt);
-    void draw();
+    Scene* mechanism(LifeCycle lifeCycle, Mechanism mechanism);
 
     void insertEntity(Entity entity);
-    void save();
-    void viewportUpdate(unsigned int width, unsigned int height);
 
-    virtual ~Scene();
+    ~Scene();
 
   private:
+    // Camera
     std::shared_ptr<Camera> camera;
+
+    // Render
     Renderer* renderer;
+
+    // ECS
     std::vector<Entity> entities;
+
+    // Mechanisms
+    std::vector<Mechanism> initMechanisms;
+    std::vector<Mechanism> updateMechanisms;
+
+    Scene(Camera camera);
+
+    void init();
+    void update(float dt);
+    void draw();
+    void viewportUpdate(unsigned int width, unsigned int height);
+
+    friend class Window;
 };
+
 } // namespace eregion

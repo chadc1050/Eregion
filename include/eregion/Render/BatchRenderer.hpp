@@ -22,11 +22,16 @@ namespace eregion {
 class BatchRenderer {
   public:
     BatchRenderer(std::shared_ptr<Camera> camera, int zIndex);
-    void render();
+
     void start();
+
+    void render();
+
     Result<void> add(SpriteRenderer* sprite, Transform* transform);
+
     bool hasRoom();
     int getZIndex();
+
     ~BatchRenderer();
 
     // Comparision operators for determining draw order
