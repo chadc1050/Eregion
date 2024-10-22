@@ -1,5 +1,6 @@
 # Eregion
-<img alt="Discord" src="https://img.shields.io/discord/1296476909739442256?style=for-the-badge&link=https%3A%2F%2Fdiscord.gg%2FeQQTgVFUxM&link=https%3A%2F%2Fdiscord.gg%2FeQQTgVFUxM">
+![CI Status](https://img.shields.io/github/actions/workflow/status/chadc1050/eregion/ci.yml?style=flat)
+<object id="discord-badge" data="https://img.shields.io/discord/1296476909739442256?style=flat&link=https%3A%2F%2Fdiscord.gg%2FeQQTgVFUxM"></object>
 
 [Install OpenGL](https://medium.com/geekculture/a-beginners-guide-to-setup-opengl-in-linux-debian-2bfe02ccd1e)
 
