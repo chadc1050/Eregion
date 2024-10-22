@@ -1,4 +1,4 @@
-name: Example Projecy Linux Build
+name: Example Project Linux Build
 
 on:
  push:
