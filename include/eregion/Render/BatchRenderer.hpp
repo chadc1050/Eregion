@@ -84,7 +84,7 @@ class BatchRenderer {
 
     // Textures
     int textureSlots[8] = {0, 1, 2, 3, 4, 5, 6, 7};
-    std::unordered_map<std::string, Texture*> textures = {};
+    std::vector<Texture*> textures = {};
 
     // IDs
     unsigned int vboId;
