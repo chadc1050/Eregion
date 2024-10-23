@@ -10,7 +10,7 @@ out vec4 color;
 
 void main()
 {
-    if(iTexId > 0) {
+    if(iTexId >= 0) {
         color = fColor * texture(uTextures[iTexId], fTexCoords);
     }
     else {

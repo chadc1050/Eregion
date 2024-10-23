@@ -31,9 +31,7 @@ void BatchRenderer::render() {
     shader->bind();
 
     // Upload texture slots
-    size_t size = sizeof(textures.size()) / sizeof(int);
-
-    auto samplerRes = shader->uploadIntArray("uTextures", textureSlots, size);
+    auto samplerRes = shader->uploadIntArray("uTextures", textureSlots, sizeof(textureSlots) / sizeof(int));
 
     if (samplerRes.isError()) {
         error("Error uploading texture slots to shader.");
@@ -41,13 +39,11 @@ void BatchRenderer::render() {
 
     // Upload textures to texture slots
     int count = 0;
-    // TODO: This is bugged, we are sending the vertices with the texture program id but it actually needs to be the
-    // slotId
     for (const auto& texture : textures) {
 
         glActiveTexture(GL_TEXTURE0 + count);
 
-        texture.second->bind();
+        texture->bind();
 
         auto idxRes = shader->uploadInt(("uTextures[" + std::to_string(count) + "]").c_str(), count);
 
@@ -76,7 +72,7 @@ void BatchRenderer::render() {
     glBindVertexArray(0);
 
     for (const auto& texture : textures) {
-        texture.second->unbind();
+        texture->unbind();
     }
 
     shader->unbind();
@@ -125,11 +121,18 @@ Result<void> BatchRenderer::add(SpriteRenderer* sprite, Transform* transform) {
     sprites[nSprites] = std::make_pair(sprite, transform);
     nSprites++;
 
-    // Compile texture if needed
-    Texture* texture = sprite->getSprite().getTexture();
-    std::string name = texture->getName();
-    if (!textures.contains(name)) {
-        textures[name] = texture;
+    Texture* toAdd = sprite->getSprite().getTexture();
+
+    bool present = false;
+    for (const auto& texture : textures) {
+        if (texture->getName() == toAdd->getName()) {
+            present = true;
+            break;
+        }
+    }
+
+    if (!present) {
+        textures.push_back(toAdd);
     }
 
     loadVertexProps(index);
@@ -160,9 +163,13 @@ void BatchRenderer::loadVertexProps(int index) {
 
     glm::vec4 color = spriteRenderer->getColor();
 
-    Texture* texture = sprite.getTexture();
-
-    int texId = texture->getTextureId();
+    int texId = 0;
+    for (const auto& texture : textures) {
+        if (texture->getName() == sprite.getTexture()->getName()) {
+            break;
+        }
+        texId = texId + 1;
+    }
 
     // Add vertices with the appropriate properties
     float xAdd = 0.5f;
