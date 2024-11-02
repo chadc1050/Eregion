@@ -26,7 +26,7 @@ Result<Shader> AssetPool::getShader(std::string path) {
         return Result<Shader>(Success<Shader>(inst.shaderPool[id]));
     }
 
-    auto res = loadShader(path);
+    auto res = inst.loader->loadShader(path);
 
     if (res.isError()) {
         return Result<Shader>(Error{"Could not load shader!"});
@@ -57,7 +57,7 @@ Result<Texture*> AssetPool::getTexture(std::string path) {
         return Result<Texture*>(Success<Texture*>(inst.texturePool[id]));
     }
 
-    auto res = loadTexture(path);
+    auto res = inst.loader->loadTexture(path);
 
     if (res.isError()) {
         return Result<Texture*>(Error{"Could not load texture!"});
@@ -72,5 +72,38 @@ Result<Texture*> AssetPool::getTexture(std::string path) {
     return Result<Texture*>(Success<Texture*>(texture));
 }
 
+Result<Font*> AssetPool::getFont(std::string path) {
+
+    AssetPool& inst = AssetPool::getInstance();
+
+    std::filesystem::path pathObj(path);
+
+    std::string name = pathObj.stem().string();
+    std::string extension = pathObj.extension().string();
+
+    std::string id = name + extension;
+
+    if (inst.fontPool.contains(id)) {
+        info("Cache hit for font: " + id);
+        return Result<Font*>(Success<Font*>(inst.fontPool[id]));
+    }
+
+    auto res = inst.loader->loadFont(path);
+
+    if (res.isError()) {
+        return Result<Font*>(Error{"Could not load font!"});
+    }
+
+    Font* font = res.getValue();
+
+    // Put into cache
+    inst.fontPool[id] = font;
+
+    info("Successfully loaded font: " + id);
+    return Result<Font*>(Success<Font*>(font));
+}
+
 AssetPool::AssetPool() {}
+
+AssetPool::~AssetPool() { delete loader; }
 } // namespace eregion

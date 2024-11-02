@@ -15,7 +15,7 @@
 namespace eregion {
 class Texture {
   public:
-    static Result<Texture*> compile(std::string name, unsigned char* src, int width, int height, int channels);
+    static Result<Texture*> compile(std::string name, unsigned char* buffer, int width, int height, int channels);
     void bind();
     void unbind();
     bool isActive();
@@ -29,7 +29,6 @@ class Texture {
   private:
     std::string name;
     unsigned int id;
-    unsigned char* src;
     int width;
     int height;
     int channels;

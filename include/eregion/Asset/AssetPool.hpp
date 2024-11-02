@@ -7,6 +7,7 @@
 #include "eregion/Logger/Logger.hpp"
 
 #include <filesystem>
+#include <stdexcept>
 #include <string>
 #include <unordered_map>
 
@@ -17,6 +18,7 @@ class AssetPool {
     static AssetPool& getInstance();
     static Result<Shader> getShader(std::string path);
     static Result<Texture*> getTexture(std::string path);
+    static Result<Font*> getFont(std::string path);
 
     // Delete copy constructor and assignment operator to prevent copying
     AssetPool(const AssetPool&) = delete;
@@ -24,9 +26,12 @@ class AssetPool {
 
   private:
     AssetPool();
-    ~AssetPool() = default;
+    ~AssetPool();
 
     std::unordered_map<std::string, Shader> shaderPool = {};
     std::unordered_map<std::string, Texture*> texturePool = {};
+    std::unordered_map<std::string, Font*> fontPool = {};
+
+    Loader* loader = new Loader();
 };
 } // namespace eregion
