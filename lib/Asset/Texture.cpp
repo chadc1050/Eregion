@@ -6,7 +6,7 @@ namespace eregion {
 
 Result<Texture*> Texture::compile(std::string name, unsigned char* buffer, int width, int height, int channels) {
 
-    debug("Compiling texture: " + name);
+    trace("Compiling texture: " + name);
 
     unsigned int textureId;
     glGenTextures(1, &textureId);
@@ -24,15 +24,15 @@ Result<Texture*> Texture::compile(std::string name, unsigned char* buffer, int w
     // Check color channel compatibility
     switch (channels) {
     case 1:
-        debug("Texture is using single channel bitmap.");
+        trace("Texture is using single channel bitmap.");
         glTexImage2D(GL_TEXTURE_2D, 0, GL_RED, width, height, 0, GL_RED, GL_UNSIGNED_BYTE, buffer);
         break;
     case 3:
-        debug("Texture is using 3 color channel.");
+        trace("Texture is using 3 color channel.");
         glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, width, height, 0, GL_RGB, GL_UNSIGNED_BYTE, buffer);
         break;
     case 4:
-        debug("Texture is using 4 color channel.");
+        trace("Texture is using 4 color channel.");
         glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, width, height, 0, GL_RGBA, GL_UNSIGNED_BYTE, buffer);
         break;
     default:

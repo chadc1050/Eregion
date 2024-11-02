@@ -70,7 +70,7 @@ Result<Texture*> Loader::loadTexture(std::string path) {
     return Result<Texture*>(Success<Texture*>(res.getValue()));
 }
 
-Result<Font*> Loader::loadFont(std::string path) {
+Result<Font*> Loader::loadFont(std::string path, unsigned int fontSize) {
     std::filesystem::path pathObj(path);
 
     std::string name = pathObj.stem().string();
@@ -78,16 +78,20 @@ Result<Font*> Loader::loadFont(std::string path) {
 
     FT_Face face;
     if (FT_New_Face(ft, path.c_str(), 0, &face)) {
-        return Result<Font*>(Error{"Failed to load font"});
+        return Result<Font*>(Error{"Failed to load font!"});
     }
 
     std::string id = name + extension;
 
-    Font* font = new Font(face, id);
+    auto res = Font::compile(face, id, fontSize);
 
     FT_Done_Face(face);
 
-    return Result<Font*>(Success<Font*>(font));
+    if (res.isError()) {
+        return Result<Font*>(Error{"Failed to load font! " + res.getError()});
+    }
+
+    return Result<Font*>(Success<Font*>(res.getValue()));
 }
 
 Loader::~Loader() { FT_Done_FreeType(ft); }

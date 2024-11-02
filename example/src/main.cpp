@@ -5,6 +5,7 @@
 #include "eregion/Core/MouseListener.hpp"
 #include "eregion/Core/Result.hpp"
 #include "eregion/Entity/Entity.hpp"
+#include "eregion/Entity/TextRenderer.hpp"
 #include "eregion/Logger/Logger.hpp"
 #include "eregion/Window/Window.hpp"
 
@@ -52,6 +53,19 @@ static void createWorld(Scene* commands, const std::vector<Entity>& entities, fl
     water.addComponent(new SpriteRenderer(std::make_shared<Sprite>(terrainSheet.getSprite(153))));
     water.addComponent(new Transform(glm::vec2(-2.5f, -1.5f)));
     commands->insertEntity(water);
+
+    // TEXT
+    auto fontRes = AssetPool::getFont("../assets/fonts/Roboto.ttf", 48);
+
+    if (fontRes.isError()) {
+        throw std::runtime_error(fontRes.getError());
+    }
+
+    Font* roboto = fontRes.getValue();
+
+    Entity text = Entity("text");
+    text.addComponent(new TextRenderer("Celebrimbor", std::shared_ptr<Font>(std::move(roboto))));
+    water.addComponent(new Transform(glm::vec2(1.0f, 1.0f)));
 }
 
 static void cameraMove(Scene* commands, const std::vector<Entity>& entities, float dt) {

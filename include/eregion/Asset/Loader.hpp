@@ -25,7 +25,7 @@ class Loader {
     Result<Shader> loadShader(std::string path);
     Result<Texture*> loadTexture(std::string path);
     // TODO: Need to add font size as well
-    Result<Font*> loadFont(std::string path);
+    Result<Font*> loadFont(std::string path, unsigned int fontSize);
 
     ~Loader();
 

@@ -1,6 +1,7 @@
 #pragma once
 
 #include "eregion/Asset/Texture.hpp"
+#include "eregion/Core/Result.hpp"
 
 #include <gl.h>
 #define GLFW_INCLUDE_NONE
@@ -25,10 +26,10 @@ struct Character {
 
 class Font {
   public:
-    Font(FT_Face face, std::string name);
+    static Result<Font*> compile(FT_Face face, std::string name, unsigned int fontSize);
     ~Font();
 
   private:
-    std::unordered_map<char, Character> characters;
+    std::unordered_map<char, Character> characters = {};
 };
 } // namespace eregion

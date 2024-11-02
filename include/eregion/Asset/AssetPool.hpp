@@ -18,7 +18,7 @@ class AssetPool {
     static AssetPool& getInstance();
     static Result<Shader> getShader(std::string path);
     static Result<Texture*> getTexture(std::string path);
-    static Result<Font*> getFont(std::string path);
+    static Result<Font*> getFont(std::string path, unsigned int fontSize);
 
     // Delete copy constructor and assignment operator to prevent copying
     AssetPool(const AssetPool&) = delete;

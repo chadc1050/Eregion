@@ -72,7 +72,7 @@ Result<Texture*> AssetPool::getTexture(std::string path) {
     return Result<Texture*>(Success<Texture*>(texture));
 }
 
-Result<Font*> AssetPool::getFont(std::string path) {
+Result<Font*> AssetPool::getFont(std::string path, unsigned int fontSize) {
 
     AssetPool& inst = AssetPool::getInstance();
 
@@ -81,14 +81,14 @@ Result<Font*> AssetPool::getFont(std::string path) {
     std::string name = pathObj.stem().string();
     std::string extension = pathObj.extension().string();
 
-    std::string id = name + extension;
+    std::string id = name + extension + "-" + std::to_string(fontSize);
 
     if (inst.fontPool.contains(id)) {
         info("Cache hit for font: " + id);
         return Result<Font*>(Success<Font*>(inst.fontPool[id]));
     }
 
-    auto res = inst.loader->loadFont(path);
+    auto res = inst.loader->loadFont(path, fontSize);
 
     if (res.isError()) {
         return Result<Font*>(Error{"Could not load font!"});
