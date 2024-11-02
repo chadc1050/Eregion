@@ -1,0 +1,132 @@
+[
+{
+  "directory": "/home/chad/Repos/Eregion/build",
+  "command": "/usr/bin/clang  -I/home/chad/Repos/Eregion/include -I/home/chad/Repos/Eregion/third-party/include/glad -I/home/chad/Repos/Eregion/third-party/include/khr -I/home/chad/Repos/Eregion/third-party/include/glm -I/home/chad/Repos/Eregion/third-party/include/lin-math -I/home/chad/Repos/Eregion/third-party/include/stb_image -I/usr/include/GLFW -g -o CMakeFiles/GLAD.dir/third-party/lib/glad/gl.c.o -c /home/chad/Repos/Eregion/third-party/lib/glad/gl.c",
+  "file": "/home/chad/Repos/Eregion/third-party/lib/glad/gl.c"
+},
+{
+  "directory": "/home/chad/Repos/Eregion/build",
+  "command": "/usr/bin/clang++ -Deregion_EXPORTS -I/home/chad/Repos/Eregion/include -I/home/chad/Repos/Eregion/third-party/include/glad -I/home/chad/Repos/Eregion/third-party/include/khr -I/home/chad/Repos/Eregion/third-party/include/glm -I/home/chad/Repos/Eregion/third-party/include/lin-math -I/home/chad/Repos/Eregion/third-party/include/stb_image -I/usr/include/GLFW -I/usr/lib/x86_64-linux-gnu/libglfw.so -I/home/chad/Repos/Eregion/GLAD -I/usr/lib/x86_64-linux-gnu/libOpenGL.so -I/usr/lib/x86_64-linux-gnu/libGLX.so -I/usr/lib/x86_64-linux-gnu/libGLU.so -I/home/chad/Repos/Eregion/dl -g -fPIC -std=gnu++20 -o CMakeFiles/eregion.dir/lib/Asset/AssetPool.cpp.o -c /home/chad/Repos/Eregion/lib/Asset/AssetPool.cpp",
+  "file": "/home/chad/Repos/Eregion/lib/Asset/AssetPool.cpp"
+},
+{
+  "directory": "/home/chad/Repos/Eregion/build",
+  "command": "/usr/bin/clang++ -Deregion_EXPORTS -I/home/chad/Repos/Eregion/include -I/home/chad/Repos/Eregion/third-party/include/glad -I/home/chad/Repos/Eregion/third-party/include/khr -I/home/chad/Repos/Eregion/third-party/include/glm -I/home/chad/Repos/Eregion/third-party/include/lin-math -I/home/chad/Repos/Eregion/third-party/include/stb_image -I/usr/include/GLFW -I/usr/lib/x86_64-linux-gnu/libglfw.so -I/home/chad/Repos/Eregion/GLAD -I/usr/lib/x86_64-linux-gnu/libOpenGL.so -I/usr/lib/x86_64-linux-gnu/libGLX.so -I/usr/lib/x86_64-linux-gnu/libGLU.so -I/home/chad/Repos/Eregion/dl -g -fPIC -std=gnu++20 -o CMakeFiles/eregion.dir/lib/Asset/Font.cpp.o -c /home/chad/Repos/Eregion/lib/Asset/Font.cpp",
+  "file": "/home/chad/Repos/Eregion/lib/Asset/Font.cpp"
+},
+{
+  "directory": "/home/chad/Repos/Eregion/build",
+  "command": "/usr/bin/clang++ -Deregion_EXPORTS -I/home/chad/Repos/Eregion/include -I/home/chad/Repos/Eregion/third-party/include/glad -I/home/chad/Repos/Eregion/third-party/include/khr -I/home/chad/Repos/Eregion/third-party/include/glm -I/home/chad/Repos/Eregion/third-party/include/lin-math -I/home/chad/Repos/Eregion/third-party/include/stb_image -I/usr/include/GLFW -I/usr/lib/x86_64-linux-gnu/libglfw.so -I/home/chad/Repos/Eregion/GLAD -I/usr/lib/x86_64-linux-gnu/libOpenGL.so -I/usr/lib/x86_64-linux-gnu/libGLX.so -I/usr/lib/x86_64-linux-gnu/libGLU.so -I/home/chad/Repos/Eregion/dl -g -fPIC -std=gnu++20 -o CMakeFiles/eregion.dir/lib/Asset/Loader.cpp.o -c /home/chad/Repos/Eregion/lib/Asset/Loader.cpp",
+  "file": "/home/chad/Repos/Eregion/lib/Asset/Loader.cpp"
+},
+{
+  "directory": "/home/chad/Repos/Eregion/build",
+  "command": "/usr/bin/clang++ -Deregion_EXPORTS -I/home/chad/Repos/Eregion/include -I/home/chad/Repos/Eregion/third-party/include/glad -I/home/chad/Repos/Eregion/third-party/include/khr -I/home/chad/Repos/Eregion/third-party/include/glm -I/home/chad/Repos/Eregion/third-party/include/lin-math -I/home/chad/Repos/Eregion/third-party/include/stb_image -I/usr/include/GLFW -I/usr/lib/x86_64-linux-gnu/libglfw.so -I/home/chad/Repos/Eregion/GLAD -I/usr/lib/x86_64-linux-gnu/libOpenGL.so -I/usr/lib/x86_64-linux-gnu/libGLX.so -I/usr/lib/x86_64-linux-gnu/libGLU.so -I/home/chad/Repos/Eregion/dl -g -fPIC -std=gnu++20 -o CMakeFiles/eregion.dir/lib/Asset/Shader.cpp.o -c /home/chad/Repos/Eregion/lib/Asset/Shader.cpp",
+  "file": "/home/chad/Repos/Eregion/lib/Asset/Shader.cpp"
+},
+{
+  "directory": "/home/chad/Repos/Eregion/build",
+  "command": "/usr/bin/clang++ -Deregion_EXPORTS -I/home/chad/Repos/Eregion/include -I/home/chad/Repos/Eregion/third-party/include/glad -I/home/chad/Repos/Eregion/third-party/include/khr -I/home/chad/Repos/Eregion/third-party/include/glm -I/home/chad/Repos/Eregion/third-party/include/lin-math -I/home/chad/Repos/Eregion/third-party/include/stb_image -I/usr/include/GLFW -I/usr/lib/x86_64-linux-gnu/libglfw.so -I/home/chad/Repos/Eregion/GLAD -I/usr/lib/x86_64-linux-gnu/libOpenGL.so -I/usr/lib/x86_64-linux-gnu/libGLX.so -I/usr/lib/x86_64-linux-gnu/libGLU.so -I/home/chad/Repos/Eregion/dl -g -fPIC -std=gnu++20 -o CMakeFiles/eregion.dir/lib/Asset/SpriteSheet.cpp.o -c /home/chad/Repos/Eregion/lib/Asset/SpriteSheet.cpp",
+  "file": "/home/chad/Repos/Eregion/lib/Asset/SpriteSheet.cpp"
+},
+{
+  "directory": "/home/chad/Repos/Eregion/build",
+  "command": "/usr/bin/clang++ -Deregion_EXPORTS -I/home/chad/Repos/Eregion/include -I/home/chad/Repos/Eregion/third-party/include/glad -I/home/chad/Repos/Eregion/third-party/include/khr -I/home/chad/Repos/Eregion/third-party/include/glm -I/home/chad/Repos/Eregion/third-party/include/lin-math -I/home/chad/Repos/Eregion/third-party/include/stb_image -I/usr/include/GLFW -I/usr/lib/x86_64-linux-gnu/libglfw.so -I/home/chad/Repos/Eregion/GLAD -I/usr/lib/x86_64-linux-gnu/libOpenGL.so -I/usr/lib/x86_64-linux-gnu/libGLX.so -I/usr/lib/x86_64-linux-gnu/libGLU.so -I/home/chad/Repos/Eregion/dl -g -fPIC -std=gnu++20 -o CMakeFiles/eregion.dir/lib/Asset/Texture.cpp.o -c /home/chad/Repos/Eregion/lib/Asset/Texture.cpp",
+  "file": "/home/chad/Repos/Eregion/lib/Asset/Texture.cpp"
+},
+{
+  "directory": "/home/chad/Repos/Eregion/build",
+  "command": "/usr/bin/clang++ -Deregion_EXPORTS -I/home/chad/Repos/Eregion/include -I/home/chad/Repos/Eregion/third-party/include/glad -I/home/chad/Repos/Eregion/third-party/include/khr -I/home/chad/Repos/Eregion/third-party/include/glm -I/home/chad/Repos/Eregion/third-party/include/lin-math -I/home/chad/Repos/Eregion/third-party/include/stb_image -I/usr/include/GLFW -I/usr/lib/x86_64-linux-gnu/libglfw.so -I/home/chad/Repos/Eregion/GLAD -I/usr/lib/x86_64-linux-gnu/libOpenGL.so -I/usr/lib/x86_64-linux-gnu/libGLX.so -I/usr/lib/x86_64-linux-gnu/libGLU.so -I/home/chad/Repos/Eregion/dl -g -fPIC -std=gnu++20 -o CMakeFiles/eregion.dir/lib/Asset/UniformSpriteSheet.cpp.o -c /home/chad/Repos/Eregion/lib/Asset/UniformSpriteSheet.cpp",
+  "file": "/home/chad/Repos/Eregion/lib/Asset/UniformSpriteSheet.cpp"
+},
+{
+  "directory": "/home/chad/Repos/Eregion/build",
+  "command": "/usr/bin/clang++ -Deregion_EXPORTS -I/home/chad/Repos/Eregion/include -I/home/chad/Repos/Eregion/third-party/include/glad -I/home/chad/Repos/Eregion/third-party/include/khr -I/home/chad/Repos/Eregion/third-party/include/glm -I/home/chad/Repos/Eregion/third-party/include/lin-math -I/home/chad/Repos/Eregion/third-party/include/stb_image -I/usr/include/GLFW -I/usr/lib/x86_64-linux-gnu/libglfw.so -I/home/chad/Repos/Eregion/GLAD -I/usr/lib/x86_64-linux-gnu/libOpenGL.so -I/usr/lib/x86_64-linux-gnu/libGLX.so -I/usr/lib/x86_64-linux-gnu/libGLU.so -I/home/chad/Repos/Eregion/dl -g -fPIC -std=gnu++20 -o CMakeFiles/eregion.dir/lib/Core/Camera.cpp.o -c /home/chad/Repos/Eregion/lib/Core/Camera.cpp",
+  "file": "/home/chad/Repos/Eregion/lib/Core/Camera.cpp"
+},
+{
+  "directory": "/home/chad/Repos/Eregion/build",
+  "command": "/usr/bin/clang++ -Deregion_EXPORTS -I/home/chad/Repos/Eregion/include -I/home/chad/Repos/Eregion/third-party/include/glad -I/home/chad/Repos/Eregion/third-party/include/khr -I/home/chad/Repos/Eregion/third-party/include/glm -I/home/chad/Repos/Eregion/third-party/include/lin-math -I/home/chad/Repos/Eregion/third-party/include/stb_image -I/usr/include/GLFW -I/usr/lib/x86_64-linux-gnu/libglfw.so -I/home/chad/Repos/Eregion/GLAD -I/usr/lib/x86_64-linux-gnu/libOpenGL.so -I/usr/lib/x86_64-linux-gnu/libGLX.so -I/usr/lib/x86_64-linux-gnu/libGLU.so -I/home/chad/Repos/Eregion/dl -g -fPIC -std=gnu++20 -o CMakeFiles/eregion.dir/lib/Core/Game.cpp.o -c /home/chad/Repos/Eregion/lib/Core/Game.cpp",
+  "file": "/home/chad/Repos/Eregion/lib/Core/Game.cpp"
+},
+{
+  "directory": "/home/chad/Repos/Eregion/build",
+  "command": "/usr/bin/clang++ -Deregion_EXPORTS -I/home/chad/Repos/Eregion/include -I/home/chad/Repos/Eregion/third-party/include/glad -I/home/chad/Repos/Eregion/third-party/include/khr -I/home/chad/Repos/Eregion/third-party/include/glm -I/home/chad/Repos/Eregion/third-party/include/lin-math -I/home/chad/Repos/Eregion/third-party/include/stb_image -I/usr/include/GLFW -I/usr/lib/x86_64-linux-gnu/libglfw.so -I/home/chad/Repos/Eregion/GLAD -I/usr/lib/x86_64-linux-gnu/libOpenGL.so -I/usr/lib/x86_64-linux-gnu/libGLX.so -I/usr/lib/x86_64-linux-gnu/libGLU.so -I/home/chad/Repos/Eregion/dl -g -fPIC -std=gnu++20 -o CMakeFiles/eregion.dir/lib/Core/KeyListener.cpp.o -c /home/chad/Repos/Eregion/lib/Core/KeyListener.cpp",
+  "file": "/home/chad/Repos/Eregion/lib/Core/KeyListener.cpp"
+},
+{
+  "directory": "/home/chad/Repos/Eregion/build",
+  "command": "/usr/bin/clang++ -Deregion_EXPORTS -I/home/chad/Repos/Eregion/include -I/home/chad/Repos/Eregion/third-party/include/glad -I/home/chad/Repos/Eregion/third-party/include/khr -I/home/chad/Repos/Eregion/third-party/include/glm -I/home/chad/Repos/Eregion/third-party/include/lin-math -I/home/chad/Repos/Eregion/third-party/include/stb_image -I/usr/include/GLFW -I/usr/lib/x86_64-linux-gnu/libglfw.so -I/home/chad/Repos/Eregion/GLAD -I/usr/lib/x86_64-linux-gnu/libOpenGL.so -I/usr/lib/x86_64-linux-gnu/libGLX.so -I/usr/lib/x86_64-linux-gnu/libGLU.so -I/home/chad/Repos/Eregion/dl -g -fPIC -std=gnu++20 -o CMakeFiles/eregion.dir/lib/Core/MouseListener.cpp.o -c /home/chad/Repos/Eregion/lib/Core/MouseListener.cpp",
+  "file": "/home/chad/Repos/Eregion/lib/Core/MouseListener.cpp"
+},
+{
+  "directory": "/home/chad/Repos/Eregion/build",
+  "command": "/usr/bin/clang++ -Deregion_EXPORTS -I/home/chad/Repos/Eregion/include -I/home/chad/Repos/Eregion/third-party/include/glad -I/home/chad/Repos/Eregion/third-party/include/khr -I/home/chad/Repos/Eregion/third-party/include/glm -I/home/chad/Repos/Eregion/third-party/include/lin-math -I/home/chad/Repos/Eregion/third-party/include/stb_image -I/usr/include/GLFW -I/usr/lib/x86_64-linux-gnu/libglfw.so -I/home/chad/Repos/Eregion/GLAD -I/usr/lib/x86_64-linux-gnu/libOpenGL.so -I/usr/lib/x86_64-linux-gnu/libGLX.so -I/usr/lib/x86_64-linux-gnu/libGLU.so -I/home/chad/Repos/Eregion/dl -g -fPIC -std=gnu++20 -o CMakeFiles/eregion.dir/lib/Core/Scene.cpp.o -c /home/chad/Repos/Eregion/lib/Core/Scene.cpp",
+  "file": "/home/chad/Repos/Eregion/lib/Core/Scene.cpp"
+},
+{
+  "directory": "/home/chad/Repos/Eregion/build",
+  "command": "/usr/bin/clang++ -Deregion_EXPORTS -I/home/chad/Repos/Eregion/include -I/home/chad/Repos/Eregion/third-party/include/glad -I/home/chad/Repos/Eregion/third-party/include/khr -I/home/chad/Repos/Eregion/third-party/include/glm -I/home/chad/Repos/Eregion/third-party/include/lin-math -I/home/chad/Repos/Eregion/third-party/include/stb_image -I/usr/include/GLFW -I/usr/lib/x86_64-linux-gnu/libglfw.so -I/home/chad/Repos/Eregion/GLAD -I/usr/lib/x86_64-linux-gnu/libOpenGL.so -I/usr/lib/x86_64-linux-gnu/libGLX.so -I/usr/lib/x86_64-linux-gnu/libGLU.so -I/home/chad/Repos/Eregion/dl -g -fPIC -std=gnu++20 -o CMakeFiles/eregion.dir/lib/Entity/Component.cpp.o -c /home/chad/Repos/Eregion/lib/Entity/Component.cpp",
+  "file": "/home/chad/Repos/Eregion/lib/Entity/Component.cpp"
+},
+{
+  "directory": "/home/chad/Repos/Eregion/build",
+  "command": "/usr/bin/clang++ -Deregion_EXPORTS -I/home/chad/Repos/Eregion/include -I/home/chad/Repos/Eregion/third-party/include/glad -I/home/chad/Repos/Eregion/third-party/include/khr -I/home/chad/Repos/Eregion/third-party/include/glm -I/home/chad/Repos/Eregion/third-party/include/lin-math -I/home/chad/Repos/Eregion/third-party/include/stb_image -I/usr/include/GLFW -I/usr/lib/x86_64-linux-gnu/libglfw.so -I/home/chad/Repos/Eregion/GLAD -I/usr/lib/x86_64-linux-gnu/libOpenGL.so -I/usr/lib/x86_64-linux-gnu/libGLX.so -I/usr/lib/x86_64-linux-gnu/libGLU.so -I/home/chad/Repos/Eregion/dl -g -fPIC -std=gnu++20 -o CMakeFiles/eregion.dir/lib/Entity/Entity.cpp.o -c /home/chad/Repos/Eregion/lib/Entity/Entity.cpp",
+  "file": "/home/chad/Repos/Eregion/lib/Entity/Entity.cpp"
+},
+{
+  "directory": "/home/chad/Repos/Eregion/build",
+  "command": "/usr/bin/clang++ -Deregion_EXPORTS -I/home/chad/Repos/Eregion/include -I/home/chad/Repos/Eregion/third-party/include/glad -I/home/chad/Repos/Eregion/third-party/include/khr -I/home/chad/Repos/Eregion/third-party/include/glm -I/home/chad/Repos/Eregion/third-party/include/lin-math -I/home/chad/Repos/Eregion/third-party/include/stb_image -I/usr/include/GLFW -I/usr/lib/x86_64-linux-gnu/libglfw.so -I/home/chad/Repos/Eregion/GLAD -I/usr/lib/x86_64-linux-gnu/libOpenGL.so -I/usr/lib/x86_64-linux-gnu/libGLX.so -I/usr/lib/x86_64-linux-gnu/libGLU.so -I/home/chad/Repos/Eregion/dl -g -fPIC -std=gnu++20 -o CMakeFiles/eregion.dir/lib/Entity/Sprite.cpp.o -c /home/chad/Repos/Eregion/lib/Entity/Sprite.cpp",
+  "file": "/home/chad/Repos/Eregion/lib/Entity/Sprite.cpp"
+},
+{
+  "directory": "/home/chad/Repos/Eregion/build",
+  "command": "/usr/bin/clang++ -Deregion_EXPORTS -I/home/chad/Repos/Eregion/include -I/home/chad/Repos/Eregion/third-party/include/glad -I/home/chad/Repos/Eregion/third-party/include/khr -I/home/chad/Repos/Eregion/third-party/include/glm -I/home/chad/Repos/Eregion/third-party/include/lin-math -I/home/chad/Repos/Eregion/third-party/include/stb_image -I/usr/include/GLFW -I/usr/lib/x86_64-linux-gnu/libglfw.so -I/home/chad/Repos/Eregion/GLAD -I/usr/lib/x86_64-linux-gnu/libOpenGL.so -I/usr/lib/x86_64-linux-gnu/libGLX.so -I/usr/lib/x86_64-linux-gnu/libGLU.so -I/home/chad/Repos/Eregion/dl -g -fPIC -std=gnu++20 -o CMakeFiles/eregion.dir/lib/Entity/SpriteRenderer.cpp.o -c /home/chad/Repos/Eregion/lib/Entity/SpriteRenderer.cpp",
+  "file": "/home/chad/Repos/Eregion/lib/Entity/SpriteRenderer.cpp"
+},
+{
+  "directory": "/home/chad/Repos/Eregion/build",
+  "command": "/usr/bin/clang++ -Deregion_EXPORTS -I/home/chad/Repos/Eregion/include -I/home/chad/Repos/Eregion/third-party/include/glad -I/home/chad/Repos/Eregion/third-party/include/khr -I/home/chad/Repos/Eregion/third-party/include/glm -I/home/chad/Repos/Eregion/third-party/include/lin-math -I/home/chad/Repos/Eregion/third-party/include/stb_image -I/usr/include/GLFW -I/usr/lib/x86_64-linux-gnu/libglfw.so -I/home/chad/Repos/Eregion/GLAD -I/usr/lib/x86_64-linux-gnu/libOpenGL.so -I/usr/lib/x86_64-linux-gnu/libGLX.so -I/usr/lib/x86_64-linux-gnu/libGLU.so -I/home/chad/Repos/Eregion/dl -g -fPIC -std=gnu++20 -o CMakeFiles/eregion.dir/lib/Entity/TextRenderer.cpp.o -c /home/chad/Repos/Eregion/lib/Entity/TextRenderer.cpp",
+  "file": "/home/chad/Repos/Eregion/lib/Entity/TextRenderer.cpp"
+},
+{
+  "directory": "/home/chad/Repos/Eregion/build",
+  "command": "/usr/bin/clang++ -Deregion_EXPORTS -I/home/chad/Repos/Eregion/include -I/home/chad/Repos/Eregion/third-party/include/glad -I/home/chad/Repos/Eregion/third-party/include/khr -I/home/chad/Repos/Eregion/third-party/include/glm -I/home/chad/Repos/Eregion/third-party/include/lin-math -I/home/chad/Repos/Eregion/third-party/include/stb_image -I/usr/include/GLFW -I/usr/lib/x86_64-linux-gnu/libglfw.so -I/home/chad/Repos/Eregion/GLAD -I/usr/lib/x86_64-linux-gnu/libOpenGL.so -I/usr/lib/x86_64-linux-gnu/libGLX.so -I/usr/lib/x86_64-linux-gnu/libGLU.so -I/home/chad/Repos/Eregion/dl -g -fPIC -std=gnu++20 -o CMakeFiles/eregion.dir/lib/Entity/Transform.cpp.o -c /home/chad/Repos/Eregion/lib/Entity/Transform.cpp",
+  "file": "/home/chad/Repos/Eregion/lib/Entity/Transform.cpp"
+},
+{
+  "directory": "/home/chad/Repos/Eregion/build",
+  "command": "/usr/bin/clang++ -Deregion_EXPORTS -I/home/chad/Repos/Eregion/include -I/home/chad/Repos/Eregion/third-party/include/glad -I/home/chad/Repos/Eregion/third-party/include/khr -I/home/chad/Repos/Eregion/third-party/include/glm -I/home/chad/Repos/Eregion/third-party/include/lin-math -I/home/chad/Repos/Eregion/third-party/include/stb_image -I/usr/include/GLFW -I/usr/lib/x86_64-linux-gnu/libglfw.so -I/home/chad/Repos/Eregion/GLAD -I/usr/lib/x86_64-linux-gnu/libOpenGL.so -I/usr/lib/x86_64-linux-gnu/libGLX.so -I/usr/lib/x86_64-linux-gnu/libGLU.so -I/home/chad/Repos/Eregion/dl -g -fPIC -std=gnu++20 -o CMakeFiles/eregion.dir/lib/Logger/Logger.cpp.o -c /home/chad/Repos/Eregion/lib/Logger/Logger.cpp",
+  "file": "/home/chad/Repos/Eregion/lib/Logger/Logger.cpp"
+},
+{
+  "directory": "/home/chad/Repos/Eregion/build",
+  "command": "/usr/bin/clang++ -Deregion_EXPORTS -I/home/chad/Repos/Eregion/include -I/home/chad/Repos/Eregion/third-party/include/glad -I/home/chad/Repos/Eregion/third-party/include/khr -I/home/chad/Repos/Eregion/third-party/include/glm -I/home/chad/Repos/Eregion/third-party/include/lin-math -I/home/chad/Repos/Eregion/third-party/include/stb_image -I/usr/include/GLFW -I/usr/lib/x86_64-linux-gnu/libglfw.so -I/home/chad/Repos/Eregion/GLAD -I/usr/lib/x86_64-linux-gnu/libOpenGL.so -I/usr/lib/x86_64-linux-gnu/libGLX.so -I/usr/lib/x86_64-linux-gnu/libGLU.so -I/home/chad/Repos/Eregion/dl -g -fPIC -std=gnu++20 -o CMakeFiles/eregion.dir/lib/Render/BatchRenderer.cpp.o -c /home/chad/Repos/Eregion/lib/Render/BatchRenderer.cpp",
+  "file": "/home/chad/Repos/Eregion/lib/Render/BatchRenderer.cpp"
+},
+{
+  "directory": "/home/chad/Repos/Eregion/build",
+  "command": "/usr/bin/clang++ -Deregion_EXPORTS -I/home/chad/Repos/Eregion/include -I/home/chad/Repos/Eregion/third-party/include/glad -I/home/chad/Repos/Eregion/third-party/include/khr -I/home/chad/Repos/Eregion/third-party/include/glm -I/home/chad/Repos/Eregion/third-party/include/lin-math -I/home/chad/Repos/Eregion/third-party/include/stb_image -I/usr/include/GLFW -I/usr/lib/x86_64-linux-gnu/libglfw.so -I/home/chad/Repos/Eregion/GLAD -I/usr/lib/x86_64-linux-gnu/libOpenGL.so -I/usr/lib/x86_64-linux-gnu/libGLX.so -I/usr/lib/x86_64-linux-gnu/libGLU.so -I/home/chad/Repos/Eregion/dl -g -fPIC -std=gnu++20 -o CMakeFiles/eregion.dir/lib/Render/Renderer.cpp.o -c /home/chad/Repos/Eregion/lib/Render/Renderer.cpp",
+  "file": "/home/chad/Repos/Eregion/lib/Render/Renderer.cpp"
+},
+{
+  "directory": "/home/chad/Repos/Eregion/build",
+  "command": "/usr/bin/clang++ -Deregion_EXPORTS -I/home/chad/Repos/Eregion/include -I/home/chad/Repos/Eregion/third-party/include/glad -I/home/chad/Repos/Eregion/third-party/include/khr -I/home/chad/Repos/Eregion/third-party/include/glm -I/home/chad/Repos/Eregion/third-party/include/lin-math -I/home/chad/Repos/Eregion/third-party/include/stb_image -I/usr/include/GLFW -I/usr/lib/x86_64-linux-gnu/libglfw.so -I/home/chad/Repos/Eregion/GLAD -I/usr/lib/x86_64-linux-gnu/libOpenGL.so -I/usr/lib/x86_64-linux-gnu/libGLX.so -I/usr/lib/x86_64-linux-gnu/libGLU.so -I/home/chad/Repos/Eregion/dl -g -fPIC -std=gnu++20 -o CMakeFiles/eregion.dir/lib/Render/ShaderProgram.cpp.o -c /home/chad/Repos/Eregion/lib/Render/ShaderProgram.cpp",
+  "file": "/home/chad/Repos/Eregion/lib/Render/ShaderProgram.cpp"
+},
+{
+  "directory": "/home/chad/Repos/Eregion/build",
+  "command": "/usr/bin/clang++ -Deregion_EXPORTS -I/home/chad/Repos/Eregion/include -I/home/chad/Repos/Eregion/third-party/include/glad -I/home/chad/Repos/Eregion/third-party/include/khr -I/home/chad/Repos/Eregion/third-party/include/glm -I/home/chad/Repos/Eregion/third-party/include/lin-math -I/home/chad/Repos/Eregion/third-party/include/stb_image -I/usr/include/GLFW -I/usr/lib/x86_64-linux-gnu/libglfw.so -I/home/chad/Repos/Eregion/GLAD -I/usr/lib/x86_64-linux-gnu/libOpenGL.so -I/usr/lib/x86_64-linux-gnu/libGLX.so -I/usr/lib/x86_64-linux-gnu/libGLU.so -I/home/chad/Repos/Eregion/dl -g -fPIC -std=gnu++20 -o CMakeFiles/eregion.dir/lib/Util/OpenGLUtils.cpp.o -c /home/chad/Repos/Eregion/lib/Util/OpenGLUtils.cpp",
+  "file": "/home/chad/Repos/Eregion/lib/Util/OpenGLUtils.cpp"
+},
+{
+  "directory": "/home/chad/Repos/Eregion/build",
+  "command": "/usr/bin/clang++ -Deregion_EXPORTS -I/home/chad/Repos/Eregion/include -I/home/chad/Repos/Eregion/third-party/include/glad -I/home/chad/Repos/Eregion/third-party/include/khr -I/home/chad/Repos/Eregion/third-party/include/glm -I/home/chad/Repos/Eregion/third-party/include/lin-math -I/home/chad/Repos/Eregion/third-party/include/stb_image -I/usr/include/GLFW -I/usr/lib/x86_64-linux-gnu/libglfw.so -I/home/chad/Repos/Eregion/GLAD -I/usr/lib/x86_64-linux-gnu/libOpenGL.so -I/usr/lib/x86_64-linux-gnu/libGLX.so -I/usr/lib/x86_64-linux-gnu/libGLU.so -I/home/chad/Repos/Eregion/dl -g -fPIC -std=gnu++20 -o CMakeFiles/eregion.dir/lib/Window/Window.cpp.o -c /home/chad/Repos/Eregion/lib/Window/Window.cpp",
+  "file": "/home/chad/Repos/Eregion/lib/Window/Window.cpp"
+},
+{
+  "directory": "/home/chad/Repos/Eregion/build",
+  "command": "/usr/bin/clang -Deregion_EXPORTS -I/home/chad/Repos/Eregion/include -I/home/chad/Repos/Eregion/third-party/include/glad -I/home/chad/Repos/Eregion/third-party/include/khr -I/home/chad/Repos/Eregion/third-party/include/glm -I/home/chad/Repos/Eregion/third-party/include/lin-math -I/home/chad/Repos/Eregion/third-party/include/stb_image -I/usr/include/GLFW -I/usr/lib/x86_64-linux-gnu/libglfw.so -I/home/chad/Repos/Eregion/GLAD -I/usr/lib/x86_64-linux-gnu/libOpenGL.so -I/usr/lib/x86_64-linux-gnu/libGLX.so -I/usr/lib/x86_64-linux-gnu/libGLU.so -I/home/chad/Repos/Eregion/dl -g -fPIC -o CMakeFiles/eregion.dir/third-party/lib/glad/gl.c.o -c /home/chad/Repos/Eregion/third-party/lib/glad/gl.c",
+  "file": "/home/chad/Repos/Eregion/third-party/lib/glad/gl.c"
+}
+]

@@ -1,0 +1,475 @@
+{
+	"artifacts" : 
+	[
+		{
+			"path" : "/home/chad/Repos/Eregion/out/lib/Debug/liberegion.so"
+		}
+	],
+	"backtrace" : 1,
+	"backtraceGraph" : 
+	{
+		"commands" : 
+		[
+			"ADD_LIBRARY",
+			"INSTALL",
+			"LINK_DIRECTORIES",
+			"INCLUDE_DIRECTORIES",
+			"TARGET_INCLUDE_DIRECTORIES"
+		],
+		"files" : 
+		[
+			"CMakeLists.txt"
+		],
+		"nodes" : 
+		[
+			{
+				"file" : 0
+			},
+			{
+				"command" : 0,
+				"file" : 0,
+				"line" : 53,
+				"parent" : 0
+			},
+			{
+				"command" : 1,
+				"file" : 0,
+				"line" : 60,
+				"parent" : 0
+			},
+			{
+				"command" : 2,
+				"file" : 0,
+				"line" : 46,
+				"parent" : 0
+			},
+			{
+				"command" : 3,
+				"file" : 0,
+				"line" : 35,
+				"parent" : 0
+			},
+			{
+				"command" : 4,
+				"file" : 0,
+				"line" : 55,
+				"parent" : 0
+			}
+		]
+	},
+	"compileGroups" : 
+	[
+		{
+			"compileCommandFragments" : 
+			[
+				{
+					"fragment" : "-g -fPIC"
+				},
+				{
+					"fragment" : "-std=gnu++20"
+				}
+			],
+			"defines" : 
+			[
+				{
+					"define" : "eregion_EXPORTS"
+				}
+			],
+			"includes" : 
+			[
+				{
+					"backtrace" : 4,
+					"path" : "/home/chad/Repos/Eregion/include"
+				},
+				{
+					"backtrace" : 4,
+					"path" : "/home/chad/Repos/Eregion/third-party/include/glad"
+				},
+				{
+					"backtrace" : 4,
+					"path" : "/home/chad/Repos/Eregion/third-party/include/khr"
+				},
+				{
+					"backtrace" : 4,
+					"path" : "/home/chad/Repos/Eregion/third-party/include/glm"
+				},
+				{
+					"backtrace" : 4,
+					"path" : "/home/chad/Repos/Eregion/third-party/include/lin-math"
+				},
+				{
+					"backtrace" : 4,
+					"path" : "/home/chad/Repos/Eregion/third-party/include/stb_image"
+				},
+				{
+					"backtrace" : 4,
+					"path" : "/usr/include/GLFW"
+				},
+				{
+					"backtrace" : 5,
+					"path" : "/usr/lib/x86_64-linux-gnu/libglfw.so"
+				},
+				{
+					"backtrace" : 5,
+					"path" : "/home/chad/Repos/Eregion/GLAD"
+				},
+				{
+					"backtrace" : 5,
+					"path" : "/usr/lib/x86_64-linux-gnu/libOpenGL.so"
+				},
+				{
+					"backtrace" : 5,
+					"path" : "/usr/lib/x86_64-linux-gnu/libGLX.so"
+				},
+				{
+					"backtrace" : 5,
+					"path" : "/usr/lib/x86_64-linux-gnu/libGLU.so"
+				},
+				{
+					"backtrace" : 5,
+					"path" : "/home/chad/Repos/Eregion/dl"
+				}
+			],
+			"language" : "CXX",
+			"languageStandard" : 
+			{
+				"backtraces" : 
+				[
+					1
+				],
+				"standard" : "20"
+			},
+			"sourceIndexes" : 
+			[
+				0,
+				1,
+				2,
+				3,
+				4,
+				5,
+				6,
+				7,
+				8,
+				9,
+				10,
+				11,
+				12,
+				13,
+				14,
+				15,
+				16,
+				17,
+				18,
+				19,
+				20,
+				21,
+				22,
+				23
+			]
+		},
+		{
+			"compileCommandFragments" : 
+			[
+				{
+					"fragment" : "-g -fPIC"
+				}
+			],
+			"defines" : 
+			[
+				{
+					"define" : "eregion_EXPORTS"
+				}
+			],
+			"includes" : 
+			[
+				{
+					"backtrace" : 4,
+					"path" : "/home/chad/Repos/Eregion/include"
+				},
+				{
+					"backtrace" : 4,
+					"path" : "/home/chad/Repos/Eregion/third-party/include/glad"
+				},
+				{
+					"backtrace" : 4,
+					"path" : "/home/chad/Repos/Eregion/third-party/include/khr"
+				},
+				{
+					"backtrace" : 4,
+					"path" : "/home/chad/Repos/Eregion/third-party/include/glm"
+				},
+				{
+					"backtrace" : 4,
+					"path" : "/home/chad/Repos/Eregion/third-party/include/lin-math"
+				},
+				{
+					"backtrace" : 4,
+					"path" : "/home/chad/Repos/Eregion/third-party/include/stb_image"
+				},
+				{
+					"backtrace" : 4,
+					"path" : "/usr/include/GLFW"
+				},
+				{
+					"backtrace" : 5,
+					"path" : "/usr/lib/x86_64-linux-gnu/libglfw.so"
+				},
+				{
+					"backtrace" : 5,
+					"path" : "/home/chad/Repos/Eregion/GLAD"
+				},
+				{
+					"backtrace" : 5,
+					"path" : "/usr/lib/x86_64-linux-gnu/libOpenGL.so"
+				},
+				{
+					"backtrace" : 5,
+					"path" : "/usr/lib/x86_64-linux-gnu/libGLX.so"
+				},
+				{
+					"backtrace" : 5,
+					"path" : "/usr/lib/x86_64-linux-gnu/libGLU.so"
+				},
+				{
+					"backtrace" : 5,
+					"path" : "/home/chad/Repos/Eregion/dl"
+				}
+			],
+			"language" : "C",
+			"sourceIndexes" : 
+			[
+				24
+			]
+		}
+	],
+	"id" : "eregion::@6890427a1f51a3e7e1df",
+	"install" : 
+	{
+		"destinations" : 
+		[
+			{
+				"backtrace" : 2,
+				"path" : "lib"
+			},
+			{
+				"backtrace" : 2,
+				"path" : "lib"
+			}
+		],
+		"prefix" : 
+		{
+			"path" : "/usr/local"
+		}
+	},
+	"link" : 
+	{
+		"commandFragments" : 
+		[
+			{
+				"fragment" : "",
+				"role" : "flags"
+			},
+			{
+				"backtrace" : 3,
+				"fragment" : "-L/home/chad/Repos/Eregion/lib",
+				"role" : "libraryPath"
+			}
+		],
+		"language" : "CXX"
+	},
+	"name" : "eregion",
+	"nameOnDisk" : "liberegion.so",
+	"paths" : 
+	{
+		"build" : ".",
+		"source" : "."
+	},
+	"sourceGroups" : 
+	[
+		{
+			"name" : "Source Files",
+			"sourceIndexes" : 
+			[
+				0,
+				1,
+				2,
+				3,
+				4,
+				5,
+				6,
+				7,
+				8,
+				9,
+				10,
+				11,
+				12,
+				13,
+				14,
+				15,
+				16,
+				17,
+				18,
+				19,
+				20,
+				21,
+				22,
+				23,
+				24
+			]
+		}
+	],
+	"sources" : 
+	[
+		{
+			"backtrace" : 1,
+			"compileGroupIndex" : 0,
+			"path" : "lib/Asset/AssetPool.cpp",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 1,
+			"compileGroupIndex" : 0,
+			"path" : "lib/Asset/Font.cpp",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 1,
+			"compileGroupIndex" : 0,
+			"path" : "lib/Asset/Loader.cpp",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 1,
+			"compileGroupIndex" : 0,
+			"path" : "lib/Asset/Shader.cpp",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 1,
+			"compileGroupIndex" : 0,
+			"path" : "lib/Asset/SpriteSheet.cpp",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 1,
+			"compileGroupIndex" : 0,
+			"path" : "lib/Asset/Texture.cpp",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 1,
+			"compileGroupIndex" : 0,
+			"path" : "lib/Asset/UniformSpriteSheet.cpp",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 1,
+			"compileGroupIndex" : 0,
+			"path" : "lib/Core/Camera.cpp",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 1,
+			"compileGroupIndex" : 0,
+			"path" : "lib/Core/Game.cpp",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 1,
+			"compileGroupIndex" : 0,
+			"path" : "lib/Core/KeyListener.cpp",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 1,
+			"compileGroupIndex" : 0,
+			"path" : "lib/Core/MouseListener.cpp",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 1,
+			"compileGroupIndex" : 0,
+			"path" : "lib/Core/Scene.cpp",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 1,
+			"compileGroupIndex" : 0,
+			"path" : "lib/Entity/Component.cpp",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 1,
+			"compileGroupIndex" : 0,
+			"path" : "lib/Entity/Entity.cpp",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 1,
+			"compileGroupIndex" : 0,
+			"path" : "lib/Entity/Sprite.cpp",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 1,
+			"compileGroupIndex" : 0,
+			"path" : "lib/Entity/SpriteRenderer.cpp",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 1,
+			"compileGroupIndex" : 0,
+			"path" : "lib/Entity/TextRenderer.cpp",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 1,
+			"compileGroupIndex" : 0,
+			"path" : "lib/Entity/Transform.cpp",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 1,
+			"compileGroupIndex" : 0,
+			"path" : "lib/Logger/Logger.cpp",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 1,
+			"compileGroupIndex" : 0,
+			"path" : "lib/Render/BatchRenderer.cpp",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 1,
+			"compileGroupIndex" : 0,
+			"path" : "lib/Render/Renderer.cpp",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 1,
+			"compileGroupIndex" : 0,
+			"path" : "lib/Render/ShaderProgram.cpp",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 1,
+			"compileGroupIndex" : 0,
+			"path" : "lib/Util/OpenGLUtils.cpp",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 1,
+			"compileGroupIndex" : 0,
+			"path" : "lib/Window/Window.cpp",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 1,
+			"compileGroupIndex" : 1,
+			"path" : "third-party/lib/glad/gl.c",
+			"sourceGroupIndex" : 0
+		}
+	],
+	"type" : "SHARED_LIBRARY"
+}
