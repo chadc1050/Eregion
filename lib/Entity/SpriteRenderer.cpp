@@ -28,8 +28,6 @@ SpriteRenderer::SpriteRenderer(std::shared_ptr<Sprite> sprite, glm::vec4 color, 
     this->zIndex = zIndex;
 }
 
-void SpriteRenderer::update(float dt) {}
-
 Sprite SpriteRenderer::getSprite() { return *sprite; }
 
 glm::vec4 SpriteRenderer::getColor() { return color; }

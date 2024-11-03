@@ -36,10 +36,13 @@ MESSAGE(STATUS "GLM included at ${GLM_INCLUDE_DIR}")
 FIND_PACKAGE(GLFW3 REQUIRED)
 MESSAGE(STATUS "Found GLFW3 in ${GLFW3_INCLUDE_DIR}")
 
+# Free Type
+FIND_PACKAGE(Freetype REQUIRED)
+
 # GLAD
 ADD_LIBRARY(GLAD ${CMAKE_SOURCE_DIR}/${ROOT_DIR}/third-party/lib/glad/gl.c)
 
-SET(LIBRARIES ${LIBRARIES} ${GLFW3_LIBRARY} GLAD ${OPENGL_LIBRARY} ${CMAKE_DL_LIBS})
+SET(LIBRARIES ${LIBRARIES} ${GLFW3_LIBRARY} GLAD ${OPENGL_LIBRARY} ${CMAKE_DL_LIBS} ${FREETYPE_LIBRARIES})
 
 INCLUDE_DIRECTORIES(
     ${CMAKE_SOURCE_DIR}/${ROOT_DIR}/include
@@ -48,6 +51,11 @@ INCLUDE_DIRECTORIES(
     ${CMAKE_SOURCE_DIR}/${ROOT_DIR}/third-party/include/glm/
     ${CMAKE_SOURCE_DIR}/${ROOT_DIR}/third-party/include/lin-math/
     ${CMAKE_SOURCE_DIR}/${ROOT_DIR}/third-party/include/stb_image/
+    ${CMAKE_SOURCE_DIR}/${ROOT_DIR}/third-party/include/freetype/
+    ${CMAKE_SOURCE_DIR}/${ROOT_DIR}/third-party/include/freetype/freetype/
+    ${CMAKE_SOURCE_DIR}/${ROOT_DIR}/third-party/include/freetype/freetype/config
+    ${CMAKE_SOURCE_DIR}/${ROOT_DIR}/third-party/include/freetype/freetype/internal
+    ${CMAKE_SOURCE_DIR}/${ROOT_DIR}/third-party/include/freetype/freetype/internal/services
     /usr/include/GLFW
 )
 

@@ -3,7 +3,14 @@
 using namespace eregion;
 
 namespace eregion {
-Result<Shader> loadShader(std::string path) {
+Loader::Loader() {
+    // Initialize FreeType to load fonts
+    if (FT_Init_FreeType(&ft)) {
+        throw std::runtime_error("Could not init FreeType Library");
+    }
+}
+
+Result<Shader> Loader::loadShader(std::string path) {
     std::ifstream file(path);
     if (!file.is_open()) {
         return Result<Shader>(Error{"Could not open shader file!"});
@@ -33,7 +40,7 @@ Result<Shader> loadShader(std::string path) {
     return Result<Shader>(Success<Shader>(Shader{id, fileContents, typeRes.getValue()}));
 }
 
-Result<Texture*> loadTexture(std::string path) {
+Result<Texture*> Loader::loadTexture(std::string path) {
 
     std::filesystem::path pathObj(path);
 
@@ -62,4 +69,31 @@ Result<Texture*> loadTexture(std::string path) {
 
     return Result<Texture*>(Success<Texture*>(res.getValue()));
 }
+
+Result<Font*> Loader::loadFont(std::string path, unsigned int fontSize) {
+    std::filesystem::path pathObj(path);
+
+    std::string name = pathObj.stem().string();
+    std::string extension = pathObj.extension().string();
+
+    FT_Face face;
+    if (FT_New_Face(ft, path.c_str(), 0, &face)) {
+        return Result<Font*>(Error{"Failed to load font!"});
+    }
+
+    std::string id = name + extension;
+
+    auto res = Font::compile(face, id, fontSize);
+
+    FT_Done_Face(face);
+
+    if (res.isError()) {
+        return Result<Font*>(Error{"Failed to load font! " + res.getError()});
+    }
+
+    return Result<Font*>(Success<Font*>(res.getValue()));
+}
+
+Loader::~Loader() { FT_Done_FreeType(ft); }
+
 } // namespace eregion

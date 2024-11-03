@@ -40,11 +40,6 @@ void Scene::update(float dt) {
     for (Mechanism mechanism : updateMechanisms) {
         mechanism(this, entities, dt);
     }
-
-    // Update entities, and by extension, their components.
-    for (Entity entity : entities) {
-        entity.update(dt);
-    }
 }
 
 /// @brief Draw scene state

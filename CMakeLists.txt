@@ -28,6 +28,7 @@ SET(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} ${CMAKE_SOURCE_DIR}/cmake/)
 FIND_PACKAGE(OpenGL REQUIRED)
 FIND_PACKAGE(GLM REQUIRED)
 FIND_PACKAGE(GLFW3 REQUIRED)
+FIND_PACKAGE(Freetype REQUIRED)
 
 # GLAD (Bundled)
 ADD_LIBRARY(GLAD ${CMAKE_SOURCE_DIR}/third-party/lib/glad/gl.c)
@@ -39,6 +40,11 @@ INCLUDE_DIRECTORIES(
     ${CMAKE_SOURCE_DIR}/${ROOT_DIR}/third-party/include/glm/
     ${CMAKE_SOURCE_DIR}/${ROOT_DIR}/third-party/include/lin-math/
     ${CMAKE_SOURCE_DIR}/${ROOT_DIR}/third-party/include/stb_image/
+    ${CMAKE_SOURCE_DIR}/${ROOT_DIR}/third-party/include/freetype/
+    ${CMAKE_SOURCE_DIR}/${ROOT_DIR}/third-party/include/freetype/freetype/
+    ${CMAKE_SOURCE_DIR}/${ROOT_DIR}/third-party/include/freetype/freetype/config
+    ${CMAKE_SOURCE_DIR}/${ROOT_DIR}/third-party/include/freetype/freetype/internal
+    ${CMAKE_SOURCE_DIR}/${ROOT_DIR}/third-party/include/freetype/freetype/internal/services
     /usr/include/GLFW
 )
 
@@ -52,7 +58,7 @@ FILE(GLOB_RECURSE THIRD_PARTY_HEADERS ${CMAKE_SOURCE_DIR}/third-party/include/*.
 # Add Include Directories
 ADD_LIBRARY(${PROJECT_NAME} SHARED ${PROJECT_SOURCES} ${THIRD_PARTY_SOURCES})
 
-TARGET_INCLUDE_DIRECTORIES(${PROJECT_NAME} PUBLIC ${GLFW3_LIBRARY} GLAD ${OPENGL_LIBRARY} ${CMAKE_DL_LIBS})
+TARGET_INCLUDE_DIRECTORIES(${PROJECT_NAME} PUBLIC ${GLFW3_LIBRARY} GLAD ${OPENGL_LIBRARY} ${CMAKE_DL_LIBS} ${FREETYPE_LIBRARIES})
 
 SET(LIBRARIES ${LIBRARIES} ${OPENGL_LIBRARIES})
 

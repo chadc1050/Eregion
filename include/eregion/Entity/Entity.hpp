@@ -2,34 +2,44 @@
 
 #include "eregion/Entity/Component.hpp"
 
+#include <any>
 #include <optional>
 #include <string>
 #include <type_traits>
+#include <typeindex>
 #include <typeinfo>
+#include <unordered_map>
 #include <vector>
 
 namespace eregion {
 class Entity {
   public:
-    Entity(std::string name);
-    void addComponent(Component* comp);
-    void update(float dt);
+    Entity(std::string name) : name(std::move(name)) {}
 
-    template <typename T> std::optional<T*> getComponent() {
-        for (Component* comp : comps) {
-            T* derived = dynamic_cast<T*>(comp);
-            if (derived) {
-                return derived;
-            }
+    template <Component C> void addComponent(C* comp) { comps[typeid(C)] = comp; }
+
+    template <Component C> std::optional<C*> getComponent() {
+        auto it = comps.find(typeid(C));
+        if (it != comps.end()) {
+            // Cast std::any back to the appropriate pointer type
+            return std::any_cast<C*>(it->second);
         }
-
         return std::nullopt;
-    };
+    }
 
-    std::vector<Component*> getComponents();
+    template <Component C> std::vector<C*> getComponents() {
+        std::vector<C*> result;
+        auto it = comps.find(typeid(C));
+        if (it != comps.end()) {
+            result.push_back(std::any_cast<C*>(it->second));
+        }
+        return result;
+    }
 
   private:
     std::string name;
-    std::vector<Component*> comps;
+
+    // TODO: See if we can make this bounded to component
+    std::unordered_map<std::type_index, std::any> comps;
 };
 } // namespace eregion
