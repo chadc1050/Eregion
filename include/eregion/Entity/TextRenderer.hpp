@@ -6,14 +6,15 @@
 #include <memory>
 
 namespace eregion {
-class TextRenderer : public Component {
+class TextRenderer {
   public:
     TextRenderer(std::string content, std::shared_ptr<Font> font);
-
-    void update(float dt) override;
 
   private:
     std::string content;
     std::shared_ptr<Font> font;
 };
+
+COMPONENT(TextRenderer)
+
 } // namespace eregion

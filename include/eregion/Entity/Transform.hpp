@@ -5,12 +5,12 @@
 #include <glm/glm.hpp>
 
 namespace eregion {
-class Transform : public Component {
+
+class Transform {
   public:
     Transform();
     Transform(glm::vec2 pos);
     Transform(glm::vec2 pos, glm::vec2 scale);
-    void update(float dt) override;
 
     glm::vec2 getPos();
     glm::vec2 getScale();
@@ -19,4 +19,6 @@ class Transform : public Component {
     glm::vec2 pos;
     glm::vec2 scale;
 };
+
+COMPONENT(Transform)
 } // namespace eregion

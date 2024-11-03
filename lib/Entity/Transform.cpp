@@ -19,10 +19,6 @@ Transform::Transform(glm::vec2 pos, glm::vec2 scale) {
     this->scale = scale;
 }
 
-void Transform::update(float dt) {
-    // TODO: This is the basis for a movement system, custom logic will go here.
-}
-
 glm::vec2 Transform::getPos() { return pos; }
 
 glm::vec2 Transform::getScale() { return scale; }

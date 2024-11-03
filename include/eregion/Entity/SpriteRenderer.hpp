@@ -1,20 +1,19 @@
 #pragma once
 
+#include "eregion/Asset/Sprite.hpp"
 #include "eregion/Entity/Component.hpp"
-#include "eregion/Entity/Sprite.hpp"
 
 #include <glm/glm.hpp>
 #include <memory>
 
 namespace eregion {
-class SpriteRenderer : public Component {
+
+class SpriteRenderer {
   public:
     SpriteRenderer(std::shared_ptr<Sprite> sprite);
     SpriteRenderer(std::shared_ptr<Sprite> sprite, glm::vec4 color);
     SpriteRenderer(std::shared_ptr<Sprite> sprite, int zIndex);
     SpriteRenderer(std::shared_ptr<Sprite> sprite, glm::vec4 color, int zIndex);
-
-    void update(float dt) override;
 
     Sprite getSprite();
     glm::vec4 getColor();
@@ -25,4 +24,6 @@ class SpriteRenderer : public Component {
     glm::vec4 color;
     int zIndex;
 };
+
+COMPONENT(SpriteRenderer)
 } // namespace eregion

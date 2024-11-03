@@ -1,7 +1,7 @@
 #pragma once
 
+#include "eregion/Asset/Sprite.hpp"
 #include "eregion/Asset/Texture.hpp"
-#include "eregion/Entity/Sprite.hpp"
 
 namespace eregion {
 class UniformSpriteSheet {
