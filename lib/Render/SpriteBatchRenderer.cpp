@@ -1,14 +1,12 @@
-#include "eregion/Render/BatchRenderer.hpp"
+#include "eregion/Render/SpriteBatchRenderer.hpp"
 
 using namespace eregion;
 
 namespace eregion {
 
-BatchRenderer::BatchRenderer(std::shared_ptr<Camera> camera, int zIndex) {
+SpriteBatchRenderer::SpriteBatchRenderer(std::shared_ptr<Camera> camera, int zIndex) : BatchRenderer(zIndex) {
 
     this->camera = camera;
-
-    this->zIndex = zIndex;
 
     Shader vert = AssetPool::getShader("../assets/shaders/texture.vert").getValue();
 
@@ -17,7 +15,7 @@ BatchRenderer::BatchRenderer(std::shared_ptr<Camera> camera, int zIndex) {
     shader = ShaderProgram::compile(vert, frag).getValue();
 }
 
-void BatchRenderer::render() {
+void SpriteBatchRenderer::render() {
 
     // TODO: This is where we could check to see if the sprite has been declared dirty, or if transform has changed
     for (int i = 0; i < nSprites; i++) {
@@ -78,7 +76,7 @@ void BatchRenderer::render() {
     shader->unbind();
 }
 
-void BatchRenderer::start() {
+void SpriteBatchRenderer::start() {
 
     debug("Starting batch renderer.");
 
@@ -115,7 +113,7 @@ void BatchRenderer::start() {
     glEnableVertexAttribArray(3);
 }
 
-Result<void> BatchRenderer::add(SpriteRenderer* sprite, Transform* transform) {
+Result<void> SpriteBatchRenderer::add(std::shared_ptr<SpriteRenderer> sprite, Transform* transform) {
 
     int index = nSprites;
     sprites[nSprites] = std::make_pair(sprite, transform);
@@ -140,7 +138,7 @@ Result<void> BatchRenderer::add(SpriteRenderer* sprite, Transform* transform) {
     return Result<void>();
 }
 
-BatchRenderer::~BatchRenderer() {
+SpriteBatchRenderer::~SpriteBatchRenderer() {
     warn("Destroying batch renderer.");
     glDeleteVertexArrays(1, &vaoId);
     glDeleteBuffers(1, &vboId);
@@ -149,13 +147,13 @@ BatchRenderer::~BatchRenderer() {
     delete shader;
 }
 
-void BatchRenderer::loadVertexProps(int index) {
+void SpriteBatchRenderer::loadVertexProps(int index) {
 
     int offset = index * VERTEX_SIZE * N_VERTICES;
 
-    std::pair<SpriteRenderer*, Transform*> entity = sprites.at(index);
+    std::pair<std::shared_ptr<SpriteRenderer>, Transform*> entity = sprites.at(index);
 
-    SpriteRenderer* spriteRenderer = entity.first;
+    std::shared_ptr<SpriteRenderer> spriteRenderer = entity.first;
 
     auto sprite = spriteRenderer->getSprite();
 
@@ -210,7 +208,7 @@ void BatchRenderer::loadVertexProps(int index) {
     }
 }
 
-void BatchRenderer::genIndices() {
+void SpriteBatchRenderer::genIndices() {
     // Six indices per quad, three per triangle
     for (int i = 0; i < MAX_BATCH_SIZE; i++) {
 
@@ -229,7 +227,5 @@ void BatchRenderer::genIndices() {
     }
 }
 
-bool BatchRenderer::hasRoom() { return nSprites < MAX_BATCH_SIZE; }
-
-int BatchRenderer::getZIndex() { return zIndex; }
+bool SpriteBatchRenderer::hasRoom() { return nSprites < MAX_BATCH_SIZE; }
 } // namespace eregion

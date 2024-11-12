@@ -1,6 +1,7 @@
 #pragma once
 
 #include "eregion/Entity/Component.hpp"
+#include "eregion/Render/Renderable.hpp"
 
 #include <any>
 #include <optional>
@@ -23,6 +24,16 @@ class Entity {
         if (it != comps.end()) {
             // Cast std::any back to the appropriate pointer type
             return std::any_cast<C*>(it->second);
+        }
+        return std::nullopt;
+    }
+
+    std::optional<Renderable*> getRenderComponent() {
+        for (const auto& [_, component] : comps) {
+            // Check if the component is Renderable
+            if (auto* renderable = std::any_cast<Renderable*>(&component)) {
+                return *renderable;
+            }
         }
         return std::nullopt;
     }

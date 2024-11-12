@@ -2,13 +2,14 @@
 
 #include "eregion/Asset/Sprite.hpp"
 #include "eregion/Entity/Component.hpp"
+#include "eregion/Render/Renderable.hpp"
 
 #include <glm/glm.hpp>
 #include <memory>
 
 namespace eregion {
 
-class SpriteRenderer {
+class SpriteRenderer : public Renderable {
   public:
     SpriteRenderer(std::shared_ptr<Sprite> sprite);
     SpriteRenderer(std::shared_ptr<Sprite> sprite, glm::vec4 color);
@@ -17,7 +18,7 @@ class SpriteRenderer {
 
     Sprite getSprite();
     glm::vec4 getColor();
-    int getZIndex();
+    int getZIndex() override;
 
   private:
     std::shared_ptr<Sprite> sprite;
