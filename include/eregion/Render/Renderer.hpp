@@ -5,7 +5,6 @@
 #include "eregion/Entity/Entity.hpp"
 #include "eregion/Entity/SpriteRenderer.hpp"
 #include "eregion/Entity/Transform.hpp"
-#include "eregion/Render/BatchRenderer.hpp"
 #include "eregion/Render/Renderable.hpp"
 #include "eregion/Render/SpriteBatchRenderer.hpp"
 
@@ -27,8 +26,8 @@ class Renderer {
   private:
     std::shared_ptr<Camera> camera;
 
-    std::vector<std::shared_ptr<BatchRenderer<Renderable>>> batchRenderers = {};
+    std::vector<SpriteBatchRenderer*> spriteBatchRenderers = {};
 
-    void insert(std::shared_ptr<Renderable> renderable, Transform* transform);
+    void insert(SpriteRenderer* renderable, Transform* transform);
 };
 } // namespace eregion

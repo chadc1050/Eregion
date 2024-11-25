@@ -6,7 +6,6 @@
 #include "eregion/Core/Camera.hpp"
 #include "eregion/Entity/SpriteRenderer.hpp"
 #include "eregion/Entity/Transform.hpp"
-#include "eregion/Render/BatchRenderer.hpp"
 #include "eregion/Render/ShaderProgram.hpp"
 
 #include <array>
@@ -20,17 +19,26 @@
 
 namespace eregion {
 
-class SpriteBatchRenderer : public BatchRenderer<SpriteRenderer> {
+class SpriteBatchRenderer {
   public:
     SpriteBatchRenderer(std::shared_ptr<Camera> camera, int zIndex);
 
-    void start() override;
+    void start();
 
-    void render() override;
+    void render();
 
-    Result<void> add(std::shared_ptr<SpriteRenderer> sprite, Transform* transform);
+    Result<void> add(SpriteRenderer* renderable, Transform* transform);
 
-    bool hasRoom() override;
+    bool hasRoom();
+
+    int getZIndex();
+
+    // Comparision operators for determining draw order
+    bool operator<(const SpriteBatchRenderer& other) const { return zIndex < other.zIndex; }
+    bool operator>(const SpriteBatchRenderer& other) const { return zIndex > other.zIndex; }
+    bool operator<=(const SpriteBatchRenderer& other) const { return zIndex <= other.zIndex; }
+    bool operator>=(const SpriteBatchRenderer& other) const { return zIndex >= other.zIndex; }
+    bool operator==(const SpriteBatchRenderer& other) const { return zIndex == other.zIndex; }
 
     ~SpriteBatchRenderer();
 
@@ -72,7 +80,7 @@ class SpriteBatchRenderer : public BatchRenderer<SpriteRenderer> {
     std::array<int, N_INDICES * MAX_BATCH_SIZE> indices = {};
 
     // Sprites + Transform
-    std::array<std::pair<std::shared_ptr<SpriteRenderer>, Transform*>, MAX_BATCH_SIZE> sprites = {};
+    std::array<std::pair<SpriteRenderer*, Transform*>, MAX_BATCH_SIZE> sprites = {};
     int nSprites = 0;
 
     // Textures
@@ -86,6 +94,8 @@ class SpriteBatchRenderer : public BatchRenderer<SpriteRenderer> {
 
     // Shader
     ShaderProgram* shader;
+
+    int zIndex;
 
     void loadVertexProps(int index);
     void genIndices();

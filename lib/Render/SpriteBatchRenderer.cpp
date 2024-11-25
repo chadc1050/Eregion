@@ -4,9 +4,10 @@ using namespace eregion;
 
 namespace eregion {
 
-SpriteBatchRenderer::SpriteBatchRenderer(std::shared_ptr<Camera> camera, int zIndex) : BatchRenderer(zIndex) {
+SpriteBatchRenderer::SpriteBatchRenderer(std::shared_ptr<Camera> camera, int zIndex) {
 
     this->camera = camera;
+    this->zIndex = zIndex;
 
     Shader vert = AssetPool::getShader("../assets/shaders/texture.vert").getValue();
 
@@ -113,7 +114,7 @@ void SpriteBatchRenderer::start() {
     glEnableVertexAttribArray(3);
 }
 
-Result<void> SpriteBatchRenderer::add(std::shared_ptr<SpriteRenderer> sprite, Transform* transform) {
+Result<void> SpriteBatchRenderer::add(SpriteRenderer* sprite, Transform* transform) {
 
     int index = nSprites;
     sprites[nSprites] = std::make_pair(sprite, transform);
@@ -151,9 +152,9 @@ void SpriteBatchRenderer::loadVertexProps(int index) {
 
     int offset = index * VERTEX_SIZE * N_VERTICES;
 
-    std::pair<std::shared_ptr<SpriteRenderer>, Transform*> entity = sprites.at(index);
+    std::pair<SpriteRenderer*, Transform*> entity = sprites.at(index);
 
-    std::shared_ptr<SpriteRenderer> spriteRenderer = entity.first;
+    SpriteRenderer* spriteRenderer = entity.first;
 
     auto sprite = spriteRenderer->getSprite();
 
@@ -228,4 +229,6 @@ void SpriteBatchRenderer::genIndices() {
 }
 
 bool SpriteBatchRenderer::hasRoom() { return nSprites < MAX_BATCH_SIZE; }
+
+int SpriteBatchRenderer::getZIndex() { return zIndex; }
 } // namespace eregion

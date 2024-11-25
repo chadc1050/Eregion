@@ -7,7 +7,7 @@ namespace eregion {
 Renderer::Renderer(std::shared_ptr<Camera> camera) { this->camera = camera; }
 
 void Renderer::render() {
-    for (auto batch : batchRenderers) {
+    for (auto batch : spriteBatchRenderers) {
         batch->render();
     }
 }
@@ -16,7 +16,7 @@ void Renderer::insertEntity(Entity entity) {
     debug("Adding entity to renderer.");
 
     // Get renderable component of entity
-    std::optional<Renderable*> renderable = entity.getRenderComponent();
+    std::optional<SpriteRenderer*> renderable = entity.getComponent<SpriteRenderer>();
 
     if (!renderable.has_value()) {
         debug("Entity is not renderable.");
@@ -26,15 +26,15 @@ void Renderer::insertEntity(Entity entity) {
     // Get it's locale component
     std::optional<Transform*> transform = entity.getComponent<Transform>();
 
-    insert(std::shared_ptr<Renderable>(renderable.value()), transform.value());
+    insert(renderable.value(), transform.value());
 }
 
-void Renderer::insert(std::shared_ptr<Renderable> renderable, Transform* transform) {
+void Renderer::insert(SpriteRenderer* spriteRenderer, Transform* transform) {
     bool added = false;
-    for (auto batch : batchRenderers) {
+    for (auto batch : spriteBatchRenderers) {
         // TODO: And is correct batchrenderer
-        if (batch->hasRoom() && batch->getZIndex() == renderable->getZIndex()) {
-            batch->add(renderable, transform);
+        if (batch->hasRoom() && batch->getZIndex() == spriteRenderer->getZIndex()) {
+            batch->add(spriteRenderer, transform);
             added = true;
             break;
         }
@@ -44,23 +44,23 @@ void Renderer::insert(std::shared_ptr<Renderable> renderable, Transform* transfo
         debug("Creating a new batch renderer.");
 
         // TODO: And creates correct type based on renderable
-        auto batchRenderer = std::make_shared<SpriteBatchRenderer>(camera, renderable->getZIndex());
+        SpriteBatchRenderer* batchRenderer = new SpriteBatchRenderer(camera, spriteRenderer->getZIndex());
         batchRenderer->start();
-        auto res = batchRenderer->add(std::static_pointer_cast<SpriteRenderer>(renderable), transform);
+        auto res = batchRenderer->add(spriteRenderer, transform);
 
         if (res.isError()) {
             error("Error");
         }
 
         // Insert the batch renderer such that it is sorted by it's z-index ascending
-        auto idx = batchRenderers.begin();
-        for (; idx != batchRenderers.end(); ++idx) {
+        auto idx = spriteBatchRenderers.begin();
+        for (; idx != spriteBatchRenderers.end(); ++idx) {
             if ((*idx)->getZIndex() >= batchRenderer->getZIndex()) {
                 break;
             }
         }
 
-        batchRenderers.insert(idx, std::dynamic_pointer_cast<BatchRenderer<Renderable>>(batchRenderer));
+        spriteBatchRenderers.insert(idx, batchRenderer);
     }
 }
 

@@ -28,15 +28,15 @@ class Entity {
         return std::nullopt;
     }
 
-    std::optional<Renderable*> getRenderComponent() {
-        for (const auto& [_, component] : comps) {
-            // Check if the component is Renderable
-            if (auto* renderable = std::any_cast<Renderable*>(&component)) {
-                return *renderable;
-            }
-        }
-        return std::nullopt;
-    }
+    // std::optional<Renderable*> getRenderComponent() {
+    //     for (const auto& [_, component] : comps) {
+    //         // Check if the component is Renderable
+    //         if (auto* renderable = std::any_cast<Renderable*>(&component)) {
+    //             return *renderable;
+    //         }
+    //     }
+    //     return std::nullopt;
+    // }
 
     template <Component C> std::vector<C*> getComponents() {
         std::vector<C*> result;
