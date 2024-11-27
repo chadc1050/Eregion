@@ -55,7 +55,7 @@ static void createWorld(Scene* commands, const std::vector<Entity>& entities, fl
     commands->insertEntity(water);
 
     // TEXT
-    auto fontRes = AssetPool::getFont("../assets/fonts/Roboto.ttf", 48);
+    auto fontRes = AssetPool::getFont("../assets/fonts/Roboto.ttf", 8);
 
     if (fontRes.isError()) {
         throw std::runtime_error(fontRes.getError());
@@ -64,8 +64,9 @@ static void createWorld(Scene* commands, const std::vector<Entity>& entities, fl
     Font* roboto = fontRes.getValue();
 
     Entity text = Entity("text");
-    text.addComponent(new TextRenderer("Celebrimbor", std::shared_ptr<Font>(std::move(roboto))));
-    water.addComponent(new Transform(glm::vec2(1.0f, 1.0f)));
+    text.addComponent(new TextRenderer("#", std::shared_ptr<Font>(std::move(roboto))));
+    text.addComponent(new Transform());
+    commands->insertEntity(text);
 }
 
 static void cameraMove(Scene* commands, const std::vector<Entity>& entities, float dt) {
