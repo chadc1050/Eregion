@@ -38,8 +38,8 @@ class TextBatchRenderer {
     ~TextBatchRenderer();
 
   private:
-    // Maxiumum number of sprites in the pipeline
-    static const int MAX_BATCH_SIZE = 5;
+    // Maxiumum number of text strings in the pipeline
+    static const int MAX_BATCH_SIZE = 1;
 
     // Attrib Size Consts
     static const unsigned int POS_SIZE = 2;

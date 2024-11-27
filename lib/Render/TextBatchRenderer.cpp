@@ -88,13 +88,13 @@ void TextBatchRenderer::start() {
     // VBO (Initially zero)
     glGenBuffers(1, &vboId);
     glBindBuffer(GL_ARRAY_BUFFER, vboId);
-    glBufferData(GL_ARRAY_BUFFER, 0, vertices.data(), GL_DYNAMIC_DRAW);
+    glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices.data(), GL_DYNAMIC_DRAW);
 
     // EBO (Initially zero)
     genIndices();
     glGenBuffers(1, &eboId);
     glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, eboId);
-    glBufferData(GL_ELEMENT_ARRAY_BUFFER, 0, indices.data(), GL_STATIC_DRAW);
+    glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(indices), indices.data(), GL_STATIC_DRAW);
 
     // Position
     glVertexAttribPointer(0, POS_SIZE, GL_FLOAT, false, VERTEX_SIZE_BYTES, (void*)POS_OFFSET);
@@ -118,6 +118,7 @@ Result<void> TextBatchRenderer::add(TextRenderer* textRenderer, Transform* trans
 
     int index = nText;
     text[nText] = std::make_pair(textRenderer, transform);
+
     nText++;
     nChars += textRenderer->getContent().size();
 
@@ -173,12 +174,12 @@ void TextBatchRenderer::loadVertexProps(int index, bool isRebuffer) {
     std::shared_ptr<Font> font = textRenderer->getFont();
 
     // Get Texture Id of Font
-    int texId = 0;
+    int texSlotId = 0;
     for (const auto& texture : textures) {
         if (texture->getName() == font->getTexture()->getName()) {
             break;
         }
-        texId = texId + 1;
+        texSlotId++;
     }
 
     // Get transform
@@ -189,33 +190,33 @@ void TextBatchRenderer::loadVertexProps(int index, bool isRebuffer) {
     int advance = 0;
 
     for (size_t i = 0; i < content.size(); i++) {
-        char toLoad = content[i];
 
-        Character character = font->getCharacter(toLoad);
+        Character character = font->getCharacter(content[i]);
 
         for (int vertex = 0; vertex < N_VERTICES; vertex++) {
 
-            // Load position
-            float xPos, yPos;
-
-            // Calculate vertex positions
-            if (vertex == 0) { // Bottom-left
-                xPos = pos.x + advance + (character.bearing.x * scale.x);
-                yPos = pos.y - (character.size.y - character.bearing.y) * scale.y;
-            } else if (vertex == 1) { // Bottom-right
-                xPos = pos.x + advance + (character.bearing.x + character.size.x) * scale.x;
-                yPos = pos.y - (character.size.y - character.bearing.y) * scale.y;
-            } else if (vertex == 2) { // Top-right
-                xPos = pos.x + advance + (character.bearing.x + character.size.x) * scale.x;
-                yPos = pos.y - (character.size.y - character.bearing.y - character.size.y) * scale.y;
-            } else { // Top-left
-                xPos = pos.x + advance + (character.bearing.x * scale.x);
-                yPos = pos.y - (character.size.y - character.bearing.y - character.size.y) * scale.y;
+            // Calculate vertex positions and texture coords
+            if (vertex == 0) {
+                vertices[offset] = pos.x + advance + (character.bearing.x * scale.x);
+                vertices[offset + 1] = pos.y - (character.size.y - character.bearing.y) * scale.y;
+                vertices[offset + 6] = character.uvStart.x;
+                vertices[offset + 7] = character.uvEnd.y;
+            } else if (vertex == 1) {
+                vertices[offset] = pos.x + advance + (character.bearing.x + character.size.x) * scale.x;
+                vertices[offset + 1] = pos.y - (character.size.y - character.bearing.y) * scale.y;
+                vertices[offset + 6] = character.uvEnd.x;
+                vertices[offset + 7] = character.uvEnd.y;
+            } else if (vertex == 2) {
+                vertices[offset] = pos.x + advance + (character.bearing.x + character.size.x) * scale.x;
+                vertices[offset + 1] = pos.y - (character.size.y - character.bearing.y - character.size.y) * scale.y;
+                vertices[offset + 6] = character.uvEnd.x;
+                vertices[offset + 7] = character.uvStart.y;
+            } else {
+                vertices[offset] = pos.x + advance + (character.bearing.x * scale.x);
+                vertices[offset + 1] = pos.y - (character.size.y - character.bearing.y - character.size.y) * scale.y;
+                vertices[offset + 6] = character.uvStart.x;
+                vertices[offset + 7] = character.uvStart.y;
             }
-
-            // Load vertex position
-            vertices[offset] = xPos;
-            vertices[offset + 1] = yPos;
 
             // Load Color
             vertices[offset + 2] = color.x;
@@ -223,26 +224,8 @@ void TextBatchRenderer::loadVertexProps(int index, bool isRebuffer) {
             vertices[offset + 4] = color.z;
             vertices[offset + 5] = color.w;
 
-            // Load texture cordinates
-            if (vertex == 0) {
-                vertices[offset + 6] = character.uvStart.x;
-                vertices[offset + 7] = character.uvEnd.y;
-            } else if (vertex == 1) {
-
-                vertices[offset + 6] = character.uvEnd.x;
-                vertices[offset + 7] = character.uvEnd.y;
-            } else if (vertex == 2) {
-
-                vertices[offset + 6] = character.uvEnd.x;
-                vertices[offset + 7] = character.uvStart.y;
-            } else {
-
-                vertices[offset + 6] = character.uvStart.x;
-                vertices[offset + 7] = character.uvStart.y;
-            }
-
-            // Load Texture ID
-            vertices[offset + 8] = texId;
+            // Load Texture Slot ID
+            vertices[offset + 8] = texSlotId;
 
             offset += VERTEX_SIZE;
         }
@@ -283,6 +266,8 @@ void TextBatchRenderer::rebuffer(std::string content, int offset) {
         // Rebuffer not needed
         return;
     }
+
+    debug("Rebuffering Text Batch Renderer.");
 
     vertices.resize(offset + requiredVertices);
 

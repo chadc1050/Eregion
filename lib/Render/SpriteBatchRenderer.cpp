@@ -162,12 +162,12 @@ void SpriteBatchRenderer::loadVertexProps(int index) {
 
     glm::vec4 color = spriteRenderer->getColor();
 
-    int texId = 0;
+    int texSlotId = 0;
     for (const auto& texture : textures) {
         if (texture->getName() == sprite.getTexture()->getName()) {
             break;
         }
-        texId = texId + 1;
+        texSlotId = texSlotId + 1;
     }
 
     // Add vertices with the appropriate properties
@@ -203,7 +203,7 @@ void SpriteBatchRenderer::loadVertexProps(int index) {
         vertices[offset + 7] = texCoords[i].y;
 
         // Load Texture ID
-        vertices[offset + 8] = texId;
+        vertices[offset + 8] = texSlotId;
 
         offset += VERTEX_SIZE;
     }

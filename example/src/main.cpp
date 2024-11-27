@@ -16,6 +16,20 @@ using namespace eregion;
 
 static void createWorld(Scene* commands, const std::vector<Entity>& entities, float dt) {
 
+    // TEXT
+    auto fontRes = AssetPool::getFont("../assets/fonts/Roboto.ttf", 20);
+
+    if (fontRes.isError()) {
+        throw std::runtime_error(fontRes.getError());
+    }
+
+    Font* roboto = fontRes.getValue();
+
+    Entity text = Entity("text");
+    text.addComponent(new TextRenderer("Celebrimbor", std::shared_ptr<Font>(std::move(roboto))));
+    text.addComponent(new Transform(glm::vec2(-1.0f, -1.0f)));
+    commands->insertEntity(text);
+
     // SPRITESHEET
     auto terrainRes = AssetPool::getTexture("../assets/textures/terrain.png");
     if (terrainRes.isError()) {
@@ -53,20 +67,6 @@ static void createWorld(Scene* commands, const std::vector<Entity>& entities, fl
     water.addComponent(new SpriteRenderer(std::make_shared<Sprite>(terrainSheet.getSprite(153))));
     water.addComponent(new Transform(glm::vec2(-2.5f, -1.5f)));
     commands->insertEntity(water);
-
-    // TEXT
-    auto fontRes = AssetPool::getFont("../assets/fonts/Roboto.ttf", 8);
-
-    if (fontRes.isError()) {
-        throw std::runtime_error(fontRes.getError());
-    }
-
-    Font* roboto = fontRes.getValue();
-
-    Entity text = Entity("text");
-    text.addComponent(new TextRenderer("#", std::shared_ptr<Font>(std::move(roboto))));
-    text.addComponent(new Transform());
-    commands->insertEntity(text);
 }
 
 static void cameraMove(Scene* commands, const std::vector<Entity>& entities, float dt) {
@@ -76,7 +76,7 @@ static void cameraMove(Scene* commands, const std::vector<Entity>& entities, flo
 int main() {
 
     Game::create(WindowConfig{640, 480, "Celebrimbor", true})
-        ->scene(Scene::create(Camera(glm::vec3(0.0f, 0.0f, 5.0f)))
+        ->scene(Scene::create(Camera(glm::vec3(0.0f, 0.0f, 20.0f)))
                     ->mechanism(LifeCycle::INIT, createWorld)
                     ->mechanism(LifeCycle::UPDATE, cameraMove))
         ->run();
