@@ -76,7 +76,7 @@ static void cameraMove(Scene* commands, const std::vector<Entity>& entities, flo
 int main() {
 
     Game::create(WindowConfig{640, 480, "Celebrimbor", true})
-        ->scene(Scene::create(Camera(glm::vec3(0.0f, 0.0f, 20.0f)))
+        ->scene(Scene::create(Camera(glm::vec3(0.0f, 0.0f, 18.0f)))
                     ->mechanism(LifeCycle::INIT, createWorld)
                     ->mechanism(LifeCycle::UPDATE, cameraMove))
         ->run();

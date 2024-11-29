@@ -9,9 +9,9 @@ TextBatchRenderer::TextBatchRenderer(std::shared_ptr<Camera> camera, int zIndex)
     this->camera = camera;
     this->zIndex = zIndex;
 
-    Shader vert = AssetPool::getShader("../assets/shaders/texture.vert").getValue();
+    Shader vert = AssetPool::getShader("../assets/shaders/text.vert").getValue();
 
-    Shader frag = AssetPool::getShader("../assets/shaders/texture.frag").getValue();
+    Shader frag = AssetPool::getShader("../assets/shaders/text.frag").getValue();
 
     shader = ShaderProgram::compile(vert, frag).getValue();
 }
@@ -79,7 +79,7 @@ void TextBatchRenderer::render() {
 
 void TextBatchRenderer::start() {
 
-    debug("Starting batch renderer.");
+    debug("Starting Text Batch Renderer.");
 
     // VAO
     glGenVertexArrays(1, &vaoId);
@@ -88,13 +88,10 @@ void TextBatchRenderer::start() {
     // VBO (Initially zero)
     glGenBuffers(1, &vboId);
     glBindBuffer(GL_ARRAY_BUFFER, vboId);
-    glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices.data(), GL_DYNAMIC_DRAW);
 
     // EBO (Initially zero)
-    genIndices();
     glGenBuffers(1, &eboId);
     glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, eboId);
-    glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(indices), indices.data(), GL_STATIC_DRAW);
 
     // Position
     glVertexAttribPointer(0, POS_SIZE, GL_FLOAT, false, VERTEX_SIZE_BYTES, (void*)POS_OFFSET);
@@ -112,6 +109,8 @@ void TextBatchRenderer::start() {
     // Texture ID
     glVertexAttribPointer(3, TEXTURE_ID_SIZE, GL_FLOAT, false, VERTEX_SIZE_BYTES, (void*)TEXTURE_ID_OFFSET);
     glEnableVertexAttribArray(3);
+
+    glBindVertexArray(0);
 }
 
 Result<void> TextBatchRenderer::add(TextRenderer* textRenderer, Transform* transform) {
@@ -271,9 +270,12 @@ void TextBatchRenderer::rebuffer(std::string content, int offset) {
 
     vertices.resize(offset + requiredVertices);
 
+    glBindVertexArray(vaoId);
+
     // Rebuffer the VBO
     glBindBuffer(GL_ARRAY_BUFFER, vboId);
-    glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices.data(), GL_DYNAMIC_DRAW);
+    glBufferData(GL_ARRAY_BUFFER, vertices.size() * sizeof(float), vertices.data(), GL_DYNAMIC_DRAW);
+    glBufferSubData(GL_ARRAY_BUFFER, 0, vertices.size() * sizeof(float), vertices.data());
 
     // Rebuffer indices
     int requiredIndices = content.size() * N_INDICES;
@@ -283,6 +285,9 @@ void TextBatchRenderer::rebuffer(std::string content, int offset) {
 
     // Rebuffer the EBO
     glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, eboId);
-    glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(indices), indices.data(), GL_STATIC_DRAW);
+    glBufferData(GL_ELEMENT_ARRAY_BUFFER, indices.size() * sizeof(int), indices.data(), GL_DYNAMIC_DRAW);
+    glBufferSubData(GL_ELEMENT_ARRAY_BUFFER, 0, indices.size() * sizeof(int), indices.data());
+
+    glBindVertexArray(0);
 }
 } // namespace eregion

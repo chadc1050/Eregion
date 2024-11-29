@@ -23,7 +23,7 @@ void SpriteBatchRenderer::render() {
         loadVertexProps(i);
     }
 
-    // // Always rebuffering until deltas are available!
+    // Always rebuffering until deltas are available!
     glBindBuffer(GL_ARRAY_BUFFER, vboId);
     glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices.data(), GL_DYNAMIC_DRAW);
 
@@ -79,7 +79,7 @@ void SpriteBatchRenderer::render() {
 
 void SpriteBatchRenderer::start() {
 
-    debug("Starting batch renderer.");
+    debug("Starting Sprite Batch Renderer.");
 
     // VAO
     glGenVertexArrays(1, &vaoId);
@@ -112,6 +112,8 @@ void SpriteBatchRenderer::start() {
     // Texture ID
     glVertexAttribPointer(3, TEXTURE_ID_SIZE, GL_FLOAT, false, VERTEX_SIZE_BYTES, (void*)TEXTURE_ID_OFFSET);
     glEnableVertexAttribArray(3);
+
+    glBindVertexArray(0);
 }
 
 Result<void> SpriteBatchRenderer::add(SpriteRenderer* sprite, Transform* transform) {

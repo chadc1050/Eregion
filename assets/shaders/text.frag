@@ -11,7 +11,8 @@ out vec4 color;
 void main()
 {
     if(iTexId >= 0) {
-        color = fColor * texture(uTextures[iTexId], fTexCoords);
+        vec4 sampled = vec4(1.0, 1.0, 1.0, texture(uTextures[iTexId], fTexCoords).r);
+        color = fColor * sampled;
     }
     else {
         color = fColor;
