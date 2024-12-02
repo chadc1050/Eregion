@@ -14,6 +14,11 @@ Transform::Transform(glm::vec2 pos) {
     this->scale = glm::vec2(1.0f, 1.0f);
 }
 
+Transform::Transform(glm::vec2 pos, float scale) {
+    this->pos = pos;
+    this->scale = glm::vec2(scale, scale);
+}
+
 Transform::Transform(glm::vec2 pos, glm::vec2 scale) {
     this->pos = pos;
     this->scale = scale;

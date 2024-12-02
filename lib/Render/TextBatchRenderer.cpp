@@ -25,7 +25,8 @@ void TextBatchRenderer::render() {
 
     // Always rebuffering until deltas are available!
     glBindBuffer(GL_ARRAY_BUFFER, vboId);
-    glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices.data(), GL_DYNAMIC_DRAW);
+    // TODO: Subbuffer?
+    glBufferData(GL_ARRAY_BUFFER, vertices.size() * sizeof(float), vertices.data(), GL_DYNAMIC_DRAW);
 
     shader->bind();
 
@@ -195,35 +196,41 @@ void TextBatchRenderer::loadVertexProps(int index, bool isRebuffer) {
         for (int vertex = 0; vertex < N_VERTICES; vertex++) {
 
             // Calculate vertex positions and texture coords
-            if (vertex == 0) {
-                vertices[offset] = pos.x + advance + (character.bearing.x * scale.x);
-                vertices[offset + 1] = pos.y - (character.size.y - character.bearing.y) * scale.y;
+            float xPos = pos.x + advance + character.bearing.x * scale.x;
+            float yPos = pos.y - (character.size.y - character.bearing.y) * scale.y;
+
+            float width = character.size.x * scale.x;
+            float height = character.size.y * scale.y;
+
+            if (vertex == 3) {
+                vertices[offset] = xPos;
+                vertices[offset + 1] = yPos + height;
                 vertices[offset + 6] = character.uvStart.x;
                 vertices[offset + 7] = character.uvEnd.y;
-            } else if (vertex == 1) {
-                vertices[offset] = pos.x + advance + (character.bearing.x + character.size.x) * scale.x;
-                vertices[offset + 1] = pos.y - (character.size.y - character.bearing.y) * scale.y;
+            } else if (vertex == 0) {
+                vertices[offset] = xPos + width;
+                vertices[offset + 1] = yPos + height;
                 vertices[offset + 6] = character.uvEnd.x;
                 vertices[offset + 7] = character.uvEnd.y;
-            } else if (vertex == 2) {
-                vertices[offset] = pos.x + advance + (character.bearing.x + character.size.x) * scale.x;
-                vertices[offset + 1] = pos.y - (character.size.y - character.bearing.y - character.size.y) * scale.y;
+            } else if (vertex == 1) {
+                vertices[offset] = xPos + width;
+                vertices[offset + 1] = yPos;
                 vertices[offset + 6] = character.uvEnd.x;
                 vertices[offset + 7] = character.uvStart.y;
-            } else {
-                vertices[offset] = pos.x + advance + (character.bearing.x * scale.x);
-                vertices[offset + 1] = pos.y - (character.size.y - character.bearing.y - character.size.y) * scale.y;
+            } else if (vertex == 2) {
+                vertices[offset] = xPos;
+                vertices[offset + 1] = yPos;
                 vertices[offset + 6] = character.uvStart.x;
                 vertices[offset + 7] = character.uvStart.y;
             }
 
-            // Load Color
+            // Color
             vertices[offset + 2] = color.x;
             vertices[offset + 3] = color.y;
             vertices[offset + 4] = color.z;
             vertices[offset + 5] = color.w;
 
-            // Load Texture Slot ID
+            // Texture Slot ID
             vertices[offset + 8] = texSlotId;
 
             offset += VERTEX_SIZE;

@@ -38,10 +38,10 @@ Result<Font*> Font::compile(FT_Face face, std::string name, unsigned int fontSiz
 
     for (unsigned char c = 0; c < ASCII_RANGE; c++) {
         FT_Bitmap& bitmap = bitmaps[c];
-
         for (int y = 0; y < bitmap.rows; y++) {
             for (int x = 0; x < bitmap.width; x++) {
-                atlasBuffer[(y * atlasWidth) + xOffset + x] = bitmap.buffer[y * bitmap.pitch + x];
+                // Correctly invert the row
+                atlasBuffer[((atlasHeight - 1 - y) * atlasWidth) + xOffset + x] = bitmap.buffer[y * bitmap.pitch + x];
             }
         }
 
@@ -56,7 +56,10 @@ Result<Font*> Font::compile(FT_Face face, std::string name, unsigned int fontSiz
         xOffset += bitmap.width + 1;
     }
 
-    auto res = Texture::compile(name, atlasBuffer, atlasWidth, atlasHeight, 1);
+    TextureOptions options =
+        TextureOptions{MinFilter::LINEAR, MagFilter::LINEAR, Wrap::CLAMP_TO_EDGE, Wrap::CLAMP_TO_EDGE};
+
+    auto res = Texture::compile(name, atlasBuffer, atlasWidth, atlasHeight, 1, options);
 
     delete[] atlasBuffer;
 

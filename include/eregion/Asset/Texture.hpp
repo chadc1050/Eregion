@@ -13,9 +13,31 @@
 #include "stb_image.h"
 
 namespace eregion {
+
+enum class Wrap { CLAMP_TO_EDGE, CLAMP_TO_BORDER, MIRRORED_REPEAT, REPEAT, MIRRORED_CLAMP_TO_EDGE };
+
+enum class MagFilter { NEAREST, LINEAR };
+
+enum class MinFilter {
+    NEAREST,
+    LINEAR,
+    NEAREST_MIPMAP_NEAREST,
+    LINEAR_MIPMAP_NEAREST,
+    NEAREST_MIPMAP_LINEAR,
+    LINEAR_MIPMAP_LINEAR,
+};
+
+struct TextureOptions {
+    MinFilter minFilter;
+    MagFilter magFilter;
+    Wrap wrapS;
+    Wrap wrapT;
+};
+
 class Texture {
   public:
-    static Result<Texture*> compile(std::string name, unsigned char* buffer, int width, int height, int channels);
+    static Result<Texture*> compile(std::string name, unsigned char* buffer, int width, int height, int channels,
+                                    TextureOptions options);
     void bind();
     void unbind();
     bool isActive();

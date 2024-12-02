@@ -59,7 +59,9 @@ Result<Texture*> Loader::loadTexture(std::string path) {
 
     std::string id = name + extension;
 
-    auto res = Texture::compile(id, pixels, width, height, channels);
+    TextureOptions options = TextureOptions{MinFilter::NEAREST, MagFilter::NEAREST, Wrap::REPEAT, Wrap::REPEAT};
+
+    auto res = Texture::compile(id, pixels, width, height, channels, options);
 
     if (res.isError()) {
         return Result<Texture*>(Error{"Error compiling texture file!"});

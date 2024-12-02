@@ -17,17 +17,17 @@ using namespace eregion;
 static void createWorld(Scene* commands, const std::vector<Entity>& entities, float dt) {
 
     // TEXT
-    auto fontRes = AssetPool::getFont("../assets/fonts/Roboto.ttf", 20);
+    auto fontRes = AssetPool::getFont("../assets/fonts/Roboto.ttf", 24);
 
     if (fontRes.isError()) {
         throw std::runtime_error(fontRes.getError());
     }
 
-    Font* roboto = fontRes.getValue();
+    Font* font = fontRes.getValue();
 
     Entity text = Entity("text");
-    text.addComponent(new TextRenderer("Celebrimbor", std::shared_ptr<Font>(std::move(roboto))));
-    text.addComponent(new Transform(glm::vec2(-1.0f, -1.0f)));
+    text.addComponent(new TextRenderer("Celebrimbor", std::shared_ptr<Font>(std::move(font))));
+    text.addComponent(new Transform(glm::vec2(-1.0f, -1.0f), 0.1f));
     commands->insertEntity(text);
 
     // SPRITESHEET
