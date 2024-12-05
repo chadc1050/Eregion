@@ -53,6 +53,10 @@ void SpriteBatchRenderer::render() {
         count = count + 1;
     }
 
+    // Config Blending
+    glEnable(GL_BLEND);
+    glBlendFunc(GL_ONE, GL_ONE_MINUS_SRC_ALPHA);
+
     // Upload camera matrix
     glm::mat4 cam = camera->getCam();
 
@@ -73,6 +77,8 @@ void SpriteBatchRenderer::render() {
     for (const auto& texture : textures) {
         texture->unbind();
     }
+
+    glDisable(GL_BLEND);
 
     shader->unbind();
 }

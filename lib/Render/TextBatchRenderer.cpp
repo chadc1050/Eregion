@@ -54,6 +54,11 @@ void TextBatchRenderer::render() {
         count = count + 1;
     }
 
+    // Config Blending
+    glEnable(GL_BLEND);
+    // TODO: We may not want blending to always be pixelated for sprites
+    glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+
     // Upload camera matrix
     // TODO: View matrix should not be needed.
     glm::mat4 cam = camera->getCam();
@@ -75,6 +80,8 @@ void TextBatchRenderer::render() {
     for (const auto& texture : textures) {
         texture->unbind();
     }
+
+    glDisable(GL_BLEND);
 
     shader->unbind();
 }
@@ -197,7 +204,7 @@ void TextBatchRenderer::loadVertexProps(int index, bool isRebuffer) {
         for (int vertex = 0; vertex < N_VERTICES; vertex++) {
 
             // Calculate vertex positions and texture coords
-            float xPos = pos.x + advance + character.bearing.x * scale.x;
+            float xPos = pos.x + (advance + character.bearing.x) * scale.x;
             float yPos = pos.y - (character.size.y - character.bearing.y) * scale.y;
 
             float width = character.size.x * scale.x;
@@ -238,7 +245,7 @@ void TextBatchRenderer::loadVertexProps(int index, bool isRebuffer) {
         }
 
         // Bitshift to get the pixel unit value of the advance
-        advance += (character.advance >> 6) * scale.x;
+        advance += character.advance;
     }
 }
 

@@ -17,7 +17,7 @@ using namespace eregion;
 static void createWorld(Scene* commands, const std::vector<Entity>& entities, float dt) {
 
     // TEXT
-    auto fontRes = AssetPool::getFont("../assets/fonts/Roboto.ttf", 30);
+    auto fontRes = AssetPool::getFont("../assets/fonts/Roboto.ttf", 24);
 
     if (fontRes.isError()) {
         throw std::runtime_error(fontRes.getError());
@@ -26,8 +26,8 @@ static void createWorld(Scene* commands, const std::vector<Entity>& entities, fl
     Font* font = fontRes.getValue();
 
     Entity text = Entity("text");
-    text.addComponent(new TextRenderer("CELEBRIMBOR", std::shared_ptr<Font>(std::move(font))));
-    text.addComponent(new Transform(glm::vec2(-1.0f, -1.0f), 0.1f));
+    text.addComponent(new TextRenderer("Celebrimbor", std::shared_ptr<Font>(std::move(font))));
+    text.addComponent(new Transform(glm::vec2(-10.0f, 6.0f), 0.05f));
     commands->insertEntity(text);
 
     // SPRITESHEET

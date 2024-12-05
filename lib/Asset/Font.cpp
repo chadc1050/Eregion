@@ -38,14 +38,16 @@ Result<Font*> Font::compile(FT_Face face, std::string name, unsigned int fontSiz
             }
         }
 
+        unsigned int advance = face->glyph->advance.x >> 6;
+
         Character character = {
             glm::ivec2(bitmap.width, bitmap.rows), glm::ivec2(face->glyph->bitmap_left, face->glyph->bitmap_top),
-            static_cast<unsigned int>(face->glyph->advance.x), glm::vec2(static_cast<float>(off) / atlasWidth, 0.0f),
+            static_cast<unsigned int>(advance), glm::vec2(static_cast<float>(off) / atlasWidth, 0.0f),
             glm::vec2(static_cast<float>(off + bitmap.width) / atlasWidth, 1.0f)};
 
         font->characters[c] = character;
 
-        off += face->glyph->advance.x >> 6;
+        off += advance;
     }
 
     TextureOptions options =
