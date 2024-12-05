@@ -55,6 +55,7 @@ void TextBatchRenderer::render() {
     }
 
     // Upload camera matrix
+    // TODO: View matrix should not be needed.
     glm::mat4 cam = camera->getCam();
 
     auto camRes = shader->uploadMat4("uCam", cam);

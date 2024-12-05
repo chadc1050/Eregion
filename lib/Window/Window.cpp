@@ -62,6 +62,7 @@ Result<Window*> Window::create(WindowConfig config) {
     glEnable(GL_BLEND);
     glBlendFunc(GL_ONE, GL_ONE_MINUS_SRC_ALPHA);
     glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+    glPixelStorei(GL_UNPACK_ALIGNMENT, 1);
 
     // Trigger initial callback to send initial window data to consumers
     frameSizeCallback(glWindow, config.width, config.height);

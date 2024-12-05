@@ -36,9 +36,11 @@ class Font {
 
   private:
     std::string name;
-    std::unordered_map<char, Character> characters = {};
+    std::unordered_map<unsigned char, Character> characters = {};
     Texture* texture;
 
-    static const unsigned short ASCII_RANGE = 128;
+    Font();
+
+    static const unsigned char ASCII_RANGE = 255;
 };
 } // namespace eregion

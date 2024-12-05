@@ -6,62 +6,52 @@ Result<Font*> Font::compile(FT_Face face, std::string name, unsigned int fontSiz
     // Set size to load glyphs
     FT_Set_Pixel_Sizes(face, 0, fontSize);
 
-    // Disable byte alignment
-    glPixelStorei(GL_UNPACK_ALIGNMENT, 1);
-
     Font* font = new Font();
 
-    int atlasWidth = 0;
-    int atlasHeight = 0;
-    std::vector<FT_Bitmap> bitmaps(ASCII_RANGE);
-    std::vector<glm::ivec2> bitmapOffsets(ASCII_RANGE);
+    auto atlasWidth = ASCII_RANGE * fontSize;
+    auto atlasHeight = fontSize;
+
+    std::vector<unsigned char> buffer(atlasWidth * atlasHeight, 0);
+
+    int off = 0;
 
     for (unsigned char c = 0; c < ASCII_RANGE; c++) {
-        if (FT_Load_Char(face, c, FT_LOAD_RENDER)) {
 
-            return Result<Font*>(Error{"Error loading glyphs!"});
+        FT_UInt idx = FT_Get_Char_Index(face, c);
+
+        if (idx == 0) {
+            error("Character not found in font: " + std::to_string(c));
+            continue;
+        }
+
+        if (FT_Load_Glyph(face, idx, FT_LOAD_RENDER)) {
+            error("Could not load character: " + std::to_string(c));
+            continue;
         }
 
         FT_Bitmap bitmap = face->glyph->bitmap;
-        bitmaps[c] = bitmap;
 
-        // Adding 1 for padding
-        atlasWidth += bitmap.width + 1;
-        atlasHeight = std::max(atlasHeight, static_cast<int>(bitmap.rows));
-
-        bitmapOffsets[c] = {face->glyph->bitmap_left, face->glyph->bitmap_top};
-    }
-
-    // Create the texture atlas
-    unsigned char* atlasBuffer = new unsigned char[atlasWidth * atlasHeight]();
-    int xOffset = 0;
-
-    for (unsigned char c = 0; c < ASCII_RANGE; c++) {
-        FT_Bitmap& bitmap = bitmaps[c];
-        for (int y = 0; y < bitmap.rows; y++) {
-            for (int x = 0; x < bitmap.width; x++) {
-                // Correctly invert the row
-                atlasBuffer[((atlasHeight - 1 - y) * atlasWidth) + xOffset + x] = bitmap.buffer[y * bitmap.pitch + x];
+        for (unsigned int y = 0; y < bitmap.rows; y++) {
+            for (unsigned int x = 0; x < bitmap.width; x++) {
+                // Need to invert the y range to get it to flip vertically
+                buffer[(bitmap.rows - 1 - y) * atlasWidth + off + x] = bitmap.buffer[x + bitmap.width * y];
             }
         }
 
-        Character character = {glm::ivec2(bitmap.width, bitmap.rows), bitmapOffsets[c],
-                               static_cast<unsigned int>(face->glyph->advance.x),
-                               glm::vec2(static_cast<float>(xOffset) / atlasWidth, 0.0f),
-                               glm::vec2(static_cast<float>(xOffset + bitmap.width) / atlasWidth, 1.0f)};
+        Character character = {
+            glm::ivec2(bitmap.width, bitmap.rows), glm::ivec2(face->glyph->bitmap_left, face->glyph->bitmap_top),
+            static_cast<unsigned int>(face->glyph->advance.x), glm::vec2(static_cast<float>(off) / atlasWidth, 0.0f),
+            glm::vec2(static_cast<float>(off + bitmap.width) / atlasWidth, 1.0f)};
 
         font->characters[c] = character;
 
-        // Adding 1 for padding
-        xOffset += bitmap.width + 1;
+        off += face->glyph->advance.x >> 6;
     }
 
     TextureOptions options =
         TextureOptions{MinFilter::LINEAR, MagFilter::LINEAR, Wrap::CLAMP_TO_EDGE, Wrap::CLAMP_TO_EDGE};
 
-    auto res = Texture::compile(name, atlasBuffer, atlasWidth, atlasHeight, 1, options);
-
-    delete[] atlasBuffer;
+    auto res = Texture::compile(name, buffer.data(), atlasWidth, atlasHeight, 1, options);
 
     if (res.isError()) {
 
@@ -76,10 +66,12 @@ Result<Font*> Font::compile(FT_Face face, std::string name, unsigned int fontSiz
 
 Texture* Font::getTexture() { return texture; }
 
-Character Font::getCharacter(char character) { return characters[character]; }
+Character Font::getCharacter(char character) { return characters[static_cast<unsigned char>(character)]; }
 
 Font::~Font() {
     delete texture;
 
     characters.clear();
 }
+
+Font::Font() { characters.reserve(ASCII_RANGE); }

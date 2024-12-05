@@ -13,6 +13,7 @@ class Camera {
     Camera(glm::vec3 pos, float fov = 45.0f);
     void updatePos(glm::vec3 pos);
     void updateViewport(unsigned int width, unsigned int height);
+    glm::mat4 getProj();
     glm::mat4 getView();
     glm::mat4 getCam();
 
