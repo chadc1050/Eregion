@@ -4,46 +4,42 @@
 #include "eregion/Asset/Shader.hpp"
 #include "eregion/Asset/Texture.hpp"
 #include "eregion/Core/Camera.hpp"
-#include "eregion/Entity/SpriteRenderer.hpp"
+#include "eregion/Entity/TextRenderer.hpp"
 #include "eregion/Entity/Transform.hpp"
 #include "eregion/Render/ShaderProgram.hpp"
 
 #include <array>
 #include <memory>
-#include <unordered_map>
 #include <utility>
-#include <vector>
-
-#include <glm/glm.hpp>
-#include <glm/gtc/matrix_transform.hpp>
 
 namespace eregion {
 
-class BatchRenderer {
+class TextBatchRenderer {
   public:
-    BatchRenderer(std::shared_ptr<Camera> camera, int zIndex);
+    TextBatchRenderer(std::shared_ptr<Camera> camera, int zIndex);
 
     void start();
 
     void render();
 
-    Result<void> add(SpriteRenderer* sprite, Transform* transform);
+    Result<void> add(TextRenderer* renderable, Transform* transform);
 
     bool hasRoom();
+
     int getZIndex();
 
-    ~BatchRenderer();
-
     // Comparision operators for determining draw order
-    bool operator<(const BatchRenderer& other) const { return zIndex < other.zIndex; }
-    bool operator>(const BatchRenderer& other) const { return zIndex > other.zIndex; }
-    bool operator<=(const BatchRenderer& other) const { return zIndex <= other.zIndex; }
-    bool operator>=(const BatchRenderer& other) const { return zIndex >= other.zIndex; }
-    bool operator==(const BatchRenderer& other) const { return zIndex == other.zIndex; }
+    bool operator<(const TextBatchRenderer& other) const { return zIndex < other.zIndex; }
+    bool operator>(const TextBatchRenderer& other) const { return zIndex > other.zIndex; }
+    bool operator<=(const TextBatchRenderer& other) const { return zIndex <= other.zIndex; }
+    bool operator>=(const TextBatchRenderer& other) const { return zIndex >= other.zIndex; }
+    bool operator==(const TextBatchRenderer& other) const { return zIndex == other.zIndex; }
+
+    ~TextBatchRenderer();
 
   private:
-    // Maxiumum number of sprites in the pipeline
-    static const int MAX_BATCH_SIZE = 5;
+    // Maxiumum number of text strings in the pipeline
+    static const int MAX_BATCH_SIZE = 1;
 
     // Attrib Size Consts
     static const unsigned int POS_SIZE = 2;
@@ -73,19 +69,6 @@ class BatchRenderer {
 
     std::shared_ptr<Camera> camera;
 
-    // Vertices
-    std::array<float, N_VERTICES * VERTEX_SIZE * MAX_BATCH_SIZE> vertices = {};
-
-    std::array<int, N_INDICES * MAX_BATCH_SIZE> indices = {};
-
-    // Sprites + Transform
-    std::array<std::pair<SpriteRenderer*, Transform*>, MAX_BATCH_SIZE> sprites = {};
-    int nSprites = 0;
-
-    // Textures
-    int textureSlots[8] = {0, 1, 2, 3, 4, 5, 6, 7};
-    std::vector<Texture*> textures = {};
-
     // IDs
     unsigned int vboId;
     unsigned int vaoId;
@@ -94,10 +77,26 @@ class BatchRenderer {
     // Shader
     ShaderProgram* shader;
 
-    // Z-Index
+    // Vertices
+    std::vector<float> vertices = {};
+
+    std::array<int, MAX_BATCH_SIZE> vertexIndices = {};
+
+    std::vector<int> indices = {};
+
+    // Text + Transform
+    std::array<std::pair<TextRenderer*, Transform*>, MAX_BATCH_SIZE> text = {};
+    int nText = 0;
+    int nChars = 0;
+
+    // Textures
+    int textureSlots[8] = {0, 1, 2, 3, 4, 5, 6, 7};
+    std::vector<Texture*> textures = {};
+
     int zIndex;
 
-    void loadVertexProps(int index);
+    void loadVertexProps(int index, bool isRebuffer);
     void genIndices();
+    void rebuffer(std::string content, int offset);
 };
 } // namespace eregion

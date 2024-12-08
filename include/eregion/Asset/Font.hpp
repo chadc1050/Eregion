@@ -14,22 +14,33 @@
 
 #include <stdexcept>
 #include <unordered_map>
+#include <vector>
 
 namespace eregion {
 
 struct Character {
-    Texture* texture;
     glm::ivec2 size;
     glm::ivec2 bearing;
     unsigned int advance;
+    glm::vec2 uvStart;
+    glm::vec2 uvEnd;
 };
 
 class Font {
   public:
     static Result<Font*> compile(FT_Face face, std::string name, unsigned int fontSize);
+    Texture* getTexture();
+    Character getCharacter(char character);
+
     ~Font();
 
   private:
-    std::unordered_map<char, Character> characters = {};
+    std::string name;
+    std::unordered_map<unsigned char, Character> characters = {};
+    Texture* texture;
+
+    Font();
+
+    static const unsigned char ASCII_RANGE = 255;
 };
 } // namespace eregion

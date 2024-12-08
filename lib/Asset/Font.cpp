@@ -6,39 +6,74 @@ Result<Font*> Font::compile(FT_Face face, std::string name, unsigned int fontSiz
     // Set size to load glyphs
     FT_Set_Pixel_Sizes(face, 0, fontSize);
 
-    // Disable byte alignment
-    glPixelStorei(GL_UNPACK_ALIGNMENT, 1);
-
     Font* font = new Font();
 
-    for (unsigned char c = 0; c < 128; c++) {
-        if (FT_Load_Char(face, c, FT_LOAD_RENDER)) {
+    auto atlasWidth = ASCII_RANGE * fontSize;
+    auto atlasHeight = fontSize;
 
-            return Result<Font*>(Error{"Error loading glyphs!"});
+    std::vector<unsigned char> buffer(atlasWidth * atlasHeight, 0);
+
+    int off = 0;
+
+    for (unsigned char c = 0; c < ASCII_RANGE; c++) {
+
+        FT_UInt idx = FT_Get_Char_Index(face, c);
+
+        if (idx == 0) {
+            error("Character not found in font: " + std::to_string(c));
+            continue;
+        }
+
+        if (FT_Load_Glyph(face, idx, FT_LOAD_RENDER)) {
+            error("Could not load character: " + std::to_string(c));
+            continue;
         }
 
         FT_Bitmap bitmap = face->glyph->bitmap;
-        auto res = Texture::compile(name + "-" + std::to_string(c), bitmap.buffer, bitmap.width, bitmap.rows, 1);
 
-        if (res.isError()) {
-
-            return Result<Font*>(Error{"Error loading glyph bitmap texture! " + res.getError()});
+        for (unsigned int y = 0; y < bitmap.rows; y++) {
+            for (unsigned int x = 0; x < bitmap.width; x++) {
+                // Need to invert the y range to get it to flip vertically
+                buffer[(bitmap.rows - 1 - y) * atlasWidth + off + x] = bitmap.buffer[x + bitmap.width * y];
+            }
         }
 
-        Character character = {res.getValue(), glm::ivec2(bitmap.width, bitmap.rows),
-                               glm::ivec2(face->glyph->bitmap_left, face->glyph->bitmap_top),
-                               static_cast<unsigned int>(face->glyph->advance.x)};
+        unsigned int advance = face->glyph->advance.x >> 6;
+
+        Character character = {
+            glm::ivec2(bitmap.width, bitmap.rows), glm::ivec2(face->glyph->bitmap_left, face->glyph->bitmap_top),
+            static_cast<unsigned int>(advance), glm::vec2(static_cast<float>(off) / atlasWidth, 0.0f),
+            glm::vec2(static_cast<float>(off + bitmap.width) / atlasWidth, 1.0f)};
 
         font->characters[c] = character;
+
+        off += advance;
     }
+
+    TextureOptions options =
+        TextureOptions{MinFilter::LINEAR, MagFilter::LINEAR, Wrap::CLAMP_TO_EDGE, Wrap::CLAMP_TO_EDGE};
+
+    auto res = Texture::compile(name, buffer.data(), atlasWidth, atlasHeight, 1, options);
+
+    if (res.isError()) {
+
+        return Result<Font*>(Error{"Error loading glyph bitmap texture! " + res.getError()});
+    }
+
+    font->texture = res.getValue();
+    font->name = name;
 
     return Result<Font*>(Success<Font*>(font));
 }
 
+Texture* Font::getTexture() { return texture; }
+
+Character Font::getCharacter(char character) { return characters[static_cast<unsigned char>(character)]; }
+
 Font::~Font() {
-    for (auto& pair : characters) {
-        delete pair.second.texture;
-    }
+    delete texture;
 
     characters.clear();
 }
+
+Font::Font() { characters.reserve(ASCII_RANGE); }

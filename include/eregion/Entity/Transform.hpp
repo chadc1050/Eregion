@@ -10,6 +10,7 @@ class Transform {
   public:
     Transform();
     Transform(glm::vec2 pos);
+    Transform(glm::vec2 pos, float scale);
     Transform(glm::vec2 pos, glm::vec2 scale);
 
     glm::vec2 getPos();

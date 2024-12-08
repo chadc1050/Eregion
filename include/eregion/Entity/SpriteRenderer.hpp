@@ -2,6 +2,7 @@
 
 #include "eregion/Asset/Sprite.hpp"
 #include "eregion/Entity/Component.hpp"
+#include "eregion/Render/Renderable.hpp"
 
 #include <glm/glm.hpp>
 #include <memory>
@@ -26,4 +27,5 @@ class SpriteRenderer {
 };
 
 COMPONENT(SpriteRenderer)
+RENDERABLE(SpriteRenderer)
 } // namespace eregion

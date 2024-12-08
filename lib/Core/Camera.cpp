@@ -39,6 +39,8 @@ void Camera::updateProj() {
     inverseProj = glm::inverse(proj);
 }
 
+glm::mat4 Camera::getProj() { return proj; }
+
 glm::mat4 Camera::getView() { return view; }
 
 glm::mat4 Camera::getCam() { return proj * view; }

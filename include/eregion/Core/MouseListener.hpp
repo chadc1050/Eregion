@@ -25,12 +25,6 @@ class MouseListener {
     MouseListener(const MouseListener&) = delete;
     MouseListener& operator=(const MouseListener&) = delete;
 
-    // Callbacks
-    // TODO: This should potentially be set up as a friend to Window to make access stricter
-    static void buttonCallback(GLFWwindow* glWindow, int keyCode, int action, int mods);
-    static void posCallback(GLFWwindow* glWindow, double xpos, double ypos);
-    static void scrollCallback(GLFWwindow* glWindow, double xOffset, double yOffset);
-
   private:
     MouseListener();
     ~MouseListener() = default;
@@ -41,5 +35,12 @@ class MouseListener {
     glm::vec2 scroll;
 
     std::array<bool, MAX_KEY> keysPressed;
+
+    // Callbacks
+    static void buttonCallback(GLFWwindow* glWindow, int keyCode, int action, int mods);
+    static void posCallback(GLFWwindow* glWindow, double xpos, double ypos);
+    static void scrollCallback(GLFWwindow* glWindow, double xOffset, double yOffset);
+
+    friend class Window;
 };
 } // namespace eregion

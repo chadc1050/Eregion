@@ -58,9 +58,8 @@ Result<Window*> Window::create(WindowConfig config) {
     // V-Sync
     glfwSwapInterval(config.vSync);
 
-    // Config blending
-    glEnable(GL_BLEND);
-    glBlendFunc(GL_ONE, GL_ONE_MINUS_SRC_ALPHA);
+    // Config pixel store
+    glPixelStorei(GL_UNPACK_ALIGNMENT, 1);
 
     // Trigger initial callback to send initial window data to consumers
     frameSizeCallback(glWindow, config.width, config.height);

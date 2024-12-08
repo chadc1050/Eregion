@@ -1,13 +1,12 @@
-#include "eregion/Render/BatchRenderer.hpp"
+#include "eregion/Render/SpriteBatchRenderer.hpp"
 
 using namespace eregion;
 
 namespace eregion {
 
-BatchRenderer::BatchRenderer(std::shared_ptr<Camera> camera, int zIndex) {
+SpriteBatchRenderer::SpriteBatchRenderer(std::shared_ptr<Camera> camera, int zIndex) {
 
     this->camera = camera;
-
     this->zIndex = zIndex;
 
     Shader vert = AssetPool::getShader("../assets/shaders/texture.vert").getValue();
@@ -17,14 +16,14 @@ BatchRenderer::BatchRenderer(std::shared_ptr<Camera> camera, int zIndex) {
     shader = ShaderProgram::compile(vert, frag).getValue();
 }
 
-void BatchRenderer::render() {
+void SpriteBatchRenderer::render() {
 
     // TODO: This is where we could check to see if the sprite has been declared dirty, or if transform has changed
     for (int i = 0; i < nSprites; i++) {
         loadVertexProps(i);
     }
 
-    // // Always rebuffering until deltas are available!
+    // Always rebuffering until deltas are available!
     glBindBuffer(GL_ARRAY_BUFFER, vboId);
     glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices.data(), GL_DYNAMIC_DRAW);
 
@@ -54,6 +53,10 @@ void BatchRenderer::render() {
         count = count + 1;
     }
 
+    // Config Blending
+    glEnable(GL_BLEND);
+    glBlendFunc(GL_ONE, GL_ONE_MINUS_SRC_ALPHA);
+
     // Upload camera matrix
     glm::mat4 cam = camera->getCam();
 
@@ -75,12 +78,14 @@ void BatchRenderer::render() {
         texture->unbind();
     }
 
+    glDisable(GL_BLEND);
+
     shader->unbind();
 }
 
-void BatchRenderer::start() {
+void SpriteBatchRenderer::start() {
 
-    debug("Starting batch renderer.");
+    debug("Starting Sprite Batch Renderer.");
 
     // VAO
     glGenVertexArrays(1, &vaoId);
@@ -113,9 +118,11 @@ void BatchRenderer::start() {
     // Texture ID
     glVertexAttribPointer(3, TEXTURE_ID_SIZE, GL_FLOAT, false, VERTEX_SIZE_BYTES, (void*)TEXTURE_ID_OFFSET);
     glEnableVertexAttribArray(3);
+
+    glBindVertexArray(0);
 }
 
-Result<void> BatchRenderer::add(SpriteRenderer* sprite, Transform* transform) {
+Result<void> SpriteBatchRenderer::add(SpriteRenderer* sprite, Transform* transform) {
 
     int index = nSprites;
     sprites[nSprites] = std::make_pair(sprite, transform);
@@ -140,7 +147,7 @@ Result<void> BatchRenderer::add(SpriteRenderer* sprite, Transform* transform) {
     return Result<void>();
 }
 
-BatchRenderer::~BatchRenderer() {
+SpriteBatchRenderer::~SpriteBatchRenderer() {
     warn("Destroying batch renderer.");
     glDeleteVertexArrays(1, &vaoId);
     glDeleteBuffers(1, &vboId);
@@ -149,7 +156,7 @@ BatchRenderer::~BatchRenderer() {
     delete shader;
 }
 
-void BatchRenderer::loadVertexProps(int index) {
+void SpriteBatchRenderer::loadVertexProps(int index) {
 
     int offset = index * VERTEX_SIZE * N_VERTICES;
 
@@ -163,12 +170,12 @@ void BatchRenderer::loadVertexProps(int index) {
 
     glm::vec4 color = spriteRenderer->getColor();
 
-    int texId = 0;
+    int texSlotId = 0;
     for (const auto& texture : textures) {
         if (texture->getName() == sprite.getTexture()->getName()) {
             break;
         }
-        texId = texId + 1;
+        texSlotId = texSlotId + 1;
     }
 
     // Add vertices with the appropriate properties
@@ -204,13 +211,13 @@ void BatchRenderer::loadVertexProps(int index) {
         vertices[offset + 7] = texCoords[i].y;
 
         // Load Texture ID
-        vertices[offset + 8] = texId;
+        vertices[offset + 8] = texSlotId;
 
         offset += VERTEX_SIZE;
     }
 }
 
-void BatchRenderer::genIndices() {
+void SpriteBatchRenderer::genIndices() {
     // Six indices per quad, three per triangle
     for (int i = 0; i < MAX_BATCH_SIZE; i++) {
 
@@ -229,7 +236,7 @@ void BatchRenderer::genIndices() {
     }
 }
 
-bool BatchRenderer::hasRoom() { return nSprites < MAX_BATCH_SIZE; }
+bool SpriteBatchRenderer::hasRoom() { return nSprites < MAX_BATCH_SIZE; }
 
-int BatchRenderer::getZIndex() { return zIndex; }
+int SpriteBatchRenderer::getZIndex() { return zIndex; }
 } // namespace eregion

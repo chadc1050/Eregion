@@ -17,10 +17,6 @@ class KeyListener {
 
     static bool isKeyPressed(int keyCode);
 
-    // Callback
-    // TODO: This should potentially be set up as a friend to Window to make access stricter
-    static void keyCallback(GLFWwindow* glWindow, int keyCode, int scanCode, int action, int mods);
-
     // Delete copy constructor and assignment operator to prevent copying
     KeyListener(const KeyListener&) = delete;
     KeyListener& operator=(const KeyListener&) = delete;
@@ -31,5 +27,10 @@ class KeyListener {
     static const int MAX_KEY = 350;
 
     std::array<bool, MAX_KEY> keysPressed;
+
+    // Callback
+    static void keyCallback(GLFWwindow* glWindow, int keyCode, int scanCode, int action, int mods);
+
+    friend class Window;
 };
 } // namespace eregion
