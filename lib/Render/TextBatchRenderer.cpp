@@ -26,7 +26,7 @@ void TextBatchRenderer::render() {
     // Always rebuffering until deltas are available!
     glBindBuffer(GL_ARRAY_BUFFER, vboId);
     // TODO: Subbuffer?
-    glBufferData(GL_ARRAY_BUFFER, vertices.size() * sizeof(float), vertices.data(), GL_DYNAMIC_DRAW);
+    glBufferSubData(GL_ARRAY_BUFFER, 0, vertices.size() * sizeof(float), vertices.data());
 
     shader->bind();
 
@@ -56,7 +56,6 @@ void TextBatchRenderer::render() {
 
     // Config Blending
     glEnable(GL_BLEND);
-    // TODO: We may not want blending to always be pixelated for sprites
     glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
     // Upload camera matrix
