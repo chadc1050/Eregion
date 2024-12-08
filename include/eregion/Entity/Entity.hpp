@@ -15,9 +15,14 @@
 namespace eregion {
 class Entity {
   public:
-    Entity(std::string name) : name(std::move(name)) {}
+    static Entity* create(std::string name) { return new Entity(name); }
 
     template <Component C> void addComponent(C* comp) { comps[typeid(C)] = comp; }
+
+    template <Component C> Entity* component(C* comp) {
+        addComponent(comp);
+        return this;
+    }
 
     template <Component C> std::optional<C*> getComponent() {
         auto it = comps.find(typeid(C));
@@ -42,5 +47,7 @@ class Entity {
 
     // TODO: See if we can make this bounded to component
     std::unordered_map<std::type_index, std::any> comps;
+
+    Entity(std::string name) : name(std::move(name)) {}
 };
 } // namespace eregion

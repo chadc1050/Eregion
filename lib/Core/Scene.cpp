@@ -45,7 +45,7 @@ void Scene::update(float dt) {
 /// @brief Draw scene state
 void Scene::draw() { renderer->render(); }
 
-void Scene::insertEntity(Entity entity) {
+void Scene::insertEntity(Entity* entity) {
     entities.push_back(entity);
     renderer->insertEntity(entity);
 }

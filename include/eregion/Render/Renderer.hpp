@@ -22,7 +22,7 @@ class Renderer {
   public:
     Renderer(std::shared_ptr<Camera> camera);
     void render();
-    void insertEntity(Entity entity);
+    void insertEntity(Entity* entity);
     ~Renderer();
 
   private:

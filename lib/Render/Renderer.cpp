@@ -16,11 +16,11 @@ void Renderer::render() {
     }
 }
 
-void Renderer::insertEntity(Entity entity) {
+void Renderer::insertEntity(Entity* entity) {
     debug("Adding entity to renderer.");
 
     // Get it's locale component
-    std::optional<Transform*> transform = entity.getComponent<Transform>();
+    std::optional<Transform*> transform = entity->getComponent<Transform>();
 
     if (!transform.has_value()) {
         debug("Entity does not have transform, thus it is not renderable.");
@@ -28,7 +28,7 @@ void Renderer::insertEntity(Entity entity) {
     }
 
     // Check for SpriteRenderer
-    std::optional<SpriteRenderer*> spriteRenderer = entity.getComponent<SpriteRenderer>();
+    std::optional<SpriteRenderer*> spriteRenderer = entity->getComponent<SpriteRenderer>();
 
     if (spriteRenderer.has_value()) {
         insert(spriteRenderer.value(), transform.value());
@@ -36,7 +36,7 @@ void Renderer::insertEntity(Entity entity) {
     }
 
     // Check for TextRenderer
-    std::optional<TextRenderer*> textRenderer = entity.getComponent<TextRenderer>();
+    std::optional<TextRenderer*> textRenderer = entity->getComponent<TextRenderer>();
 
     if (textRenderer.has_value()) {
         insert(textRenderer.value(), transform.value());
