@@ -25,7 +25,6 @@ void TextBatchRenderer::render() {
 
     // Always rebuffering until deltas are available!
     glBindBuffer(GL_ARRAY_BUFFER, vboId);
-    // TODO: Subbuffer?
     glBufferSubData(GL_ARRAY_BUFFER, 0, vertices.size() * sizeof(float), vertices.data());
 
     shader->bind();
